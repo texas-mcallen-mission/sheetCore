@@ -1,5 +1,7 @@
 # sheetCore
 
+***This is currently suuper beta.  Do not expect anything from it to work properly yet!  There's a ton of stuff left to do still!***
+
 ## What even is this for?
 
  This is home to the TMM Key Indicator Tracking System's Google Sheet interface.  Used in the key-indicator-system, ``kiHLA 2``, and some other small projects.
