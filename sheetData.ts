@@ -222,12 +222,8 @@ class RawSheetData {
     //  * @param {any} initialKeyToIndex - An object containing data about which columns contain hardcoded keys. Formatted as {keyStr: columnIndex ...} where keyStr is a key string and colIndex is the index (starting with 0) of the column to contain that key.
     // */
 
-    /**
-     * Creates an instance of RawSheetData.
-     * @param {sheetDataEntry} sheetConfig
-     * @memberof RawSheetData
-     */
-    
+
+    // Declarations to make the Typescript checker happy:
     tabName: string = "";
     headerRow: number = 0;
     keyToIndex: columnConfig = {}
@@ -235,6 +231,7 @@ class RawSheetData {
     sheetId:string = ""
     allowWrite:boolean = false
     keyNamesToIgnore: string[] = []
+    onCache = false
     
     get sheet() {
         return this.sheet
@@ -253,7 +250,11 @@ class RawSheetData {
     }
 
 
-
+    /**
+     * Creates an instance of RawSheetData.
+     * @param {sheetDataEntry} sheetConfig
+     * @memberof RawSheetData
+     */
     constructor(sheetConfig: sheetDataEntry) {
         // step 0: set properties for required keys
         // step 1: Go through and set properties for optional keys
@@ -363,6 +364,7 @@ class RawSheetData {
         if (sheetConfig.includeSoftcodedColumns == true && onCache == false) {
             this.addSoftColumns();
         }
+        this.onCache = onCache
 
     // end of constructing method
     }
@@ -370,7 +372,34 @@ class RawSheetData {
 
     //Private class methods
 
+    /**
+     *  returns a sheetDataConfig object post-initialization that can be used in caching applications 
+     *
+     * @param {boolean} [isForCaching=false]
+     * @return {*}  {sheetDataEntry}
+     * @memberof RawSheetData
+     */
+    getEntryConfig(isForCaching:boolean = false):sheetDataEntry {
+        let outEntry: sheetDataEntry = {
+            tabName: this.tabName,
+            headerRow: this.headerRow,
+            initialColumnOrder: this.keyToIndex,
+            includeSoftcodedColumns: this.includeSoftcodedColumns,
+            sheetId: this.sheetId,
+            allowWrite: this.allowWrite,
 
+            keyNamesToIgnore: this.keyNamesToIgnore,
+
+            fromCache: this.onCache
+
+        }
+        if (isForCaching == true) {
+            outEntry.fromCache = true
+        }
+        return outEntry
+    }
+
+    
     /**
      *  !!WARNING!!
      * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
