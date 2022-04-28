@@ -31,6 +31,18 @@ class SheetData {
         this.rsd = rawSheetData;
     }
 
+    /**
+     *  Copies all keys that don't already exist that are not specifically excluded in the keyNamesToIgnore declaration 
+        
+     * @param {SheetData} thingToCopyFrom
+     * @return {*} 
+     * @memberof SheetData
+     */
+    addKeys(thingToCopyFrom: SheetData) {
+        this.rsd.syncDataColumns(thingToCopyFrom.rsd)
+        return this
+    }
+
     getConfigForCache() {
         return this.rsd.getEntryConfig(true)
     }
@@ -370,6 +382,45 @@ class RawSheetData {
 
 
     //Private class methods
+
+    /**
+     * Applies any missing keys from a rawSheetData instance to the current rawSheetData object.
+     *
+     * @param {RawSheetData} inputSheetData
+     * @memberof RawSheetData
+     */
+    syncDataColumns(inputSheetData: RawSheetData) {
+        // this has been updated so that you can use any remote / not remote thing
+        // let formSheetData = allSheetData.form;
+        // let dataSheetData = allSheetData.data;
+
+
+
+        let addedKeys: any[] = [];
+
+
+        for (let key of inputSheetData.getKeys()) {
+            if (!inputSheetData.keyNamesToIgnore.includes(key) && !inputSheetData.hasKey(key)) {
+                let header = inputSheetData.getHeaders()[inputSheetData.getIndex(key)];
+                inputSheetData.addColumnWithHeader_(key, header);
+                addedKeys.push(key);
+            }
+        }
+
+        let addedStr =
+            addedKeys.length == 0
+                ? "No new columns in " + inputSheetData.getTabName()
+                : addedKeys.toString();
+        console.log(
+            "Added " +
+            addedKeys.length +
+            " column(s) to " +
+            inputSheetData.getTabName() +
+            ": " +
+            addedStr
+        );
+        console.log(inputSheetData.getKeys().toString());
+    }
 
     /**
      *  returns a sheetDataConfig object post-initialization that can be used in caching applications 
@@ -994,6 +1045,7 @@ class RawSheetData {
         }
         console.log("added keys to form", this.tabName, ": ", addedFormKeys.toString());
     }
+    // end of RawSheetData class
 }
 
 /**
@@ -1103,35 +1155,35 @@ function syncDataFlowCols_(form: SheetData, data: SheetData) {
     // let formSheetData = allSheetData.form;
     // let dataSheetData = allSheetData.data;
 
+    data.addKeys(form) // HOLY COW if this thing works so MUCH POWAH
 
 
-    let addedKeys:any[] = [];
+    // // let addedKeys:any[] = [];
 
+    // // for (let key of form.getKeys()) {
+    // //     if (
+    // //         !CONFIG.dataFlow.formColumnsToExcludeFromDataSheet.includes(key) &&
+    // //         !data.hasKey(key)
+    // //     ) {
+    // //         let header = form.getHeaders()[form.getIndex(key)];
+    // //         data.rsd.addColumnWithHeader_(key, header);
+    // //         addedKeys.push(key);
+    // //     }
+    // // }
 
-    for (let key of form.getKeys()) {
-        if (
-            !CONFIG.dataFlow.formColumnsToExcludeFromDataSheet.includes(key) &&
-            !data.hasKey(key)
-        ) {
-            let header = form.getHeaders()[form.getIndex(key)];
-            data.rsd.addColumnWithHeader_(key, header);
-            addedKeys.push(key);
-        }
-    }
-
-    let addedStr =
-        addedKeys.length == 0
-            ? "No new columns in " + form.getTabName()
-            : addedKeys.toString();
-    console.log(
-        "Added " +
-        addedKeys.length +
-        " column(s) to " +
-        data.getTabName() +
-        ": " +
-        addedStr
-    );
-    console.log(data.getKeys().toString());
+    // // let addedStr =
+    // //     addedKeys.length == 0
+    // //         ? "No new columns in " + form.getTabName()
+    // //         : addedKeys.toString();
+    // // console.log(
+    // //     "Added " +
+    // //     addedKeys.length +
+    // //     " column(s) to " +
+    // //     data.getTabName() +
+    // //     ": " +
+    // //     addedStr
+    // // );
+    // // console.log(data.getKeys().toString());
 }
 
 /*
