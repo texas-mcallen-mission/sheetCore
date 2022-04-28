@@ -301,6 +301,8 @@ class RawSheetData {
             }
         }
 
+        // Step 1
+
         // this is essentially a be-all, end-all way to make sure that things get pushed to the right places
 
         this.sheetId = targetSheetId;
@@ -346,7 +348,7 @@ class RawSheetData {
             // SpreadsheetApp.flush(); // This is also ***DUMB*** but I think it's necessary to avoid crashes.
             // to avoid these flushes causing you issues, make sure that your tabs already exist.
             // it appears that the second flush is not necessary to ensure stability, but if it becomes a problem, that's probably it.
-            this.setHeaders([this.indexToKey]);
+            this.setHeaders(this.indexToKey);
             // throw ("Couldn't construct SheetData: no sheet found with name '" + this.tabName + "'");
         }
         
@@ -650,7 +652,14 @@ class RawSheetData {
         return range.getValues()[0];
     }
 
-    setHeaders(data) {
+    /**
+     * expects an array of values, like this: ["1","2"], and sends them to the header row.
+     *
+     * @param {any[]} headerData
+     * @return {*} 
+     * @memberof RawSheetData
+     */
+    setHeaders(headerData:any[]) {
         if (this.allowWrite == false) {
             console.warn("tried to write to read-only sheet");
             return;
@@ -660,10 +669,10 @@ class RawSheetData {
         let range = this.getSheet().getRange(
             this.headerRow + 1,
             1,
-            data.length,
-            data[0].length
+            1,
+            headerData.length,
         );
-        range.setValues(data);
+        range.setValues([headerData]);
     }
 
     /**
