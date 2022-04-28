@@ -302,6 +302,7 @@ class RawSheetData {
                 } else {
                     isAccessible = true;
                     console.info("using external sheet id for", sheetConfig.tabName);
+                    targetSheetId = sheetConfig.sheetId
                 }
             }
 
