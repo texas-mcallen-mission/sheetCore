@@ -21,6 +21,12 @@ class SheetData {
      * @see SheetData
      * @param {RawSheetData} rawSheetData - The RawSheetData to wrap.
      */
+    set rsd(rawSheetData) {
+        this.rsd = rawSheetData
+    }
+    get rsd() {
+        return this.rsd
+    }
     constructor(rawSheetData) {
         this.rsd = rawSheetData;
     }
@@ -208,45 +214,131 @@ class RawSheetData {
         indexToKey: The reverse of keyToIndex. An array whose value at a given index is the key corresponding to that index.
       */
 
-    /**
-     * @param {string} tabName - The name of the corresponding Sheet.
-     * @param {number} headerRow - The row index, starting with 0, of the header row.
-     * @param {any} initialKeyToIndex - An object containing data about which columns contain hardcoded keys. Formatted as {keyStr: columnIndex ...} where keyStr is a key string and colIndex is the index (starting with 0) of the column to contain that key.
-     * @param {string} targetSheetId - sheet id, for connecting to external sheets.  If left empty, will default to the one returned by SpreadsheetApp.getActiveSpreadsheet() 
-    */
-    constructor(tabName: string, headerRow: number, initialKeyToIndex: columnConfig, includeSoftcodedColumns: boolean, targetSheet: string | null = null, allowWrite: boolean = true) {
-        let targetSheetId = "";
+    // /**
+    //  * @param {string} tabName - The name of the corresponding Sheet.
+    //  * @param {number} headerRow - The row index, starting with 0, of the header row.
+    //  * @param {any} initialKeyToIndex - An object containing data about which columns contain hardcoded keys. Formatted as {keyStr: columnIndex ...} where keyStr is a key string and colIndex is the index (starting with 0) of the column to contain that key.
+    //  * @param {string} targetSheetId - sheet id, for connecting to external sheets.  If left empty, will default to the one returned by SpreadsheetApp.getActiveSpreadsheet() 
+    //  * @param {any} initialKeyToIndex - An object containing data about which columns contain hardcoded keys. Formatted as {keyStr: columnIndex ...} where keyStr is a key string and colIndex is the index (starting with 0) of the column to contain that key.
+    // */
 
-        // if the target sheet is accessible, set the thing.
-        // if the target sheet is undefined, assume we're going to hit the ActiveSpreadsheet instead
-        // if the target sheet is *not* undefined but is inaccessible, throw an error
-        if (typeof targetSheet == undefined || targetSheet == "" || targetSheet == null) { // I *think* I covered my bases here
+    /**
+     * Creates an instance of RawSheetData.
+     * @param {sheetDataEntry} sheetConfig
+     * @memberof RawSheetData
+     */
+    
+    tabName: string = "";
+    headerRow: number = 0;
+    keyToIndex: columnConfig = {}
+    includeSoftcodedColumns:boolean = false
+    sheetId:string = ""
+    allowWrite:boolean = false
+    keyNamesToIgnore: string[] = []
+    
+    get sheet() {
+        return this.sheet
+    }
+
+    set sheet(sheetObj) {
+        this.sheet = sheetObj
+    }
+
+    get indexToKey():string[] {
+        return this.indexToKey
+    }
+
+    set indexToKey(index) {
+        this.indexToKey = index
+    }
+
+
+
+    constructor(sheetConfig: sheetDataEntry) {
+        // step 0: set properties for required keys
+        // step 1: Go through and set properties for optional keys
+        // step 2: set up the sheet if it doesn't exist. 
+        // step 3: if not from cache && includeSoftCode == true, sync data flow columns
+
+
+        // step 0:
+        this.tabName = sheetConfig.tabName;
+        this.headerRow = sheetConfig.headerRow;
+        this.keyToIndex = sheetConfig.initialColumnOrder;
+        this.includeSoftcodedColumns = sheetConfig.includeSoftcodedColumns;
+        
+
+
+        // Step 1.1: Setting the Sheet ID, and making sure the tab exists.
+
+        let targetSheetId: string = "";
+
+        // if the target sheet is undefined, assume we're going to hit the ActiveSpreadsheet instead (this could be changed via a config option in the future, I guess...)
+        // if the target sheet is accessible, set the sheet ID
+        // if the target sheet is *not* undefined and is inaccessible, throw an error
+        if (typeof sheetConfig.sheetId == undefined || sheetConfig.sheetId == "" || sheetConfig.sheetId == null) { // I *think* I covered my bases here
             console.info("Using local sheet");
             targetSheetId = SpreadsheetApp.getActiveSpreadsheet().getId();
 
         } else {
-            if (isFileAccessible_(targetSheet)) {
-                console.info("using external sheet id for", tabName);
-                targetSheetId = targetSheet;
-            } else {
-                console.error("This is going to break: sheet declaration failure for ", tabName, " with targetSheet: ", targetSheet);
+            let isAccessible: boolean = false;
+            try {
+                let sheet = DriveApp.getFileById(sheetConfig.sheetId);
+                sheet.getDescription();
+                if (sheet.isTrashed()) {
+                    let errorMessage = "sheet with id: " + sheetConfig.sheetId + " has been trashed!";
+                    console.error(errorMessage);
+                    throw errorMessage;
+                } else {
+                    isAccessible = true;
+                    console.info("using external sheet id for", sheetConfig.tabName);
+                }
+            }
+
+            catch (e) {
+                console.error("sheet ID given was likely deleted or is otherwise inaccessible.");
+                // console.error(e)
+                throw e; // yes, catching an error just to throw it again is a bit ridiculous, but IMO it's the right thing to do here.
+
             }
         }
 
         // this is essentially a be-all, end-all way to make sure that things get pushed to the right places
-        this.tabName = tabName;
-        this.headerRow = headerRow;
-        this.keyToIndex = initialKeyToIndex;
-        this.sheetId = targetSheetId;
-        this.includeSoftcodedColumns = includeSoftcodedColumns;
-        this.allowWrite = allowWrite;
 
+        this.sheetId = targetSheetId;
+
+        
+        // step 1.2: allowing page writes 
+        // @ts-expect-error
+        if (typeof sheetConfig.allowWrite == undefined || sheetConfig.allowWrite == "" || sheetConfig.allowWrite == null) { // I *think* I covered my bases here 
+            this.allowWrite = true
+        } else {
+            if (sheetConfig.allowWrite == false) {
+                this.allowWrite = false
+            } else {
+                let errorMessage = "allowWrite was declared incorrectly, has type " + typeof sheetConfig.allowWrite + "and value: " + sheetConfig.allowWrite + "should be null or boolean"
+                throw errorMessage
+                
+            }
+        }
+
+        // step 1.3: set values for syncing DataFlow columns to ignore
+        //@ts-expect-error
+        if (typeof sheetConfig.keyNamesToIgnore == undefined || sheetConfig.keyNamesToIgnore == "" || sheetConfig.keyNamesToIgnore == null) { // I *think* I covered my bases here
+            this.keyNamesToIgnore = []
+        } else {
+            // not much type checking on this one, though it might be necessary for the future.  Dunno.
+            this.keyNamesToIgnore = sheetConfig.keyNamesToIgnore
+        }
+
+
+        
+        
+        
         this.buildIndexToKey_();
-        // TODO: Make this guy capable of making sheets if the workbook exists
-        // TODO: This also means making a setHeader function of some sort.
-        // here's the bit that I need to figure out how to change.
-        // console.log(this.indexToKey)
-        // console.log("Accessing the spreasheet")
+        
+        // Step 2: If the target spreadsheet does not have a tab that matches the tabname:
+        // create the sheet, and then add a header on the appropriate row.
         let targetSpreadsheet = SpreadsheetApp.openById(targetSheetId);
         this.sheet = targetSpreadsheet.getSheetByName(this.tabName);
         if (this.sheet == null) {
@@ -259,10 +351,20 @@ class RawSheetData {
             this.setHeaders([this.indexToKey]);
             // throw ("Couldn't construct SheetData: no sheet found with name '" + this.tabName + "'");
         }
-
-        if (includeSoftcodedColumns == true) {
+        
+        // step 3: avoid building soft columns if on cache
+        let onCache: boolean = false
+        //@ts-expect-error
+        if (typeof sheetConfig.fromCache == undefined || sheetConfig.fromCache == "" || sheetConfig.fromCache == null) { // I *think* I covered my bases here
+            onCache = false
+        } else {
+            onCache = sheetConfig.fromCache
+        }
+        if (sheetConfig.includeSoftcodedColumns == true && onCache == false) {
             this.addSoftColumns();
         }
+
+    // end of constructing method
     }
 
 
@@ -302,7 +404,7 @@ class RawSheetData {
      * Build indexToKey, the complement of keyToIndex.
      */
     buildIndexToKey_() {
-        let newIndexToKey = [];
+        let newIndexToKey :string[]= [];
         for (let key in this.keyToIndex) {
             let index = this.keyToIndex[key];
             newIndexToKey[index] = key;
@@ -546,7 +648,7 @@ class RawSheetData {
      * @returns {any[][]} The data from this sheet as a two dimentional array.
      */
     getValues() {
-        let values = [];
+        let values:any[] = [];
         let rawValues = this.getSheet().getDataRange().getValues();
         for (let i = this.headerRow + 1; i > 0; i--) rawValues.shift(); //Skip header rows
         for (let row of rawValues) if (row[0] != "") values.push(row); //Skip blank rows
@@ -561,12 +663,12 @@ class RawSheetData {
      * @returns {{}[]} The data from this sheet as an array of objects.
      */
     getData() {
-        let outValues = [];
-        let values = this.getValues();
+        let outValues:any[] = [];
+        let values:any[] = this.getValues();
         for (let row of values) {
             if (row[0] == "") continue; //Skip blank rows
 
-            let rowObj = {};
+            let rowObj: {} = {};
             for (let i = 0; i < row.length; i++) {
                 let key = this.indexToKey[i];
                 rowObj[key] = row[i];
@@ -614,12 +716,12 @@ class RawSheetData {
         }
         if (data.length == 0) return;
 
-        let values = [];
+        let values: any[] = [];
         let skippedKeys = new Set();
         let maxIndex = 0;
 
         for (let rowData of data) {
-            let arr = [];
+            let arr:any = [];
             for (let key in rowData) {
                 if (!this.hasKey(key)) {
                     skippedKeys.add(key);
@@ -660,12 +762,12 @@ class RawSheetData {
     appendDataRow(data) {
         // if (data.length == 0) return;
 
-        let values = [];
+        let values:any[] = [];
         let skippedKeys = new Set();
         let maxIndex = 0;
 
         // for (let rowData of data) {
-        let arr = [];
+        let arr:any[] = [];
         for (let key in data) {
             if (!this.hasKey(key)) {
                 skippedKeys.add(key);
@@ -726,12 +828,12 @@ class RawSheetData {
     insertData(data) {
         if (data.length == 0) return;
 
-        let values = [];
+        let values:any[] = [];
         let skippedKeys = new Set();
         let maxIndex = 0;
 
         for (let rowData of data) {
-            let arr = [];
+            let arr:any[] = [];
             for (let key in rowData) {
                 if (!this.hasKey(key)) {
                     skippedKeys.add(key);
@@ -785,8 +887,8 @@ class RawSheetData {
      * @returns {string[]} An array of defined keys in this sheet.
      */
     getKeys() {
-        let keyList = Object.keys(this.keyToIndex);
-        let orderedKeyList = [];
+        let keyList:string[] = Object.keys(this.keyToIndex);
+        let orderedKeyList:string[] = [];
         for (let key of keyList) {
             orderedKeyList[this.getIndex(key)] = key;
         }
@@ -815,8 +917,8 @@ class RawSheetData {
      * @param {number} index The index of the column, starting from 0.
      */
     getAllOfIndex(index) {
-        let values = this.getValues();
-        let arr = [];
+        let values:any[] = this.getValues();
+        let arr:any[] = [];
 
         for (let row = 0; row < values.length; row++) {
             let val = values[row][index];
@@ -864,6 +966,8 @@ class RawSheetData {
  */
 function getAllSheetDataFromCache(): manySheetDatas | null {
     let cache = CacheService.getDocumentCache();
+    // typescript was complaining about this being either a string or null.  We handle that immediately afterwards, this is acceptable.
+    //@ts-expect-error
     let allSheetData_JSONString = cache.get(
         CONFIG.dataFlow.allSheetData_cacheKey
     );
@@ -878,7 +982,7 @@ function getAllSheetDataFromCache(): manySheetDatas | null {
     let allSheetData_fromCache = JSON.parse(allSheetData_JSONString); //*Contains object literals representing SheetData objects. NOT members of the SheetData class yet!
 
     let allSheetData = {};
-    let parsedObjects = [];
+    let parsedObjects:string[] = [];
     //Dig down to find the rawSheetData, fix it, and build it back up properly.
     for (let sdKey in allSheetData_fromCache) {
         //Extract literal (aka fake) SheetData from cache's version of allSheetData
@@ -947,6 +1051,8 @@ function cacheAllSheetData(allSheetData) {
  * @param form form : sheetData class: the one you want to sync columns from
  * @param data : sheetData class: the one you want to sync columns to.
  */
+
+// TODO: Convert this into an internal rawSheetData / sheetData method that copies keys from a given sheetData to a new one.
 function syncDataFlowCols_(form: SheetData, data: SheetData) {
     // this has been updated so that you can use any remote / not remote thing
     // let formSheetData = allSheetData.form;
@@ -954,7 +1060,7 @@ function syncDataFlowCols_(form: SheetData, data: SheetData) {
 
 
 
-    let addedKeys = [];
+    let addedKeys:any[] = [];
 
 
     for (let key of form.getKeys()) {
