@@ -22,15 +22,18 @@ class SheetData {
      * @param {RawSheetData} rawSheetData - The RawSheetData to wrap.
      */
     set rsd(rawSheetData) {
-        this.rsd = rawSheetData
+        this.rsdata = rawSheetData
     }
-    get rsd() {
-        return this.rsd
+    get rsd():RawSheetData {
+        return this.rsdata
     }
-    constructor(rawSheetData) {
+    constructor(rawSheetData:RawSheetData) {
         this.rsd = rawSheetData;
     }
 
+    getConfigForCache() {
+        return this.rsd.getEntryConfig(true)
+    }
     /**
      *  Expects a single data entry, and send it to the bottom of the target sheet.
      *  Useful in cases where you don't care as much about the order of entries as you do them not colliding with each other...
@@ -232,22 +235,16 @@ class RawSheetData {
     allowWrite:boolean = false
     keyNamesToIgnore: string[] = []
     onCache = false
+    indexToKey: string[] = [] 
     
     get sheet() {
-        return this.sheet
+        return this.sheetaa
     }
 
     set sheet(sheetObj) {
-        this.sheet = sheetObj
+        this.sheetaa = sheetObj
     }
 
-    get indexToKey():string[] {
-        return this.indexToKey
-    }
-
-    set indexToKey(index) {
-        this.indexToKey = index
-    }
 
 
     /**
@@ -1053,14 +1050,24 @@ function getAllSheetDataFromCache(): manySheetDatas | null {
  * Formats and stores the allSheetData object in the cache. Can be retrieved with getAllSheetDataFromCache().
  * @param {*} allSheetData
  */
-function cacheAllSheetData(allSheetData) {
+function cacheAllSheetData(allSheetData:manySheetDatas) {
     // TODO: figure out how to cache remote sheets.
     Logger.log("Caching allSheetData");
     let cache = CacheService.getDocumentCache();
     // former ignore
+    if (cache == null) {
+        console.error("Cache was not returned in cacheAllSheetData!")
+        return
+    }
+    let preCacheValues: manySheetDataEntries = {}
+    for (let sheetDataKey in allSheetData) {
+        let sheetData = allSheetData[sheetDataKey]
+        preCacheValues[sheetData.tabName] = sheetData.getConfigForCache()
+    }
+    console.log(preCacheValues)
     cache.put(
         CONFIG.dataFlow.allSheetData_cacheKey,
-        JSON.stringify(allSheetData),
+        JSON.stringify(preCacheValues),
         CONFIG.dataFlow.allSheetData_cacheExpirationLimit
     );
 }
