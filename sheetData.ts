@@ -7,6 +7,7 @@
 interface sheetCoreConfigInfo {
     cacheKey: string,
     cacheExpiration: number,
+    cacheEnabled:boolean
 }
 
 
