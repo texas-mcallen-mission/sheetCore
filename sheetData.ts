@@ -30,9 +30,11 @@ class SheetData {
      * @param {RawSheetData} rawSheetData - The RawSheetData to wrap.
      */
     set rsd(rawSheetData) {
+        //@ts-expect-error not able to set a hardcoded value without a useless rawSheetData instance.
         this.rsdata = rawSheetData
     }
-    get rsd():RawSheetData {
+    get rsd(): RawSheetData {
+        // @ts-expect-error same as the setter above.
         return this.rsdata
     }
     constructor(rawSheetData:RawSheetData) {
@@ -259,10 +261,12 @@ class RawSheetData {
     requireRemote:boolean = false
     
     get sheet() {
+        //@ts-expect-error Same reason as the setter for this
         return this.sheetaa
     }
 
     set sheet(sheetObj) {
+        //@ts-expect-error (can't declare this without a call to SpreadsheetApp for a placeholder, which is expensive IO wise.)
         this.sheetaa = sheetObj
     }
 
@@ -286,7 +290,7 @@ class RawSheetData {
         this.keyToIndex = sheetConfig.initialColumnOrder;
         this.includeSoftcodedColumns = sheetConfig.includeSoftcodedColumns;
         
-
+        //@ts-expect-error - the check on == "" is a just-in-case for restoring from cache
         if (typeof sheetConfig.requireRemote == undefined || sheetConfig.requireRemote == "" || sheetConfig.requireRemote == null) { // I *think* I covered my bases here
             this.requireRemote = false
         } else {
