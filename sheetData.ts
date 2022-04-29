@@ -247,7 +247,8 @@ class RawSheetData {
     allowWrite:boolean = false
     keyNamesToIgnore: string[] = []
     onCache = false
-    indexToKey: string[] = [] 
+    indexToKey: string[] = []
+    requireRemote:boolean = false
     
     get sheet() {
         return this.sheetaa
@@ -278,7 +279,11 @@ class RawSheetData {
         this.includeSoftcodedColumns = sheetConfig.includeSoftcodedColumns;
         
 
-
+        if (typeof sheetConfig.requireRemote == undefined || sheetConfig.requireRemote == "" || sheetConfig.requireRemote == null) { // I *think* I covered my bases here
+            this.requireRemote = false
+        } else {
+            this.requireRemote = sheetConfig.requireRemote
+        }
         // Step 1.1: Setting the Sheet ID, and making sure the tab exists.
 
         let targetSheetId: string = "";
@@ -287,6 +292,11 @@ class RawSheetData {
         // if the target sheet is accessible, set the sheet ID
         // if the target sheet is *not* undefined and is inaccessible, throw an error
         if (typeof sheetConfig.sheetId == undefined || sheetConfig.sheetId == "" || sheetConfig.sheetId == null) { // I *think* I covered my bases here
+            if (this.requireRemote == true) {
+                let errorMessage = "Remote sheet ID required, none given"
+                console.error(errorMessage)
+                throw errorMessage
+            }
             console.info("Using local sheet");
             targetSheetId = SpreadsheetApp.getActiveSpreadsheet().getId();
 

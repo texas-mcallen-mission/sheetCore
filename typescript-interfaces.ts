@@ -13,6 +13,7 @@ interface sheetDataEntry {
     keyNamesToIgnore?: string[],
 
     fromCache?: boolean,
+    requireRemote?:boolean
 
 }
 
