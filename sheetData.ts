@@ -336,8 +336,8 @@ class RawSheetData {
         if (typeof sheetConfig.allowWrite == undefined || sheetConfig.allowWrite == "" || sheetConfig.allowWrite == null) { // I *think* I covered my bases here 
             this.allowWrite = true
         } else {
-            if (sheetConfig.allowWrite == false) {
-                this.allowWrite = false
+            if (typeof sheetConfig.allowWrite == 'boolean') {
+                this.allowWrite = sheetConfig.allowWrite
             } else {
                 let errorMessage = "allowWrite was declared incorrectly, has type " + typeof sheetConfig.allowWrite + "and value: " + sheetConfig.allowWrite + "should be null or boolean"
                 throw errorMessage
