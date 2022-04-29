@@ -1090,14 +1090,7 @@ function getAllSheetDataFromCache(): manySheetDatas | null {
         // EASILYIDENTIFIABLESTRINGTOHUNTDOWN
         console.log(rawSheetDataLiteral);
         //Turn literal RawSheetData into a real RawSheetData
-        let rawSheetData = new RawSheetData(
-            rawSheetDataLiteral.tabName,
-            rawSheetDataLiteral.headerRow,
-            rawSheetDataLiteral.keyToIndex,
-            rawSheetDataLiteral.includeSoftcodedColumns,
-            rawSheetDataLiteral.sheetId,
-            rawSheetDataLiteral.allowWrite,
-        );
+        let rawSheetData = new RawSheetData(rawSheetDataLiteral);
         //Re-wrap real RawSheetData in a real SheetData
         let sheetData = new SheetData(rawSheetData);
         //Re-add real SheetData to the proper version of allSheetData
