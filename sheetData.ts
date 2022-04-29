@@ -4,6 +4,14 @@
         Handles sheet setup, headers, column indices, pulling and pushing data, etc.
 */
 
+interface sheetCoreConfigInfo {
+    cacheKey: string,
+    cacheExpiration: number,
+}
+
+
+
+
 /**
  * @classdesc SheetData is basically a better version of Sheet. It provides greater access to the data in a sheet than the Sheet class does, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
  *
@@ -1067,7 +1075,8 @@ function getAllSheetDataFromCache(): manySheetDatas | null {
     // typescript was complaining about this being either a string or null.  We handle that immediately afterwards, this is acceptable.
     //@ts-expect-error
     let allSheetData_JSONString = cache.get(
-        CONFIG.dataFlow.allSheetData_cacheKey
+        //@ts-expect-error (Configuration file defined externally by the main script.)
+        sheetCoreConfig.cacheKey
     );
     if (allSheetData_JSONString == null) {
         console.warn(
@@ -1127,13 +1136,13 @@ function cacheAllSheetData(allSheetData:manySheetDatas) {
     let preCacheValues: manySheetDataEntries = {}
     for (let sheetDataKey in allSheetData) {
         let sheetData = allSheetData[sheetDataKey]
-        preCacheValues[sheetData.tabName] = sheetData.getConfigForCache()
+        preCacheValues[sheetData.rsd.tabName] = sheetData.getConfigForCache()
     }
     console.log(preCacheValues)
     cache.put(
-        CONFIG.dataFlow.allSheetData_cacheKey,
+        sheetCoreConfig.cacheKey,
         JSON.stringify(preCacheValues),
-        CONFIG.dataFlow.allSheetData_cacheExpirationLimit
+        sheetCoreConfig.cacheExpiration,
     );
 }
 
