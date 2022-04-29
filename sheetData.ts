@@ -1160,42 +1160,42 @@ function cacheAllSheetData(allSheetData:manySheetDatas) {
  * @param data : sheetData class: the one you want to sync columns to.
  */
 
-// TODO: Convert this into an internal rawSheetData / sheetData method that copies keys from a given sheetData to a new one.
-function syncDataFlowCols_(form: SheetData, data: SheetData) {
-    // this has been updated so that you can use any remote / not remote thing
-    // let formSheetData = allSheetData.form;
-    // let dataSheetData = allSheetData.data;
+// // TODO: Convert this into an internal rawSheetData / sheetData method that copies keys from a given sheetData to a new one.
+// function syncDataFlowCols_(form: SheetData, data: SheetData) {
+//     // this has been updated so that you can use any remote / not remote thing
+//     // let formSheetData = allSheetData.form;
+//     // let dataSheetData = allSheetData.data;
 
-    data.addKeys(form) // HOLY COW if this thing works so MUCH POWAH
+//     data.addKeys(form) // HOLY COW if this thing works so MUCH POWAH
 
 
-    // // let addedKeys:any[] = [];
+//     // // let addedKeys:any[] = [];
 
-    // // for (let key of form.getKeys()) {
-    // //     if (
-    // //         !CONFIG.dataFlow.formColumnsToExcludeFromDataSheet.includes(key) &&
-    // //         !data.hasKey(key)
-    // //     ) {
-    // //         let header = form.getHeaders()[form.getIndex(key)];
-    // //         data.rsd.addColumnWithHeader_(key, header);
-    // //         addedKeys.push(key);
-    // //     }
-    // // }
+//     // // for (let key of form.getKeys()) {
+//     // //     if (
+//     // //         !CONFIG.dataFlow.formColumnsToExcludeFromDataSheet.includes(key) &&
+//     // //         !data.hasKey(key)
+//     // //     ) {
+//     // //         let header = form.getHeaders()[form.getIndex(key)];
+//     // //         data.rsd.addColumnWithHeader_(key, header);
+//     // //         addedKeys.push(key);
+//     // //     }
+//     // // }
 
-    // // let addedStr =
-    // //     addedKeys.length == 0
-    // //         ? "No new columns in " + form.getTabName()
-    // //         : addedKeys.toString();
-    // // console.log(
-    // //     "Added " +
-    // //     addedKeys.length +
-    // //     " column(s) to " +
-    // //     data.getTabName() +
-    // //     ": " +
-    // //     addedStr
-    // // );
-    // // console.log(data.getKeys().toString());
-}
+//     // // let addedStr =
+//     // //     addedKeys.length == 0
+//     // //         ? "No new columns in " + form.getTabName()
+//     // //         : addedKeys.toString();
+//     // // console.log(
+//     // //     "Added " +
+//     // //     addedKeys.length +
+//     // //     " column(s) to " +
+//     // //     data.getTabName() +
+//     // //     ": " +
+//     // //     addedStr
+//     // // );
+//     // // console.log(data.getKeys().toString());
+// }
 
 /*
  * Populate this SheetData with column data from the Sheet.
