@@ -140,7 +140,7 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     keepMatchingByKey(key: string, matchArray: string[]): this {
-        let output = [];
+        let output:kiDataEntry[] = [];
         // let test = [];
         // if (typeof match == 'string') {
         //     test.push(match);
@@ -166,7 +166,7 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     removeBeforeDate(date: Date): this {
-        let output = [];
+        let output:kiDataEntry[] = [];
         let minMillis = date.getTime();
         for (let entry of this.data) {
             let kiDate = new Date(entry.kiDate);

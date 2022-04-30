@@ -6,7 +6,9 @@ Here's an example snippet:
 ```js
 const sheetCoreConfig:sheetCoreConfigInfo = {
     cacheKey: "AYYO_SHEETCORE",
-    cacheExpiration: 1800
+    cacheExpiration: 1800,
+    cacheEnabled:true,
+    
     
 }
 ```
