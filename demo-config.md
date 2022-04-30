@@ -1,8 +1,10 @@
 # Configuration Demo
+
 This requires a couple of configuration snippet things for different 
 The structure for sheetCore's config options follows the interface defined for it:
 
 Here's an example snippet:
+
 ```js
 const sheetCoreConfig:sheetCoreConfigInfo = {
     cacheKey: "AYYO_SHEETCORE",

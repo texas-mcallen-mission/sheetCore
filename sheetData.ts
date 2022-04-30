@@ -1080,7 +1080,7 @@ function getAllSheetDataFromCache(): manySheetDatas | null {
     // typescript was complaining about this being either a string or null.  We handle that immediately afterwards, this is acceptable.
     //@ts-expect-error
     let allSheetData_JSONString = cache.get(
-        //@ts-expect-error (Configuration file defined externally by the main script.)
+        //@ts-ignore (Configuration file defined externally by the main script.)
         sheetCoreConfig.cacheKey
     );
     if (allSheetData_JSONString == null) {
