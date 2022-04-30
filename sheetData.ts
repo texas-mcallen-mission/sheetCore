@@ -1078,7 +1078,7 @@ class RawSheetData {
 function getAllSheetDataFromCache(): manySheetDatas | null {
     let cache = CacheService.getDocumentCache();
     // typescript was complaining about this being either a string or null.  We handle that immediately afterwards, this is acceptable.
-    //@ts-expect-error
+    //@ts-ignore
     let allSheetData_JSONString = cache.get(
         //@ts-ignore (Configuration file defined externally by the main script.)
         sheetCoreConfig.cacheKey
