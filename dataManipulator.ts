@@ -88,9 +88,9 @@ class kiDataClass {
         for (let entry of this.data) {
             let sum: number = 0;
             for (let key of listOfKeys) {
-                let targetKey = listOfKeys[key];
+                // let targetKey = listOfKeys[key];
                 // uses the unary operator, seems pretty slick... hope it doesn't break anything!
-                sum += +entry[targetKey];
+                sum += +entry[key];
             }
             entry[newKeyName] = sum
             output.push(entry)
