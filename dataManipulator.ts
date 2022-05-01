@@ -79,6 +79,7 @@ class kiDataClass {
      * doing something that was a little too difficult to figure out how to do earlier.  Will remove ALL not-whitelisted keys.  
      * Also removes all keys where the value is "" or undefined or null, 
      * Optionally remove any that equal zero as well or only creates one entry for it.
+     * Also creates a key named ``breakdownKey`` that has the value for which key the thing was made.
      * @param {string[]} keysToKeep
      * @param {string[]} breakdownKeys
      * @return {*}  {this}
@@ -86,6 +87,7 @@ class kiDataClass {
      */
     breakdownAnalysis(keysToKeep: string[], breakdownKeys: string[],breakdownKeyName:string,keepOneIfZeroes=true): this {
         let output: kiDataEntry[] = [];
+        let newKeyName = "breakdownKey"
 
         for (let entry of this.data) {
             let subEntry = {}
@@ -99,7 +101,8 @@ class kiDataClass {
                     nullOrZeroCount += 1
                 } else {
                     //@ts-ignore the lodash library 
-                    let subsub:kiDataEntry = _.cloneDeep(subEntry)
+                    let subsub: kiDataEntry = _.cloneDeep(subEntry)
+                    subsub[newKeyName] = key
                     subsub[breakdownKeyName] = entry[key]
                     output.push(subsub)
                 }
