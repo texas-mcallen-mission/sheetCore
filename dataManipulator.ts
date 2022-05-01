@@ -75,6 +75,45 @@ class kiDataClass {
     }
 
     /**
+     * This is a VERY destructive method- it's designed to replace a set of very over-burdened pivot tables 
+     * doing something that was a little too difficult to figure out how to do earlier.  Will remove ALL not-whitelisted keys.  
+     * Also removes all keys where the value is "" or undefined or null, 
+     * Optionally remove any that equal zero as well or only creates one entry for it.
+     * @param {string[]} keysToKeep
+     * @param {string[]} breakdownKeys
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    breakdownAnalysis(keysToKeep: string[], breakdownKeys: string[],breakdownKeyName:string,keepOneIfZeroes=true): this {
+        let output: kiDataEntry[] = [];
+
+        for (let entry of this.data) {
+            let subEntry = {}
+            // gets the values that we want to keep across all sub-entries.
+            for (let key of keysToKeep) {
+                subEntry[key] = entry[key]
+            }
+            let nullOrZeroCount = 0
+            for (let key of breakdownKeys) {
+                if (typeof entry[key] == undefined || entry[key] == "" || entry[key] == null || entry[key] == 0) { // I *think* I covered my bases here 
+                    nullOrZeroCount += 1
+                } else {
+                    //@ts-ignore the lodash library 
+                    let subsub:kiDataEntry = _.cloneDeep(subEntry)
+                    subsub[breakdownKeyName] = entry[key]
+                    output.push(subsub)
+                }
+                if (nullOrZeroCount == entry.length && keepOneIfZeroes) {
+                    subEntry[breakdownKeyName] = 0
+                    output.push(subEntry)
+                }
+            }
+        }
+        this.data = output
+
+        return this;
+    }
+    /**
      *  Generalization of what was sumFacebookReferrals
      *
      * @param {string[]} listOfKeys
