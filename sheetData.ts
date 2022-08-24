@@ -50,7 +50,7 @@ class SheetData {
      * @memberof SheetData
      */
     addKeys(thingToCopyFrom: SheetData) {
-        this.rsd.syncDataColumns(thingToCopyFrom.rsd)
+        this.rsd.syncDataColumns(thingToCopyFrom.rsd,this)
         return this
     }
 
@@ -413,7 +413,7 @@ class RawSheetData {
      * @param {RawSheetData} inputSheetData
      * @memberof RawSheetData
      */
-    syncDataColumns(inputSheetData: RawSheetData) {
+    syncDataColumns(inputSheetData: RawSheetData,self:SheetData) {
         // this has been updated so that you can use any remote / not remote thing
         // let formSheetData = allSheetData.form;
         // let dataSheetData = allSheetData.data;
@@ -421,15 +421,25 @@ class RawSheetData {
 
 
         let addedKeys: any[] = [];
-
-
+        //TODO REMOVE
+        let ignoredKeys: any[] = []
+        // BEEBOOO: FOR FINDING MORE QUICKLY.
+        // Currently trying to figure out why keys are not getting synchronized.
         for (let key of inputSheetData.getKeys()) {
-            if (!inputSheetData.keyNamesToIgnore.includes(key) && !inputSheetData.hasKey(key)) {
+            if (!inputSheetData.keyNamesToIgnore.includes(key) && !self.hasKey(key)) {
                 let header = inputSheetData.getHeaders()[inputSheetData.getIndex(key)];
                 inputSheetData.addColumnWithHeader_(key, header);
                 addedKeys.push(key);
+            }   
+            else {
+                ignoredKeys.push(key)
             }
         }
+        // TODO REMOVE
+        if (ignoredKeys.includes("EXTRA WORDS FOR FUN BABYYYY")) {
+            console.error("TESTING KEY SKIPPED");
+        }
+        
 
         let addedStr =
             addedKeys.length == 0
@@ -444,6 +454,7 @@ class RawSheetData {
             addedStr
         );
         console.log(inputSheetData.getKeys().toString());
+
     }
 
     /**
