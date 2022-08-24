@@ -427,7 +427,7 @@ class RawSheetData {
         // Currently trying to figure out why keys are not getting synchronized.
         for (let key of inputSheetData.getKeys()) {
             // changed check for key names to ignore, now it runs on self instead of the other one.
-            if (!this.keyNamesToIgnore.includes(key) && !self.hasKey(key)) {
+            if (!self.keyNamesToIgnore.includes(key) && !self.hasKey(key)) {
                 let keyPrettyName = inputSheetData.getHeaders()[inputSheetData.getIndex(key)];
                 
                 // checking to make sure that something with the same name doesn't already exist.  This might be a bad idea???
@@ -437,7 +437,7 @@ class RawSheetData {
                     ignoredKeys.push(key)
                 } else {
                     // if there isn't anything that matches, *then* push the thingy out.
-                    self.rsd.addColumnWithHeader_(key, keyPrettyName);
+                    self.rsd.addColumnWithHeader_(key, /*keyPrettyName*/key); // if key isn't specified key & keyPrettyName will match; we want things to sync in the future: this lets us do partially-hard-coded stuff.
                     addedKeys.push(key);
                 }
             }   
