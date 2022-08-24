@@ -407,6 +407,18 @@ class RawSheetData {
 
     //Private class methods
 
+    renameKey(targetKey: string, newName: string):void {
+        let currentKeys = this.keyToIndex
+        if(!currentKeys.hasOwnProperty(targetKey)){ return}
+        let targetColumn = currentKeys[targetKey]
+
+        this.keyToIndex[newName] = targetColumn
+        this.indexToKey[targetColumn] = newName
+        // this.keyToIndex[key] = index;
+
+        // this.indexToKey[index] = key;
+    }
+
     /**
      * Applies any missing keys from a rawSheetData instance to the current rawSheetData object.
      *
@@ -427,17 +439,22 @@ class RawSheetData {
         // Currently trying to figure out why keys are not getting synchronized.
         for (let key of inputSheetData.getKeys()) {
             // changed check for key names to ignore, now it runs on self instead of the other one.
-            if (!this.keyNamesToIgnore.includes(key) && !self.hasKey(key)) {
+            if (!this.keyNamesToIgnore.includes(key) && !this.hasKey(key)) {
                 let keyPrettyName = inputSheetData.getHeaders()[inputSheetData.getIndex(key)];
                 
                 // checking to make sure that something with the same name doesn't already exist.  This might be a bad idea???
-                let selfHeader = self.getHeaders()
-                if (selfHeader.includes(key) || selfHeader.includes(keyPrettyName)) {
+                let selfHeader = this.getHeaders();
+                if (selfHeader.includes(key)){
+                    console.warn("SKIPPED KEY BECAUSE IT ALREADY HAD A MATCH");
+                    ignoredKeys.push(key)
+                } else if(selfHeader.includes(keyPrettyName)) {
                     console.warn("SKIPPED KEY BECAUSE IT ALREADY HAD A MATCH")
                     ignoredKeys.push(key)
+                    this.renameKey(keyPrettyName, key) // This *should* rename keys internally if they match: This should let me have persistent partial soft-coded columns.
+                    
                 } else {
                     // if there isn't anything that matches, *then* push the thingy out.
-                    self.rsd.addColumnWithHeader_(key, /*keyPrettyName*/key); // if key isn't specified key & keyPrettyName will match; we want things to sync in the future: this lets us do partially-hard-coded stuff.
+                    this.addColumnWithHeader_(key, /*keyPrettyName*/key); // if key isn't specified key & keyPrettyName will match; we want things to sync in the future: this lets us do partially-hard-coded stuff.
                     addedKeys.push(key);
                 }
             }   
@@ -447,7 +464,7 @@ class RawSheetData {
         }
         // TODO REMOVE
         if (ignoredKeys.includes("EXTRA WORDS FOR FUN BABYYYY")) {
-            console.error("TESTING KEY SKIPPED");
+            console.error("TESTING KEYS SKIPPED: ",ignoredKeys);
         }
         
 
