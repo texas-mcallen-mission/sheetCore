@@ -426,7 +426,8 @@ class RawSheetData {
         // BEEBOOO: FOR FINDING MORE QUICKLY.
         // Currently trying to figure out why keys are not getting synchronized.
         for (let key of inputSheetData.getKeys()) {
-            if (!inputSheetData.keyNamesToIgnore.includes(key) && !self.hasKey(key)) {
+            // changed check for key names to ignore, now it runs on self instead of the other one.
+            if (!self.keyNamesToIgnore.includes(key) && !self.hasKey(key)) {
                 let keyPrettyName = inputSheetData.getHeaders()[inputSheetData.getIndex(key)];
                 
                 // checking to make sure that something with the same name doesn't already exist.  This might be a bad idea???
