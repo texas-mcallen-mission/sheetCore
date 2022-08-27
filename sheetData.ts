@@ -406,8 +406,15 @@ class RawSheetData {
 
 
     //Private class methods
-
-    renameKey(targetKey: string, newName: string):void {
+    
+    /**
+     *  renameKey: Replaces the name of a key with a given string.  If the given key does not exist, it will return without doing anything.
+     *
+     * @param {string} targetKey
+     * @param {string} newName
+     * @memberof RawSheetData
+     */
+    renameKey(targetKey: string, newName: string): void {
         let currentKeys = this.keyToIndex
         if(!currentKeys.hasOwnProperty(targetKey)){ return}
         let targetColumn = currentKeys[targetKey]
@@ -419,13 +426,29 @@ class RawSheetData {
         // this.indexToKey[index] = key;
     }
 
-    /**
-     * Applies any missing keys from a rawSheetData instance to the current rawSheetData object.
-     *
+    /** syncDataColumns
+     *  
+     *  Applies any missing keys from a rawSheetData instance to the current rawSheetData object.
+     *  Keys will be added from a ``sheetData`` class if they meet the following criteria:
+     *  1. The key is not on the blocklist for the ``sheetData`` instance that called the merge.
+     *  2. The key does not already exist.
+     *  While merging, the following things happen:
+     *  1. Keys that do not exist will be added.
+     *  2. Soft-coded columns (ones not explicitly declared in config files) will be merged.
+     *    - If a soft-coded column's key matches the header for the specified ``sheetData`` 
+     *       that has a hard-coded key name, the soft-coded key's name will be replaced with 
+     *       the hard-coded one.  This means that you can have a mixture of hard-coded and 
+     *       soft-coded keys in different ``sheetData`` classes and still be able to repeatedly
+     *       merge and get the same result. 
+     * 
+     *  There is one caveat:
+     *   any given sheetData class cannot have two identical header entries or key entries.
+     *   Otherwise the left-most (for headers), and smallest column assignment (for hard-coded 
+     *   entries) will be used and the rest will be ignored.
      * @param {RawSheetData} inputSheetData
      * @memberof RawSheetData
      */
-    syncDataColumns(inputSheetData: RawSheetData,self:SheetData) {
+    syncDataColumns(inputSheetData: RawSheetData,self:SheetData): void {
         // this has been updated so that you can use any remote / not remote thing
         // let formSheetData = allSheetData.form;
         // let dataSheetData = allSheetData.data;
@@ -491,7 +514,7 @@ class RawSheetData {
      * @return {*}  {sheetDataEntry}
      * @memberof RawSheetData
      */
-    getEntryConfig(isForCaching:boolean = false):sheetDataEntry {
+    getEntryConfig(isForCaching:boolean = false): sheetDataEntry {
         let outEntry: sheetDataEntry = {
             tabName: this.tabName,
             headerRow: this.headerRow,
@@ -524,7 +547,7 @@ class RawSheetData {
      * @param {boolean} [writeInDataArea=false]
      * @memberof RawSheetData
      */
-    directEditRawSheetValues(xOffset: number, yOffset: number, valueArray: any[][], writeInDataArea = false) {
+    directEditRawSheetValues(xOffset: number, yOffset: number, valueArray: any[][], writeInDataArea = false): void {
         if (yOffset + valueArray.length > this.getHeaderRow() && !writeInDataArea) {
             console.warn("Tried to write to protected row in sheet" + this.getTabName());
         } else {
