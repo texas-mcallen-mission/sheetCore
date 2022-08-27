@@ -50,7 +50,7 @@ class SheetData {
      * @memberof SheetData
      */
     addKeys(thingToCopyFrom: SheetData) {
-        this.rsd.syncDataColumns(thingToCopyFrom.rsd)
+        this.rsd.syncDataColumns(thingToCopyFrom.rsd,this)
         return this
     }
 
@@ -407,13 +407,25 @@ class RawSheetData {
 
     //Private class methods
 
+    renameKey(targetKey: string, newName: string):void {
+        let currentKeys = this.keyToIndex
+        if(!currentKeys.hasOwnProperty(targetKey)){ return}
+        let targetColumn = currentKeys[targetKey]
+
+        this.keyToIndex[newName] = targetColumn
+        this.indexToKey[targetColumn] = newName
+        // this.keyToIndex[key] = index;
+
+        // this.indexToKey[index] = key;
+    }
+
     /**
      * Applies any missing keys from a rawSheetData instance to the current rawSheetData object.
      *
      * @param {RawSheetData} inputSheetData
      * @memberof RawSheetData
      */
-    syncDataColumns(inputSheetData: RawSheetData) {
+    syncDataColumns(inputSheetData: RawSheetData,self:SheetData) {
         // this has been updated so that you can use any remote / not remote thing
         // let formSheetData = allSheetData.form;
         // let dataSheetData = allSheetData.data;
@@ -421,15 +433,40 @@ class RawSheetData {
 
 
         let addedKeys: any[] = [];
-
-
+        //TODO REMOVE ignoredKeys once this is over??
+        let ignoredKeys: any[] = []
+        // BEEBOOO: FOR FINDING MORE QUICKLY.
+        // Currently trying to figure out why keys are not getting synchronized.
         for (let key of inputSheetData.getKeys()) {
-            if (!inputSheetData.keyNamesToIgnore.includes(key) && !inputSheetData.hasKey(key)) {
-                let header = inputSheetData.getHeaders()[inputSheetData.getIndex(key)];
-                inputSheetData.addColumnWithHeader_(key, header);
-                addedKeys.push(key);
+            // changed check for key names to ignore, now it runs on self instead of the other one.
+            if (!this.keyNamesToIgnore.includes(key) && !this.hasKey(key)) {
+                let keyPrettyName = inputSheetData.getHeaders()[inputSheetData.getIndex(key)];
+                
+                // checking to make sure that something with the same name doesn't already exist.  This might be a bad idea???
+                let selfHeader = this.getHeaders();
+                if (selfHeader.includes(key)){
+                    console.warn("SKIPPED KEY BECAUSE IT ALREADY HAD A MATCH");
+                    ignoredKeys.push(key)
+                } else if(selfHeader.includes(keyPrettyName)) {
+                    console.warn("SKIPPED KEY BECAUSE IT ALREADY HAD A MATCH")
+                    ignoredKeys.push(key)
+                    this.renameKey(keyPrettyName, key) // This *should* rename keys internally if they match: This should let me have persistent partial soft-coded columns.
+                    
+                } else {
+                    // if there isn't anything that matches, *then* push the thingy out.
+                    this.addColumnWithHeader_(key, /*keyPrettyName*/key); // if key isn't specified key & keyPrettyName will match; we want things to sync in the future: this lets us do partially-hard-coded stuff.
+                    addedKeys.push(key);
+                }
+            }   
+            else {
+                ignoredKeys.push(key)
             }
         }
+        // TODO REMOVE
+        if (ignoredKeys.includes("EXTRA WORDS FOR FUN BABYYYY")) {
+            console.error("TESTING KEYS SKIPPED: ",ignoredKeys);
+        }
+        
 
         let addedStr =
             addedKeys.length == 0
@@ -444,6 +481,7 @@ class RawSheetData {
             addedStr
         );
         console.log(inputSheetData.getKeys().toString());
+
     }
 
     /**
