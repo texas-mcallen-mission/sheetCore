@@ -27,6 +27,7 @@ interface manyKiDataClasses {
 }
 
 // !Warning!  This will probably get deprecated in favor of kiDataEntry[]
+// ! This is *not* what you want to use for kiDataClass work: this is for funky weird edge cases like making keyed objects of kiDataEntry[] arrays.
 interface manyKiDataEntries { // array of kiDataEntries
     [index: number]: kiDataEntry;
 }
@@ -73,6 +74,22 @@ class kiDataClass {
     get end(): kiDataEntry[] {
         return this.data;
     }
+    /**
+     *  this is a complement to breakdownAnalysis: but instead of making a separate line for each entry, we're aggregating all the entries and turning them into their own columns / keys. 
+     *
+     * @param {string[]} KeysToKeep // keys that are passed through to the final entry.
+     * @param {string[]} KeysToLumpBy // keys to sort by: Do you want to keep things apart based on git commit?  trigger type?
+     * @param {string[]} KeysToAggregate // what row is getting turned into a column?
+     * @param {string[]} shardKey // for debug stuff, I'll figure out a better way to name this in the future.  Extra specifier for keysToAggregate.
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    dataLumper(KeysToKeep:string[], KeysToLumpBy: string[], KeysToAggregate: string[],shardKey:string|null = null):this {
+        // this might be harder than breakdownAnalysis was to figure out.
+        
+
+        return this
+    }
 
     /**
  *  groupByTime: first thing written specifixally for time-series data: this splits a sheetData into an object of sheetDatas organized by timestamp.
@@ -98,9 +115,9 @@ class kiDataClass {
                 // This is the integer equivalent of .floor'ing something at increasing orders of magnitude.
                 switch (granularity) {
                 case timeGranularities.year:
-                    date.setUTCMonth(1)
+                    date.setUTCMonth(0) // note: the lack of breaks here is ON PURPOSE.  See the above note for why.
                 case timeGranularities.month:
-                    date.setUTCDate(1)
+                    date.setUTCDate(1) // oddly enough, if set to zero, it'll give the 31st of (the month before?)... super weird.
                 case timeGranularities.day:
                     date.setUTCHours(0)
                 case timeGranularities.hour:
@@ -121,15 +138,10 @@ class kiDataClass {
                     outData[time] = []
                 }
                 outData[time].push(entry)
-
             } else {
                 console.error("timeseries key not specified.")
             }
-
-
         }
-
-
         return outData;
     }
     /**
