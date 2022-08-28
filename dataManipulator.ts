@@ -27,11 +27,11 @@ interface manyKiDataClasses {
 }
 
 // !Warning!  This will probably get deprecated in favor of kiDataEntry[]
-interface manyKiDataEntries {
+interface manyKiDataEntries { // array of kiDataEntries
     [index: number]: kiDataEntry;
 }
 
-interface kiDataEntry {
+interface kiDataEntry {  // defines an object of key-value pairs.
     [index: string]: any;
 }
 
@@ -74,6 +74,64 @@ class kiDataClass {
         return this.data;
     }
 
+    /**
+ *  groupByTime: first thing written specifixally for time-series data: this splits a sheetData into an object of sheetDatas organized by timestamp.
+ *  requires a key that has time-series data stored on it and a granularity.
+ *  This is the kind of thing that's a bit of a pain to use Sheets QUERY functions for.
+ *  Originally written to aggregate the debug log's stuff into by-hour chunks, but this might be useful for other stuff, which is why it's getting generalized.
+ *  returns an object of kiDataEntry[] arrays keyed by timestamp.
+ *
+ * @param {string} timeSeriesKey
+ * @param {string} granularity
+ * @return {*}  {manySheetDatas}
+ * @memberof SheetData
+ */
+    groupByTime(timeSeriesKey: string, granularity: timeGranularities): manyKiDataEntries {
+        let data = this.data
+        let outData: manyKiDataEntries = {};
+        let test: kiDataEntry = {}
+
+        for (let entry of data) {
+            if (entry.hasOwnProperty(timeSeriesKey)) {
+                let date: Date = new Date(entry[timeSeriesKey])
+                // I used a case statement (without breaks, for the most part) because it removes redundancy- we're comparing by .getUTCTime, which gives us milliseconds.
+                // This is the integer equivalent of .floor'ing something at increasing orders of magnitude.
+                switch (granularity) {
+                case timeGranularities.year:
+                    date.setUTCMonth(1)
+                case timeGranularities.month:
+                    date.setUTCDate(1)
+                case timeGranularities.day:
+                    date.setUTCHours(0)
+                case timeGranularities.hour:
+                    date.setUTCMinutes(0)
+                case timeGranularities.minute:
+                    date.setUTCSeconds(0)
+                case timeGranularities.second:
+                    date.setUTCMilliseconds(0)
+                case timeGranularities.millisecond:
+                    break;
+                default:
+                    console.error("YOU SHOULDN'T BE HERE!")
+                }
+                
+                let time = date.getUTCDate()
+                if (!(time in outData)) {
+                    console.log("Adding first entry for:", time)
+                    outData[time] = []
+                }
+                outData[time].push(entry)
+
+            } else {
+                console.error("timeseries key not specified.")
+            }
+
+
+        }
+
+
+        return outData;
+    }
     /**
      * This is a VERY destructive method- it's designed to replace a set of very over-burdened pivot tables 
      * doing something that was a little too difficult to figure out how to do earlier.  Will remove ALL not-whitelisted keys.  

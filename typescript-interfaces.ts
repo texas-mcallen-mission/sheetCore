@@ -1,3 +1,32 @@
+
+enum timeGranularities {
+    year = "year",
+    month = "month",
+    day = "day",
+    hour = "hour",
+    minute = "minute",
+    second = "second",
+    millisecond = "millisecond"
+}
+
+interface timeGranularity {
+    param:timeGranularities
+}
+// class timeGranularityClass {
+//     year: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "year"
+//     day: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "day"
+//     hour: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "hour"
+//     minute: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "minute"
+//     second: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "second"
+//     millisecond: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "millisecond"
+// }
+
+
+
+// let timeGranularity = new timeGranularityClass()
+
+
+
 interface manySheetDatas {
     [index: string]: SheetData,
 }
