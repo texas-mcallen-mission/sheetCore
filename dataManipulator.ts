@@ -76,21 +76,96 @@ class kiDataClass {
     }
     /**
      *  this is a complement to breakdownAnalysis: but instead of making a separate line for each entry, we're aggregating all the entries and turning them into their own columns / keys. 
-     *
-     * @param {string[]} KeysToKeep // keys that are passed through to the final entry.
+     *  Only keeps keys given by KeysToLumpBy & KeysToAggregate
+    //  * @param {string[]} KeysToKeep // keys that are passed through to the final entry.
      * @param {string[]} KeysToLumpBy // keys to sort by: Do you want to keep things apart based on git commit?  trigger type?
      * @param {string[]} KeysToAggregate // what row is getting turned into a column?
      * @param {string[]} shardKey // for debug stuff, I'll figure out a better way to name this in the future.  Extra specifier for keysToAggregate.
      * @return {*}  {this}
      * @memberof kiDataClass
      */
-    dataLumper(KeysToKeep:string[], KeysToLumpBy: string[], KeysToAggregate: string[],shardKey:string|null = null):this {
+    dataLumper(KeysToLumpBy: string[], KeysToAggregate: string[],shardKey:string|null = null):this {
         // this might be harder than breakdownAnalysis was to figure out.
+        let data = this.data
+        let output: kiDataEntry[] = []
+
+        let numberOfNests = KeysToLumpBy.length
+        let nestedOutput = {}
+        // step 1: Create nested entry structure and stick stuff in it
+        let testObj = {}
+        for (let entry of data) {
+            nestedOutput = { ...this.splitByKeyRecurse(KeysToLumpBy, entry, testObj )}
+        }
         
 
+
+
+
+        this.data = output
         return this
     }
+/**
+ *  Recursively mutates a target object until it runs out of keys to do so with.
+ *  Takes one kiDataEntry at a time.
+ *
+ * @param {string[]} keysLeft
+ * @param {{}} data
+ * @param {{}} targetObj
+ * @return {*} 
+ * @memberof kiDataClass
+ */
+    splitByKeyRecurse(keysLeft: string[], data: kiDataEntry, targetObj: {}): {} {
+        let dataCopy = {...data}
+        let targetKey = keysLeft[0]
+        keysLeft.shift() // unrecurse ya self
 
+        if (keysLeft.length = 0) {
+            console.log("AT END OF LOOP!!!");
+            let key = dataCopy[targetKey];
+            if (!targetObj.hasOwnProperty(key)) {
+                targetObj[key] = []
+            }
+            targetObj[key].push(dataCopy)
+            return targetObj;
+        } else {
+            dataCopy.delete[targetKey]
+            targetObj[targetKey] = this.splitByKeyRecurse(keysLeft, dataCopy, targetObj);
+        }
+        
+        
+
+        
+        return targetObj
+    }
+
+
+    /**
+     *  Generalized version of groupByKey, but instead of time, it groups by variations on any given key.
+     *  
+     *
+     * @param {string} targetKey
+     * @return {*}  {manyKiDataEntries}
+     * @memberof kiDataClass
+     */
+    groupByKey(targetKey: string): manyKiDataEntries{
+        let data = this.data;
+        let outData: manyKiDataEntries = {};
+        let test: kiDataEntry = {};
+
+        for (let entry of data) {
+            if (entry.hasOwnProperty(targetKey)) {
+                let key = entry[targetKey]
+                if (!(key in outData)) {
+                    console.log("Adding first entry for:", key);
+                    outData[key] = [];
+                }
+                outData[key].push(entry);
+            } else {
+                console.error("timeseries key not specified.");
+            }
+        }
+        return outData;
+    }
     /**
  *  groupByTime: first thing written specifixally for time-series data: this splits a sheetData into an object of sheetDatas organized by timestamp.
  *  requires a key that has time-series data stored on it and a granularity.

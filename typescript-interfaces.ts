@@ -31,6 +31,15 @@ interface manySheetDatas {
     [index: string]: SheetData,
 }
 
+interface recursiveData { // literally no idea if this will work
+    [index: string]: [] | recursiveData
+}
+
+interface recursiveFunctionData{
+    keysLeft: string[],
+    data: {}
+}
+
 interface sheetDataEntry {
     tabName: string,
     headerRow: number,

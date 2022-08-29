@@ -49,7 +49,7 @@ class SheetData {
      * @return {*} 
      * @memberof SheetData
      */
-    addKeys(thingToCopyFrom: SheetData) {
+    addKeys(thingToCopyFrom: SheetData):this {
         this.rsd.syncDataColumns(thingToCopyFrom.rsd,this)
         return this
     }
