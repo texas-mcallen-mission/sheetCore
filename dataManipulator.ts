@@ -161,10 +161,56 @@ class kiDataClass {
                 }
                 outData[key].push(entry);
             } else {
-                console.error("timeseries key not specified.");
+                console.error("key not specified.");
             }
         }
         return outData;
+    }
+    /**
+     * addGranulatedTime : Similar to groupByTime, but instead of grouping, it just adds a calculated time value to a new key.
+     *
+     * @param {string} timeSeriesKey
+     * @param {string} newKey
+     * @param {timeGranularities} granularity
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    addGranulatedTime(timeSeriesKey: string, newKey:string,granularity: timeGranularities): this {
+        let data = this.data;
+        // let outData: manyKiDataEntries = {};
+        // let test: kiDataEntry = {};
+
+        for (let entry of data) {
+            if (entry.hasOwnProperty(timeSeriesKey)) {
+                let date: Date = new Date(entry[timeSeriesKey]);
+                // I used a case statement (without breaks, for the most part) because it removes redundancy- we're comparing by .getUTCTime, which gives us milliseconds.
+                // This is the integer equivalent of .floor'ing something at increasing orders of magnitude.
+                switch (granularity) {
+                    case timeGranularities.year:
+                        date.setUTCMonth(0); // note: the lack of breaks here is ON PURPOSE.  See the above note for why.
+                    case timeGranularities.month:
+                        date.setUTCDate(1); // oddly enough, if set to zero, it'll give the 31st of (the month before?)... super weird.
+                    case timeGranularities.day:
+                        date.setUTCHours(0);
+                    case timeGranularities.hour:
+                        date.setUTCMinutes(0);
+                    case timeGranularities.minute:
+                        date.setUTCSeconds(0);
+                    case timeGranularities.second:
+                        date.setUTCMilliseconds(0);
+                    case timeGranularities.millisecond:
+                        break;
+                    default:
+                        console.error("YOU SHOULDN'T BE HERE!");
+                }
+
+                let time = date.getUTCDate();
+                entry[newKey] = time
+            } else {
+                console.error("timeseries key not accessible.");
+            }
+        }
+        return this;
     }
     /**
  *  groupByTime: first thing written specifixally for time-series data: this splits a sheetData into an object of sheetDatas organized by timestamp.
