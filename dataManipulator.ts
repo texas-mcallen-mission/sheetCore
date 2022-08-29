@@ -204,7 +204,7 @@ class kiDataClass {
                         console.error("YOU SHOULDN'T BE HERE!");
                 }
 
-                let time = date.getUTCDate();
+                let time = date.toUTCString();
                 entry[newKey] = time
             } else {
                 console.error("timeseries key not accessible.");
