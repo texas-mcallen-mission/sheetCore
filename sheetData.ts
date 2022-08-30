@@ -53,6 +53,10 @@ class SheetData {
         this.rsd.syncDataColumns(thingToCopyFrom.rsd,this)
         return this
     }
+    addKeysFromArray(keyArray: string[]): this {
+        this.rsd.addColumnsFromArray(keyArray, this);
+        return this;
+    }
 
     getConfigForCache() {
         return this.rsd.getEntryConfig(true)
@@ -424,6 +428,61 @@ class RawSheetData {
         // this.keyToIndex[key] = index;
 
         // this.indexToKey[index] = key;
+    }
+
+    
+    addColumnsFromArray(keyArray:string[], self: SheetData): void {
+        // this has been updated so that you can use any remote / not remote thing
+        // let formSheetData = allSheetData.form;
+        // let dataSheetData = allSheetData.data;
+
+
+
+        let addedKeys: any[] = [];
+        //TODO REMOVE ignoredKeys once this is over??
+        let ignoredKeys: any[] = [];
+        // BEEBOOO: FOR FINDING MORE QUICKLY.
+        // Currently trying to figure out why keys are not getting synchronized.
+        for (let key of keyArray) {
+            // changed check for key names to ignore, now it runs on self instead of the other one.
+            if (!this.keyNamesToIgnore.includes(key) && !this.hasKey(key)) {
+                // let keyPrettyName = inputSheetData.getHeaders()[inputSheetData.getIndex(key)];
+
+                // checking to make sure that something with the same name doesn't already exist.  This might be a bad idea???
+                let selfHeader = this.getHeaders();
+                if (selfHeader.includes(key)) {
+                    console.warn("SKIPPED KEY BECAUSE IT ALREADY HAD A MATCH");
+                    ignoredKeys.push(key);
+                } else {
+                    // if there isn't anything that matches, *then* push the thingy out.
+                    this.addColumnWithHeader_(key, /*keyPrettyName*/key); // if key isn't specified key & keyPrettyName will match; we want things to sync in the future: this lets us do partially-hard-coded stuff.
+                    addedKeys.push(key);
+                }
+            }
+            else {
+                ignoredKeys.push(key);
+            }
+        }
+        // // TODO REMOVE
+        // if (ignoredKeys.includes("EXTRA WORDS FOR FUN BABYYYY")) {
+        //     console.error("TESTING KEYS SKIPPED: ", ignoredKeys);
+        // }
+
+
+        let addedStr =
+            addedKeys.length == 0
+                ? "No new columns in keyArray"
+                : addedKeys.toString();
+        console.log(
+            "Added " +
+            addedKeys.length +
+            " column(s) to " +
+            this.getTabName() +
+            ": " +
+            addedStr
+        );
+        console.log(this.getKeys().toString());
+
     }
 
     /** syncDataColumns
