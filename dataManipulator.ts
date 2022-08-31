@@ -65,24 +65,24 @@ class kiDataClass {
         }
     };
     data: kiDataEntry[] = [];
-    internalKeys: string[];
+    additionalKeys: string[];
 
     constructor(kiData) {
         this.data = [];
         this.data = kiData;
-        this.internalKeys = [];
+        this.additionalKeys = [];
         // adds keys: this is to make it a little easier to do programatic work with data structures.
-        for (let entry of kiData) {
-            for (let key in entry) {
-                if (!this.internalKeys.includes(key)) {
-                    this.internalKeys.push(key)
-                }
-            }
-        }
+        // for (let entry of kiData) {
+        //     for (let key in entry) {
+        //         if (!this.internalKeys.includes(key)) {
+        //             this.internalKeys.push(key)
+        //         }
+        //     }
+        // }
     }
 
-    get keys(): string[] {
-        return this.internalKeys
+    get newKeys(): string[] {
+        return this.additionalKeys
     }
 
 
@@ -165,8 +165,8 @@ class kiDataClass {
 
         // Step 3: Update internal key list.
         for (let key of aggDataCombo.newKeys) {
-            if (!this.internalKeys.includes(key)) {
-                this.internalKeys.push(key)
+            if (!this.additionalKeys.includes(key)) {
+                this.additionalKeys.push(key)
             }
         }
 
