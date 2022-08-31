@@ -1,7 +1,7 @@
 // Typescript References
 
 interface aggDataReturn {
-    data: kiDataEntry,
+    data: kiDataEntry[],
     newKeys: string[];
 }
 

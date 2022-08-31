@@ -159,9 +159,9 @@ class kiDataClass {
         
         let newKeys: string[] = []
         
-        let aggDataCombo = aggData_(groupingKeys.length, groupedData, [], groupingKeys, allKeysToKeep, shardKey, newKeys)
+        let aggDataCombo:aggDataReturn = aggData_(groupingKeys.length, groupedData, [], groupingKeys, allKeysToKeep, shardKey, newKeys)
 
-        let aggData = aggDataCombo.data
+        let aggData:kiDataEntry[] = aggDataCombo.data
 
         // Step 3: Update internal key list.
         for (let key of aggDataCombo.newKeys) {
@@ -170,6 +170,9 @@ class kiDataClass {
             }
         }
 
+        this.data = aggData
+
+        return this
 
 
 
