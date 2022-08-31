@@ -1,5 +1,36 @@
+// Typescript References
+
+interface aggDataReturn {
+    data: kiDataEntry[],
+    newKeys: string[];
+}
+
+enum timeGranularities {
+    year = "year",
+    month = "month",
+    day = "day",
+    hour = "hour",
+    minute = "minute",
+    second = "second",
+    millisecond = "millisecond"
+}
+
+interface timeGranularity {
+    param:timeGranularities
+}
+
+
 interface manySheetDatas {
     [index: string]: SheetData,
+}
+
+interface recursiveData { // literally no idea if this will work
+    [index: string]: [] | recursiveData
+}
+
+interface recursiveFunctionData{
+    keysLeft: string[],
+    data: {}
 }
 
 interface sheetDataEntry {

@@ -27,11 +27,12 @@ interface manyKiDataClasses {
 }
 
 // !Warning!  This will probably get deprecated in favor of kiDataEntry[]
-interface manyKiDataEntries {
+// ! This is *not* what you want to use for kiDataClass work: this is for funky weird edge cases like making keyed objects of kiDataEntry[] arrays.
+interface manyKiDataEntries { // array of kiDataEntries
     [index: number]: kiDataEntry;
 }
 
-interface kiDataEntry {
+interface kiDataEntry {  // defines an object of key-value pairs.
     [index: string]: any;
 }
 
@@ -62,18 +63,249 @@ class kiDataClass {
                 trainer: "isTrainer3"
             }
         }
-    }
+    };
     data: kiDataEntry[] = [];
+    additionalKeys: string[];
 
     constructor(kiData) {
         this.data = [];
         this.data = kiData;
+        this.additionalKeys = [];
+        // adds keys: this is to make it a little easier to do programatic work with data structures.
+        // for (let entry of kiData) {
+        //     for (let key in entry) {
+        //         if (!this.internalKeys.includes(key)) {
+        //             this.internalKeys.push(key)
+        //         }
+        //     }
+        // }
     }
+
+    get newKeys(): string[] {
+        return this.additionalKeys
+    }
+
 
     get end(): kiDataEntry[] {
         return this.data;
     }
 
+    aggregateByKeys(groupingKeys: string[], keysToKeep: string[], keysToAggregateBy, shardKey: string|null = null) {
+        // Recursive function declarations:
+        function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEntry) {
+            let targetValue = kiDataEntry[keySet[0]];
+            if (keySet.length == 1) {
+                if (!targetObj.hasOwnProperty(targetValue)) {
+                    targetObj[targetValue] = [];
+                    // Theoretically I could stick the Aggregation functions in here...
+                }
+                targetObj[targetValue].push(kiDataEntry);
+            } else {
+                if (!targetObj.hasOwnProperty(targetValue)) {
+                    targetObj[targetValue] = {};
+                }
+                // targetObj[targetValue].assign()
+                keySet.shift();
+
+                appendArrayToObject_(keySet, targetObj[targetValue], kiDataEntry);
+            }
+        }
+
+        function aggData_(depthLevels: number /*Length of the keysToAggregate object */, inputObject: {}, dataPassthrough: kiDataEntry[], keysToAggregate: string[], keysToKeep: string[], shardKey: string|null, newKeys: string[]): aggDataReturn {
+            let outData: kiDataEntry[] = dataPassthrough;
+            // inputObject.getIndex;
+            if (depthLevels == 0) { // this should get me to the level of kiDataEntry[], I *think*.
+                let subEntry = {};
+                //@ts-ignore - I don't know how to properly define a recursive thing- by the time you get to this execution branch it should be guaranteed to be an array of objects.
+                for (let key of inputObject) {
+                    // aggregation code
+                    // for (let entry of inputObject[key]) {
+                    for (let aggKey of keysToAggregate) {
+                        let targetKeyString = key[aggKey];
+                        if (shardKey != null && key.hasOwnProperty(shardKey) && key[shardKey] != "") {
+                            targetKeyString += key[shardKey];
+                        }
+                        if (!subEntry.hasOwnProperty(targetKeyString)) {
+                            subEntry[targetKeyString] = 0;
+                            newKeys.push(targetKeyString);
+                        }
+                        subEntry[targetKeyString] += 1;
+                    }
+                }
+                for (let keeper of keysToKeep) {
+                    subEntry[keeper] = inputObject[0][keeper];
+                }
+                outData.push(subEntry);
+            } else {
+                for (let key in inputObject) {
+                    aggData_(depthLevels - 1, inputObject[key], dataPassthrough, keysToAggregate, keysToKeep, shardKey, newKeys);
+                }
+            }
+            return { data: outData, newKeys: newKeys };
+        }
+
+        // BEGIN FUNCTION WORK
+        let inData:kiDataEntry[] = [...this.data] 
+        let outData:kiDataEntry[] = []
+
+        // Step One: Sort data into an aggregatable form
+        let groupedData = {}
+        for (let entry of inData) {
+            appendArrayToObject_([...groupingKeys], groupedData, entry)
+        }
+
+        // Step Two: Group data & aggregate it.
+        let allKeysToKeep:string[] = [...groupingKeys,...keysToKeep,...keysToAggregateBy]
+        
+        let newKeys: string[] = []
+        
+        let aggDataCombo:aggDataReturn = aggData_(groupingKeys.length, groupedData, [], keysToAggregateBy, allKeysToKeep, shardKey, newKeys)
+
+        let aggData:kiDataEntry[] = aggDataCombo.data
+
+        // Step 3: Update internal key list.
+        for (let key of aggDataCombo.newKeys) {
+            if (!this.additionalKeys.includes(key)) {
+                this.additionalKeys.push(key)
+            }
+        }
+
+        this.data = aggData
+
+        return this
+
+
+
+
+
+
+    }
+    /**
+     *  Generalized version of groupByKey, but instead of time, it groups by variations on any given key.
+     *  
+     *
+     * @param {string} targetKey
+     * @return {*}  {manyKiDataEntries}
+     * @memberof kiDataClass
+     */
+    groupByKey(targetKey: string): manyKiDataEntries{
+        let data = this.data;
+        let outData: manyKiDataEntries = {};
+        let test: kiDataEntry = {};
+
+        for (let entry of data) {
+            if (entry.hasOwnProperty(targetKey)) {
+                let key = entry[targetKey]
+                if (!(key in outData)) {
+                    console.log("Adding first entry for:", key);
+                    outData[key] = [];
+                }
+                outData[key].push(entry);
+            } else {
+                console.error("key not specified.");
+            }
+        }
+        return outData;
+    }
+    /**
+     * addGranulatedTime : Similar to groupByTime, but instead of grouping, it just adds a calculated time value to a new key.
+     *
+     * @param {string} timeSeriesKey
+     * @param {string} newKey
+     * @param {timeGranularities} granularity
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    addGranulatedTime(timeSeriesKey: string, newKey:string,granularity: timeGranularities): this {
+        let data = this.data;
+        // let outData: manyKiDataEntries = {};
+        // let test: kiDataEntry = {};
+
+        for (let entry of data) {
+            if (entry.hasOwnProperty(timeSeriesKey)) {
+                let date: Date = new Date(entry[timeSeriesKey]);
+                // I used a case statement (without breaks, for the most part) because it removes redundancy- we're comparing by .getUTCTime, which gives us milliseconds.
+                // This is the integer equivalent of .floor'ing something at increasing orders of magnitude.
+                switch (granularity) {
+                    case timeGranularities.year:
+                        date.setUTCMonth(0); // note: the lack of breaks here is ON PURPOSE.  See the above note for why.
+                    case timeGranularities.month:
+                        date.setUTCDate(1); // oddly enough, if set to zero, it'll give the 31st of (the month before?)... super weird.
+                    case timeGranularities.day:
+                        date.setUTCHours(0);
+                    case timeGranularities.hour:
+                        date.setUTCMinutes(0);
+                    case timeGranularities.minute:
+                        date.setUTCSeconds(0);
+                    case timeGranularities.second:
+                        date.setUTCMilliseconds(0);
+                    case timeGranularities.millisecond:
+                        break;
+                    default:
+                        console.error("YOU SHOULDN'T BE HERE!");
+                }
+
+                let time = date.toUTCString();
+                entry[newKey] = time
+            } else {
+                console.error("timeseries key not accessible.");
+            }
+        }
+        return this;
+    }
+    /**
+ *  groupByTime: first thing written specifixally for time-series data: this splits a sheetData into an object of sheetDatas organized by timestamp.
+ *  requires a key that has time-series data stored on it and a granularity.
+ *  This is the kind of thing that's a bit of a pain to use Sheets QUERY functions for.
+ *  Originally written to aggregate the debug log's stuff into by-hour chunks, but this might be useful for other stuff, which is why it's getting generalized.
+ *  returns an object of kiDataEntry[] arrays keyed by timestamp.
+ *
+ * @param {string} timeSeriesKey
+ * @param {string} granularity
+ * @return {*}  {manySheetDatas}
+ * @memberof SheetData
+ */
+    groupByTime(timeSeriesKey: string, granularity: timeGranularities): manyKiDataEntries {
+        let data = this.data
+        let outData: manyKiDataEntries = {};
+        let test: kiDataEntry = {}
+
+        for (let entry of data) {
+            if (entry.hasOwnProperty(timeSeriesKey)) {
+                let date: Date = new Date(entry[timeSeriesKey])
+                // I used a case statement (without breaks, for the most part) because it removes redundancy- we're comparing by .getUTCTime, which gives us milliseconds.
+                // This is the integer equivalent of .floor'ing something at increasing orders of magnitude.
+                switch (granularity) {
+                case timeGranularities.year:
+                    date.setUTCMonth(0) // note: the lack of breaks here is ON PURPOSE.  See the above note for why.
+                case timeGranularities.month:
+                    date.setUTCDate(1) // oddly enough, if set to zero, it'll give the 31st of (the month before?)... super weird.
+                case timeGranularities.day:
+                    date.setUTCHours(0)
+                case timeGranularities.hour:
+                    date.setUTCMinutes(0)
+                case timeGranularities.minute:
+                    date.setUTCSeconds(0)
+                case timeGranularities.second:
+                    date.setUTCMilliseconds(0)
+                case timeGranularities.millisecond:
+                    break;
+                default:
+                    console.error("YOU SHOULDN'T BE HERE!")
+                }
+                
+                let time = date.getUTCDate()
+                if (!(time in outData)) {
+                    console.log("Adding first entry for:", time)
+                    outData[time] = []
+                }
+                outData[time].push(entry)
+            } else {
+                console.error("timeseries key not specified.")
+            }
+        }
+        return outData;
+    }
     /**
      * This is a VERY destructive method- it's designed to replace a set of very over-burdened pivot tables 
      * doing something that was a little too difficult to figure out how to do earlier.  Will remove ALL not-whitelisted keys.  
