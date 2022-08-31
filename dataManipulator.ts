@@ -127,7 +127,7 @@ class kiDataClass {
                         }
                         if (!subEntry.hasOwnProperty(targetKeyString)) {
                             subEntry[targetKeyString] = 0;
-                            keysToKeep.push(targetKeyString);
+                            newKeys.push(targetKeyString);
                         }
                         subEntry[targetKeyString] += 1;
                     }
@@ -138,7 +138,7 @@ class kiDataClass {
                 outData.push(subEntry);
             } else {
                 for (let key in inputObject) {
-                    aggData_(depthLevels - 1, inputObject[key]/* This lets me target one layer into the inputObject every time. */, dataPassthrough, keysToAggregate, keysToKeep, shardKey, keysToKeep);
+                    aggData_(depthLevels - 1, inputObject[key], dataPassthrough, keysToAggregate, keysToKeep, shardKey, newKeys);
                 }
             }
             return { data: outData, newKeys: newKeys };
