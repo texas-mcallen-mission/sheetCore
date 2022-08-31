@@ -73,7 +73,7 @@ class kiDataClass {
         this.internalKeys = [];
         // adds keys: this is to make it a little easier to do programatic work with data structures.
         for (let entry of kiData) {
-            for (let key of entry) {
+            for (let key in entry) {
                 if (!this.internalKeys.includes(key)) {
                     this.internalKeys.push(key)
                 }
@@ -122,8 +122,8 @@ class kiDataClass {
                     // for (let entry of inputObject[key]) {
                     for (let aggKey of keysToAggregate) {
                         let targetKeyString = key[aggKey];
-                        if (shardKey != null && subEntry.hasOwnProperty(shardKey) && subEntry[shardKey] != "") {
-                            targetKeyString += subEntry[shardKey];
+                        if (shardKey != null && key.hasOwnProperty(shardKey) && key[shardKey] != "") {
+                            targetKeyString += key[shardKey];
                         }
                         if (!subEntry.hasOwnProperty(targetKeyString)) {
                             subEntry[targetKeyString] = 0;
@@ -159,7 +159,7 @@ class kiDataClass {
         
         let newKeys: string[] = []
         
-        let aggDataCombo:aggDataReturn = aggData_(groupingKeys.length, groupedData, [], groupingKeys, allKeysToKeep, shardKey, newKeys)
+        let aggDataCombo:aggDataReturn = aggData_(groupingKeys.length, groupedData, [], keysToAggregateBy, allKeysToKeep, shardKey, newKeys)
 
         let aggData:kiDataEntry[] = aggDataCombo.data
 
