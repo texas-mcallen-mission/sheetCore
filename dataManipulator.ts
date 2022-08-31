@@ -63,82 +63,120 @@ class kiDataClass {
                 trainer: "isTrainer3"
             }
         }
-    }
+    };
     data: kiDataEntry[] = [];
+    internalKeys: string[];
 
     constructor(kiData) {
         this.data = [];
         this.data = kiData;
+        this.internalKeys = [];
+        // adds keys: this is to make it a little easier to do programatic work with data structures.
+        for (let entry of kiData) {
+            for (let key of entry) {
+                if (!this.internalKeys.includes(key)) {
+                    this.internalKeys.push(key)
+                }
+            }
+        }
     }
+
+    get keys(): string[] {
+        return this.internalKeys
+    }
+
 
     get end(): kiDataEntry[] {
         return this.data;
     }
-    /**
-     *  this is a complement to breakdownAnalysis: but instead of making a separate line for each entry, we're aggregating all the entries and turning them into their own columns / keys. 
-     *  Only keeps keys given by KeysToLumpBy & KeysToAggregate
-    //  * @param {string[]} KeysToKeep // keys that are passed through to the final entry.
-     * @param {string[]} KeysToLumpBy // keys to sort by: Do you want to keep things apart based on git commit?  trigger type?
-     * @param {string[]} KeysToAggregate // what row is getting turned into a column?
-     * @param {string[]} shardKey // for debug stuff, I'll figure out a better way to name this in the future.  Extra specifier for keysToAggregate.
-     * @return {*}  {this}
-     * @memberof kiDataClass
-     */
-    dataLumper(KeysToLumpBy: string[], KeysToAggregate: string[],shardKey:string|null = null):this {
-        // this might be harder than breakdownAnalysis was to figure out.
-        let data = this.data
-        let output: kiDataEntry[] = []
 
-        let numberOfNests = KeysToLumpBy.length
-        let nestedOutput = {}
-        // step 1: Create nested entry structure and stick stuff in it
-        let testObj = {}
-        for (let entry of data) {
-            nestedOutput = { ...this.splitByKeyRecurse(KeysToLumpBy, entry, testObj )}
-        }
-        
+    aggregateByKeys(groupingKeys: string[], keysToKeep: string[], keysToAggregateBy, shardKey: string|null = null) {
+        // Recursive function declarations:
+        function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEntry) {
+            let targetValue = kiDataEntry[keySet[0]];
+            if (keySet.length == 1) {
+                if (!targetObj.hasOwnProperty(targetValue)) {
+                    targetObj[targetValue] = [];
+                    // Theoretically I could stick the Aggregation functions in here...
+                }
+                targetObj[targetValue].push(kiDataEntry);
+            } else {
+                if (!targetObj.hasOwnProperty(targetValue)) {
+                    targetObj[targetValue] = {};
+                }
+                // targetObj[targetValue].assign()
+                keySet.shift();
 
-
-
-
-        this.data = output
-        return this
-    }
-/**
- *  Recursively mutates a target object until it runs out of keys to do so with.
- *  Takes one kiDataEntry at a time.
- *
- * @param {string[]} keysLeft
- * @param {{}} data
- * @param {{}} targetObj
- * @return {*} 
- * @memberof kiDataClass
- */
-    splitByKeyRecurse(keysLeft: string[], data: kiDataEntry, targetObj: {}): {} {
-        let dataCopy = {...data}
-        let targetKey = keysLeft[0]
-        keysLeft.shift() // unrecurse ya self
-
-        if (keysLeft.length = 0) {
-            console.log("AT END OF LOOP!!!");
-            let key = dataCopy[targetKey];
-            if (!targetObj.hasOwnProperty(key)) {
-                targetObj[key] = []
+                appendArrayToObject_(keySet, targetObj[targetValue], kiDataEntry);
             }
-            targetObj[key].push(dataCopy)
-            return targetObj;
-        } else {
-            dataCopy.delete[targetKey]
-            targetObj[targetKey] = this.splitByKeyRecurse(keysLeft, dataCopy, targetObj);
         }
-        
-        
 
+        function aggData_(depthLevels: number /*Length of the keysToAggregate object */, inputObject: {}, dataPassthrough: kiDataEntry[], keysToAggregate: string[], keysToKeep: string[], shardKey: string|null, newKeys: string[]): aggDataReturn {
+            let outData: kiDataEntry[] = dataPassthrough;
+            // inputObject.getIndex;
+            if (depthLevels == 0) { // this should get me to the level of kiDataEntry[], I *think*.
+                let subEntry = {};
+                //@ts-ignore - I don't know how to properly define a recursive thing- by the time you get to this execution branch it should be guaranteed to be an array of objects.
+                for (let key of inputObject) {
+                    // aggregation code
+                    // for (let entry of inputObject[key]) {
+                    for (let aggKey of keysToAggregate) {
+                        let targetKeyString = key[aggKey];
+                        if (shardKey != null && subEntry.hasOwnProperty(shardKey) && subEntry[shardKey] != "") {
+                            targetKeyString += subEntry[shardKey];
+                        }
+                        if (!subEntry.hasOwnProperty(targetKeyString)) {
+                            subEntry[targetKeyString] = 0;
+                            keysToKeep.push(targetKeyString);
+                        }
+                        subEntry[targetKeyString] += 1;
+                    }
+                }
+                for (let keeper of keysToKeep) {
+                    subEntry[keeper] = inputObject[0][keeper];
+                }
+                outData.push(subEntry);
+            } else {
+                for (let key in inputObject) {
+                    aggData_(depthLevels - 1, inputObject[key]/* This lets me target one layer into the inputObject every time. */, dataPassthrough, keysToAggregate, keysToKeep, shardKey, keysToKeep);
+                }
+            }
+            return { data: outData, newKeys: newKeys };
+        }
+
+        // BEGIN FUNCTION WORK
+        let inData:kiDataEntry[] = [...this.data] 
+        let outData:kiDataEntry[] = []
+
+        // Step One: Sort data into an aggregatable form
+        let groupedData = {}
+        for (let entry of inData) {
+            appendArrayToObject_([...groupingKeys], groupedData, entry)
+        }
+
+        // Step Two: Group data & aggregate it.
+        let allKeysToKeep:string[] = [...groupingKeys,...keysToKeep,...keysToAggregateBy]
         
-        return targetObj
+        let newKeys: string[] = []
+        
+        let aggDataCombo = aggData_(groupingKeys.length, groupedData, [], groupingKeys, allKeysToKeep, shardKey, newKeys)
+
+        let aggData = aggDataCombo.data
+
+        // Step 3: Update internal key list.
+        for (let key of aggDataCombo.newKeys) {
+            if (!this.internalKeys.includes(key)) {
+                this.internalKeys.push(key)
+            }
+        }
+
+
+
+
+
+
+
     }
-
-
     /**
      *  Generalized version of groupByKey, but instead of time, it groups by variations on any given key.
      *  

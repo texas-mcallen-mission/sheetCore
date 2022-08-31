@@ -1,3 +1,9 @@
+// Typescript References
+
+interface aggDataReturn {
+    data: kiDataEntry,
+    newKeys: string[];
+}
 
 enum timeGranularities {
     year = "year",
@@ -12,19 +18,6 @@ enum timeGranularities {
 interface timeGranularity {
     param:timeGranularities
 }
-// class timeGranularityClass {
-//     year: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "year"
-//     day: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "day"
-//     hour: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "hour"
-//     minute: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "minute"
-//     second: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "second"
-//     millisecond: "year" | "day" | "hour" | "minute" | "second" | "millisecond" = "millisecond"
-// }
-
-
-
-// let timeGranularity = new timeGranularityClass()
-
 
 
 interface manySheetDatas {

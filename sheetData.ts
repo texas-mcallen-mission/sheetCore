@@ -42,6 +42,14 @@ class SheetData {
         this.rsd = rawSheetData;
     }
 
+    clearRows(numRows: number) {
+        if (typeof numRows == typeof 12) {
+            this.rsd.deleteUntilRow(numRows)
+        } else {
+            console.error("NumRows call invalid, not deleting.")
+        }
+    }
+
     /**
      *  Copies all keys that don't already exist that are not specifically excluded in the keyNamesToIgnore declaration 
         
@@ -1107,6 +1115,16 @@ class RawSheetData {
         if (numRows <= 0) return; //End if the sheet is already empty
         let numCols = this.getSheet().getLastColumn();
         this.getSheet().getRange(startRow, 1, numRows + 1, numCols).clearContent();
+    }
+    deleteUntilRow(finalRow:number) {
+        let startRow = this.getHeaderRow() + 2;
+        let numRows = this.getSheet().getLastRow() + 1 - startRow;
+        if (numRows <= 0) return; //End if the sheet is already empty
+        let numCols = this.getSheet().getLastColumn();
+        if (finalRow <= numRows) {
+            this.getSheet().getRange(startRow, 1, finalRow + 1, numCols).clearContent();
+            
+        }
     }
 
     /**
