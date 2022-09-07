@@ -89,7 +89,7 @@ class kiDataClass {
     get end(): kiDataEntry[] {
         return this.data;
     }
-
+	
     aggregateByKeys(groupingKeys: string[], keysToKeep: string[], keysToAggregateBy, shardKey: string|null = null) {
         // Recursive function declarations:
         function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEntry) {
@@ -311,7 +311,7 @@ class kiDataClass {
      * doing something that was a little too difficult to figure out how to do earlier.  Will remove ALL not-whitelisted keys.  
      * Also removes all keys where the value is "" or undefined or null, 
      * Optionally remove any that equal zero as well or only creates one entry for it.
-     * Also creates a key named ``breakdownKey`` that has the value for which key the thing was made.
+     * Also creates a key named by the argument ``breakdownKey`` that has the value for which key the thing was made.
      * @param {string[]} keysToKeep
      * @param {string[]} breakdownKeys
      * @return {*}  {this}
