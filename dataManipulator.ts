@@ -320,7 +320,7 @@ class kiDataClass {
     breakdownAnalysis(keysToKeep: string[], breakdownKeys: string[],breakdownKeyName:string,keepOneIfZeroes=true): this {
         let output: kiDataEntry[] = [];
         let newKeyName = "breakdownKey"
-
+//test
         for (let entry of this.data) {
             let subEntry = {}
             // gets the values that we want to keep across all sub-entries.
