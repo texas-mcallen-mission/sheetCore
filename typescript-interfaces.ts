@@ -15,6 +15,17 @@ enum timeGranularities {
     millisecond = "millisecond"
 }
 
+enum dMath {
+    divide = "divide",
+    multiply = "multiply",
+    add = "add",
+    subtract = "subtract",
+    modulo = "modulo",
+    exponent = "exponential",
+    
+
+}
+
 interface timeGranularity {
     param:timeGranularities
 }

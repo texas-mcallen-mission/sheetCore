@@ -3,6 +3,30 @@
 // pulled from key-indicator-system/dataflow/kidata-class
 // this gets used in several things, and it makes a lot of sense to move it over to the shared core.
 
+class mathEngineClass {
+    basic(arg1, arg2, operator: dMath) {
+        switch (operator) {
+            case dMath.add:
+                return arg1 + arg2
+                break
+            case dMath.divide:
+                return arg1 / arg2
+            case dMath.exponent:
+                return arg1 ** arg2
+            case dMath.modulo:
+                return arg1 % arg2
+            case dMath.multiply:
+                return arg1 * arg2
+            case dMath.subtract:
+                return arg1 - arg2
+            default:
+                return null
+        }
+            
+    }
+
+}
+
 /**
  * splits a kiDataCLass's data into little pieces by grouping by unique values on a specified key
  *
@@ -66,11 +90,13 @@ class kiDataClass {
     };
     data: kiDataEntry[] = [];
     additionalKeys: string[];
+    mathEngine: mathEngineClass;
 
     constructor(kiData) {
         this.data = [];
         this.data = kiData;
         this.additionalKeys = [];
+        this.mathEngine = new mathEngineClass()
         // adds keys: this is to make it a little easier to do programatic work with data structures.
         // for (let entry of kiData) {
         //     for (let key in entry) {
@@ -89,7 +115,46 @@ class kiDataClass {
     get end(): kiDataEntry[] {
         return this.data;
     }
-	
+
+    /**
+     *  Does mathematical operations on a dateset.  Arg1 is the numerator / base for division / exponents. newKey can overlap with a key if you really want it to.
+     *
+     * @param {dMath} operator
+     * @param {string} newKey
+     * @param {string} key1
+     * @param {string} key2
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    mathByKey(operator: dMath, newKey: string, key1: string, key2: string): this {
+        let data: kiDataEntry[] = this.data;
+
+        for (let entry of data) {
+            data[newKey] = this.mathEngine.basic(data[key1], data[key2], operator);
+        }
+        return this;
+    }
+
+    mathByConstant(operator: dMath, newKey: string, key1: string, constant: number): this {
+        let data: kiDataEntry[] = this.data;
+
+        for (let entry of data) {
+            data[newKey] = this.mathEngine.basic(data[key1], constant, operator);
+        }
+        return this;
+    }
+
+	/**
+     * aggregates data: aggregates data by a set of (nesting) keys.  keysToAggregate currently requires integers- it'll concat strings though, if that's what you want.
+     * I need to get rid of shardKey and slightly refactor the kiHLA stuff that tocars that.  :)
+     *
+     * @param {string[]} groupingKeys
+     * @param {string[]} keysToKeep
+     * @param {*} keysToAggregateBy
+     * @param {(string|null)} [shardKey=null]
+     * @return {*} 
+     * @memberof kiDataClass
+     */
     aggregateByKeys(groupingKeys: string[], keysToKeep: string[], keysToAggregateBy, shardKey: string|null = null) {
         // Recursive function declarations:
         function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEntry) {
