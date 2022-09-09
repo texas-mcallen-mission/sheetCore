@@ -1,8 +1,12 @@
 // Typescript References
 
+// interface getStatsArgs {
+//     stDev?: "pop" | "sample",
+// }
+
 interface aggDataReturn {
     data: kiDataEntry[],
-    newKeys: string[];
+    newKeys: string[]
 }
 
 enum timeGranularities {
@@ -22,7 +26,7 @@ enum dMath {
     subtract = "subtract",
     modulo = "modulo",
     exponent = "exponential",
-    
+
 
 }
 

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@types/google-apps-script": "^1.0.55",
+    "@types/lodash": "^4.14.184"
+  }
+}

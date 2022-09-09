@@ -7,23 +7,25 @@ class mathEngineClass {
     basic(arg1, arg2, operator: dMath) {
         switch (operator) {
             case dMath.add:
-                return arg1 + arg2
-                break
+                return arg1 + arg2;
+                break;
             case dMath.divide:
-                return arg1 / arg2
+                return arg1 / arg2;
             case dMath.exponent:
-                return arg1 ** arg2
+                return arg1 ** arg2;
             case dMath.modulo:
-                return arg1 % arg2
+                return arg1 % arg2;
             case dMath.multiply:
-                return arg1 * arg2
+                return arg1 * arg2;
             case dMath.subtract:
-                return arg1 - arg2
+                return arg1 - arg2;
             default:
-                return null
+                return null;
         }
-            
     }
+    //     arrayAverage(array: number[]): number{
+
+    // }
 
 }
 
@@ -96,24 +98,56 @@ class kiDataClass {
         this.data = [];
         this.data = kiData;
         this.additionalKeys = [];
-        this.mathEngine = new mathEngineClass()
-        // adds keys: this is to make it a little easier to do programatic work with data structures.
-        // for (let entry of kiData) {
-        //     for (let key in entry) {
-        //         if (!this.internalKeys.includes(key)) {
-        //             this.internalKeys.push(key)
-        //         }
-        //     }
-        // }
+        this.mathEngine = new mathEngineClass();
+
     }
 
     get newKeys(): string[] {
-        return this.additionalKeys
+        return this.additionalKeys;
     }
 
 
     get end(): kiDataEntry[] {
         return this.data;
+    }
+
+    /** returns a bunch of stats for a given dataset key.  needs to have numbers. */
+    getStats(key1: string, prependKeyToStatName: boolean = false): kiDataEntry{
+        let prepend = ""
+        if (prependKeyToStatName == true) {
+            prepend = key1
+        }
+        let metaData = {}
+        let data = this.data
+        
+        // Step One: Calculate average
+        let sum = 0;
+        let count = 0
+        for (let entry of data) {
+            sum += entry[key1];
+            count += 1;
+        }
+        metaData[prepend + "sum"] = sum
+        metaData[prepend + "count"] = count
+        metaData[prepend + "average"] = sum/count
+        
+        // Calculating stDev, Sample
+        let deviations: number[] = []
+        let squaredDeviationSum = 0
+        for (let entry of data) {
+            let deviation = metaData["average"] - entry[key1]
+            deviations.push(deviation)
+            squaredDeviationSum += (deviation**2)
+        }
+        let sampleDeviation = (squaredDeviationSum / (deviations.length - 1)) ** .5
+        let popDeviation = (squaredDeviationSum / deviations.length) ** .5
+        metaData[prepend + "sampleStDev"] = sampleDeviation
+        metaData[prepend + "popStDev"] = popDeviation
+
+
+
+
+        return metaData
     }
 
     /**
