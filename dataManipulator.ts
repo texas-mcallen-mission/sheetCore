@@ -94,7 +94,7 @@ class kiDataClass {
     additionalKeys: string[];
     mathEngine: mathEngineClass;
 
-    constructor(kiData) {
+    constructor(kiData:any[]) {
         this.data = [];
         this.data = kiData;
         this.additionalKeys = [];
@@ -109,6 +109,18 @@ class kiDataClass {
 
     get end(): kiDataEntry[] {
         return this.data;
+    }
+
+    bulkAppendObject(pairsToAdd: {}): this{
+        let inData:kiDataEntry[] = this.data
+        let outData:kiDataEntry[] = []
+        for (let entry of inData) {
+            let output = { ...entry, ...pairsToAdd }
+            outData.push(output)
+        }
+
+
+        return this
     }
 
     /** returns a bunch of stats for a given dataset key.  needs to have numbers. */
