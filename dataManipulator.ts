@@ -119,6 +119,7 @@ class kiDataClass {
             outData.push(output)
         }
 
+        this.data = outData
 
         return this
     }
