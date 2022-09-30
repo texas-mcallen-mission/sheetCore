@@ -219,7 +219,7 @@ class kiDataClass {
         let inData: kiDataEntry[] = this.data
         
         for (let entry of inData) {
-            appendArrayToObject_(groupingKeys,outData,entry)
+            appendArrayToObject_([...groupingKeys],outData,entry)
         }
 
         return outData
