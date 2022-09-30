@@ -82,6 +82,10 @@ function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEn
     }
 }
 
+interface groupedData {
+    [index:string] : groupedData | kiDataEntry[]
+}
+
 class kiDataClass {
     internal_config = {
         shortLanguageLookup: {
@@ -208,6 +212,17 @@ class kiDataClass {
             data[newKey] = this.mathEngine.basic(data[key1], constant, operator);
         }
         return this;
+    }
+
+    groupDataByMultipleKeys(groupingKeys: string[]):groupedData {
+        let outData: {} = {}
+        let inData: kiDataEntry[] = this.data
+        
+        for (let entry of inData) {
+            appendArrayToObject_(groupingKeys,outData,entry)
+        }
+
+        return outData
     }
 
 	/**
