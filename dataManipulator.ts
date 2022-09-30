@@ -63,6 +63,25 @@ interface kiDataEntry {  // defines an object of key-value pairs.
 }
 
 
+function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEntry) {
+    let targetValue = kiDataEntry[keySet[0]];
+    if (keySet.length == 1) {
+        if (!targetObj.hasOwnProperty(targetValue)) {
+            targetObj[targetValue] = [];
+            // Theoretically I could stick the Aggregation functions in here...
+        }
+        targetObj[targetValue].push(kiDataEntry);
+    } else {
+        if (!targetObj.hasOwnProperty(targetValue)) {
+            targetObj[targetValue] = {};
+        }
+        // targetObj[targetValue].assign()
+        keySet.shift();
+
+        appendArrayToObject_(keySet, targetObj[targetValue], kiDataEntry);
+    }
+}
+
 class kiDataClass {
     internal_config = {
         shortLanguageLookup: {
@@ -204,24 +223,7 @@ class kiDataClass {
      */
     aggregateByKeys(groupingKeys: string[], keysToKeep: string[], keysToAggregateBy, shardKey: string|null = null) {
         // Recursive function declarations:
-        function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEntry) {
-            let targetValue = kiDataEntry[keySet[0]];
-            if (keySet.length == 1) {
-                if (!targetObj.hasOwnProperty(targetValue)) {
-                    targetObj[targetValue] = [];
-                    // Theoretically I could stick the Aggregation functions in here...
-                }
-                targetObj[targetValue].push(kiDataEntry);
-            } else {
-                if (!targetObj.hasOwnProperty(targetValue)) {
-                    targetObj[targetValue] = {};
-                }
-                // targetObj[targetValue].assign()
-                keySet.shift();
-
-                appendArrayToObject_(keySet, targetObj[targetValue], kiDataEntry);
-            }
-        }
+        
 
         function aggData_(depthLevels: number /*Length of the keysToAggregate object */, inputObject: {}, dataPassthrough: kiDataEntry[], keysToAggregate: string[], keysToKeep: string[], shardKey: string|null, newKeys: string[]): aggDataReturn {
             let outData: kiDataEntry[] = dataPassthrough;
