@@ -3,6 +3,32 @@
 // pulled from key-indicator-system/dataflow/kidata-class
 // this gets used in several things, and it makes a lot of sense to move it over to the shared core.
 
+class mathEngineClass {
+    basic(arg1, arg2, operator: dMath) {
+        switch (operator) {
+            case dMath.add:
+                return arg1 + arg2;
+                break;
+            case dMath.divide:
+                return arg1 / arg2;
+            case dMath.exponent:
+                return arg1 ** arg2;
+            case dMath.modulo:
+                return arg1 % arg2;
+            case dMath.multiply:
+                return arg1 * arg2;
+            case dMath.subtract:
+                return arg1 - arg2;
+            default:
+                return null;
+        }
+    }
+    //     arrayAverage(array: number[]): number{
+
+    // }
+
+}
+
 /**
  * splits a kiDataCLass's data into little pieces by grouping by unique values on a specified key
  *
@@ -37,7 +63,31 @@ interface kiDataEntry {  // defines an object of key-value pairs.
 }
 
 
+function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEntry) {
+    let targetValue = kiDataEntry[keySet[0]];
+    if (keySet.length == 1) {
+        if (!targetObj.hasOwnProperty(targetValue)) {
+            targetObj[targetValue] = [];
+            // Theoretically I could stick the Aggregation functions in here...
+        }
+        targetObj[targetValue].push(kiDataEntry);
+    } else {
+        if (!targetObj.hasOwnProperty(targetValue)) {
+            targetObj[targetValue] = {};
+        }
+        // targetObj[targetValue].assign()
+        keySet.shift();
+
+        appendArrayToObject_(keySet, targetObj[targetValue], kiDataEntry);
+    }
+}
+
+interface groupedData {
+    [index:string] : groupedData | kiDataEntry[]
+}
+
 class kiDataClass {
+    // TODO Get rid of this stuff, move it to external arguments.  (Will be pretty ezpz with the joining stuff in the pipeline.)
     internal_config = {
         shortLanguageLookup: {
             "English": "Eng",
@@ -66,50 +116,130 @@ class kiDataClass {
     };
     data: kiDataEntry[] = [];
     additionalKeys: string[];
+    mathEngine: mathEngineClass;
 
-    constructor(kiData) {
+    constructor(kiData:any[]) {
         this.data = [];
         this.data = kiData;
         this.additionalKeys = [];
-        // adds keys: this is to make it a little easier to do programatic work with data structures.
-        // for (let entry of kiData) {
-        //     for (let key in entry) {
-        //         if (!this.internalKeys.includes(key)) {
-        //             this.internalKeys.push(key)
-        //         }
-        //     }
-        // }
+        this.mathEngine = new mathEngineClass();
+
     }
 
     get newKeys(): string[] {
-        return this.additionalKeys
+        return this.additionalKeys;
     }
 
 
     get end(): kiDataEntry[] {
         return this.data;
     }
-	
+
+    bulkAppendObject(pairsToAdd: {}): this{
+        let inData:kiDataEntry[] = this.data
+        let outData:kiDataEntry[] = []
+        for (let entry of inData) {
+            let output = { ...entry, ...pairsToAdd }
+            outData.push(output)
+        }
+
+        this.data = outData
+
+        return this
+    }
+
+    /** returns a bunch of stats for a given dataset key.  needs to have numbers. */
+    getStats(key1: string, prependKeyToStatName: boolean = false): kiDataEntry{
+        let prepend = ""
+        if (prependKeyToStatName == true) {
+            prepend = key1
+        }
+        let metaData = {}
+        let data = this.data
+        
+        // Step One: Calculate average
+        let sum = 0;
+        let count = 0
+        for (let entry of data) {
+            sum += entry[key1];
+            count += 1;
+        }
+        metaData[prepend + "sum"] = sum
+        metaData[prepend + "count"] = count
+        metaData[prepend + "average"] = sum/count
+        
+        // Calculating stDev, Sample
+        let deviations: number[] = []
+        let squaredDeviationSum = 0
+        for (let entry of data) {
+            let deviation = metaData["average"] - entry[key1]
+            deviations.push(deviation)
+            squaredDeviationSum += (deviation**2)
+        }
+        let sampleDeviation = (squaredDeviationSum / (deviations.length - 1)) ** .5
+        let popDeviation = (squaredDeviationSum / deviations.length) ** .5
+        metaData[prepend + "sampleStDev"] = sampleDeviation
+        metaData[prepend + "popStDev"] = popDeviation
+
+
+
+
+        return metaData
+    }
+
+    /**
+     *  Does mathematical operations on a dateset.  Arg1 is the numerator / base for division / exponents. newKey can overlap with a key if you really want it to.
+     *
+     * @param {dMath} operator
+     * @param {string} newKey
+     * @param {string} key1
+     * @param {string} key2
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    mathByKey(operator: dMath, newKey: string, key1: string, key2: string): this {
+        let data: kiDataEntry[] = this.data;
+
+        for (let entry of data) {
+            data[newKey] = this.mathEngine.basic(data[key1], data[key2], operator);
+        }
+        return this;
+    }
+
+    mathByConstant(operator: dMath, newKey: string, key1: string, constant: number): this {
+        let data: kiDataEntry[] = this.data;
+
+        for (let entry of data) {
+            data[newKey] = this.mathEngine.basic(data[key1], constant, operator);
+        }
+        return this;
+    }
+
+    groupDataByMultipleKeys(groupingKeys: string[]):groupedData {
+        let outData: {} = {}
+        let inData: kiDataEntry[] = this.data
+        
+        for (let entry of inData) {
+            appendArrayToObject_([...groupingKeys],outData,entry)
+        }
+
+        return outData
+    }
+
+	/**
+     * aggregates data: aggregates data by a set of (nesting) keys.  keysToAggregate currently requires integers- it'll concat strings though, if that's what you want.
+     * I need to get rid of shardKey and slightly refactor the kiHLA stuff that tocars that.  :)
+     *
+     * @param {string[]} groupingKeys
+     * @param {string[]} keysToKeep
+     * @param {*} keysToAggregateBy
+     * @param {(string|null)} [shardKey=null]
+     * @return {*} 
+     * @memberof kiDataClass
+     */
     aggregateByKeys(groupingKeys: string[], keysToKeep: string[], keysToAggregateBy, shardKey: string|null = null) {
         // Recursive function declarations:
-        function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEntry) {
-            let targetValue = kiDataEntry[keySet[0]];
-            if (keySet.length == 1) {
-                if (!targetObj.hasOwnProperty(targetValue)) {
-                    targetObj[targetValue] = [];
-                    // Theoretically I could stick the Aggregation functions in here...
-                }
-                targetObj[targetValue].push(kiDataEntry);
-            } else {
-                if (!targetObj.hasOwnProperty(targetValue)) {
-                    targetObj[targetValue] = {};
-                }
-                // targetObj[targetValue].assign()
-                keySet.shift();
-
-                appendArrayToObject_(keySet, targetObj[targetValue], kiDataEntry);
-            }
-        }
+        
 
         function aggData_(depthLevels: number /*Length of the keysToAggregate object */, inputObject: {}, dataPassthrough: kiDataEntry[], keysToAggregate: string[], keysToKeep: string[], shardKey: string|null, newKeys: string[]): aggDataReturn {
             let outData: kiDataEntry[] = dataPassthrough;
@@ -320,7 +450,7 @@ class kiDataClass {
     breakdownAnalysis(keysToKeep: string[], breakdownKeys: string[],breakdownKeyName:string,keepOneIfZeroes=true): this {
         let output: kiDataEntry[] = [];
         let newKeyName = "breakdownKey"
-//test
+
         for (let entry of this.data) {
             let subEntry = {}
             // gets the values that we want to keep across all sub-entries.
@@ -373,7 +503,7 @@ class kiDataClass {
         this.data = output;
         return this;
     }
-
+    // TODO Delete in Next Release
     // /**
     //  *  Adds a key named ``fb-ref-sum`` that sums up all the facebook referrals (currently hardcoded).
     //  *
