@@ -126,6 +126,31 @@ class kiDataClass {
 
     }
 
+    keepMatchingOnly(key: string, testVal: any): kiDataEntry[] {
+        let outData: kiDataEntry[] = [];
+        let inData = this.data;
+        for (let entry of inData) {
+            if (entry.hasOwnProperty(key) && entry[key] == testVal) {
+                outData.push(entry);
+            } else {
+                // do nothing
+            }
+        }
+        return outData
+    }
+
+    removeMatching(key: string, testVal: any):kiDataEntry[] {
+        let outData: kiDataEntry[] = []
+        let inData = this.data
+        for (let entry of inData) {
+            if (entry.hasOwnProperty(key) && entry[key] == testVal) {
+                // do nothing
+            } else {
+                outData.push(entry)
+            }
+        }
+        return outData
+    }
     get newKeys(): string[] {
         return this.additionalKeys;
     }
