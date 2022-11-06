@@ -42,6 +42,14 @@ class SheetData {
         this.rsd = rawSheetData;
     }
 
+    destroyRows(finalRow: number): void {
+        if (+finalRow > 0) {
+            this.rsd.destroyUntilRow(+finalRow)
+        } else {
+            console.error("destroyRows call invalid!")
+        }
+    }
+
     clearRows(numRows: number) {
         if (typeof numRows == typeof 12) {
             this.rsd.deleteUntilRow(numRows)
@@ -1117,6 +1125,7 @@ class RawSheetData {
         this.getSheet().getRange(startRow, 1, numRows + 1, numCols).clearContent();
     }
     deleteUntilRow(finalRow:number) {
+        console.warn("deleteUntilRow only clears the contents of cells, does not delete them!")
         let startRow = this.getHeaderRow() + 2;
         let numRows = this.getSheet().getLastRow() + 1 - startRow;
         if (numRows <= 0) return; //End if the sheet is already empty
@@ -1124,6 +1133,17 @@ class RawSheetData {
         if (finalRow <= numRows) {
             this.getSheet().getRange(startRow, 1, finalRow + 1, numCols).clearContent();
             
+        }
+    }
+
+    destroyUntilRow(finalRow: number) {
+        console.warn("destroyRows straight up annihilates rows instead of clearing them out!")
+        let startRow = this.getHeaderRow() + 2;
+        let numRows = this.getSheet().getLastRow() + 1 - startRow;
+        if (numRows <= 0) { return; }
+        let numCols = this.getSheet().getLastColumn()
+        if (finalRow <= numRows) {
+            this.getSheet().getRange(startRow,1,finalRow + 1, numCols).deleteCells(SpreadsheetApp.Dimension.ROWS)
         }
     }
 
