@@ -129,8 +129,9 @@ class kiDataClass {
     addIterant(newKey: string, startVal: number = 0) {
         let inData = this.data
         for (let i = startVal; i <= inData.length + startVal; i++){
-            inData[newKey] = i
+            inData[i][newKey] = i
         }
+        this.data = inData
         return this
     }
 
@@ -138,8 +139,12 @@ class kiDataClass {
         let inData = this.data
         let outData = []
         for (let entry of inData) {
-            
+            if (entry.hasOwnProperty(key) && +entry[key] >= testVal) {
+                outData.push(entry)
+            }
         }
+        this.data = outData
+        return this
     }
 
 
