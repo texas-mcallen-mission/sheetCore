@@ -239,7 +239,7 @@ class kiDataClass {
         let sum = 0;
         let count = 0;
         for (let entry of data) {
-            sum += entry[key1];
+            sum += +entry[key1];
             count += 1;
         }
         metaData[prepend + "sum"] = sum;
@@ -250,7 +250,7 @@ class kiDataClass {
         let deviations: number[] = [];
         let squaredDeviationSum = 0;
         for (let entry of data) {
-            let deviation = metaData["average"] - entry[key1];
+            let deviation = metaData["average"] - +entry[key1];
             deviations.push(deviation);
             squaredDeviationSum += (deviation ** 2);
         }
