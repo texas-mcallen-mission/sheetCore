@@ -62,6 +62,13 @@ interface kiDataEntry {  // defines an object of key-value pairs.
     [index: string]: any;
 }
 
+interface statEntry extends kiDataEntry {
+    sum: number,
+    count: number,
+    average: number,
+    sampleStDev: number,
+    popStDev: number,
+}
 
 function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEntry) {
     let targetValue = kiDataEntry[keySet[0]];
@@ -132,6 +139,7 @@ class kiDataClass {
             inData[i][newKey] = i
         }
         this.data = inData
+        this.newKeys.push(newKey)
         return this
     }
 
@@ -149,46 +157,46 @@ class kiDataClass {
 
 
 
-    /**
-     *  like keepMatchingByKey but for only one test value
-     *
-     * @param {string} key
-     * @param {*} testVal
-     * @return {*}  {kiDataEntry[]}
-     * @memberof kiDataClass
-     */
-    keepMatchingOnly(key: string, testVal: any): kiDataEntry[] {
-        let outData: kiDataEntry[] = [];
-        let inData = this.data;
-        for (let entry of inData) {
-            if (entry.hasOwnProperty(key) && entry[key] == testVal) {
-                outData.push(entry);
-            } else {
-                // do nothing
-            }
-        }
-        return outData;
-    }
-    /**
-     * like removeMatchingByKey but for only one test value
-     *
-     * @param {string} key
-     * @param {*} testVal
-     * @return {*}  {kiDataEntry[]}
-     * @memberof kiDataClass
-     */
-    removeMatching(key: string, testVal: any): kiDataEntry[] {
-        let outData: kiDataEntry[] = [];
-        let inData = this.data;
-        for (let entry of inData) {
-            if (entry.hasOwnProperty(key) && entry[key] == testVal) {
-                // do nothing
-            } else {
-                outData.push(entry);
-            }
-        }
-        return outData;
-    }
+    // /**
+    //  *  like keepMatchingByKey but for only one test value
+    //  *
+    //  * @param {string} key
+    //  * @param {*} testVal
+    //  * @return {*}  {kiDataEntry[]}
+    //  * @memberof kiDataClass
+    //  */
+    // keepMatchingOnly(key: string, testVal: any): kiDataEntry[] {
+    //     let outData: kiDataEntry[] = [];
+    //     let inData = this.data;
+    //     for (let entry of inData) {
+    //         if (entry.hasOwnProperty(key) && entry[key] == testVal) {
+    //             outData.push(entry);
+    //         } else {
+    //             // do nothing
+    //         }
+    //     }
+    //     return outData;
+    // }
+    // /**
+    //  * like removeMatchingByKey but for only one test value
+    //  *
+    //  * @param {string} key
+    //  * @param {*} testVal
+    //  * @return {*}  {kiDataEntry[]}
+    //  * @memberof kiDataClass
+    //  */
+    // removeMatching(key: string, testVal: any): kiDataEntry[] {
+    //     let outData: kiDataEntry[] = [];
+    //     let inData = this.data;
+    //     for (let entry of inData) {
+    //         if (entry.hasOwnProperty(key) && entry[key] == testVal) {
+    //             // do nothing
+    //         } else {
+    //             outData.push(entry);
+    //         }
+    //     }
+    //     return outData;
+    // }
     get newKeys(): string[] {
         return this.additionalKeys;
     }
@@ -212,12 +220,19 @@ class kiDataClass {
     }
 
     /** returns a bunch of stats for a given dataset key.  needs to have numbers. */
-    getStats(key1: string, prependKeyToStatName: boolean = false): kiDataEntry {
+    getStats(key1: string, prependKeyToStatName: boolean = false): statEntry {
         let prepend = "";
         if (prependKeyToStatName == true) {
             prepend = key1;
         }
-        let metaData = {};
+        let metaData: statEntry = {
+            sum: 0,
+            count: 0,
+            average: 0,
+            sampleStDev: 0,
+            popStDev: 0,
+            
+        };
         let data = this.data;
 
         // Step One: Calculate average
