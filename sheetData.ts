@@ -81,6 +81,30 @@ class SheetData {
     appendData(data: {}) {
         return this.rsd.appendDataRow(data);
     }
+
+    directModify(xOffset: number, data: kiDataEntry | {}) {
+        if (this.rsd.allowWrite == false) {
+            console.error("tried to modify a write-only sheet")
+            return
+        }
+
+        let columnsTargeted = []
+        for (let key in data) {
+            // WYLO: go through keys, find columns for them / if they exist, and then create range(s) to modify.
+        }
+
+    }
+
+    /**
+     *  modifies a cell range at a x-y coordinate.  Range size is determined by the length of the given valueArray
+     *  Used for scope information on the report generator, and more recently to mark things as pulled in the mileageLog generator.
+     * @param {number} xOffset
+     * @param {number} yOffset
+     * @param {any[][]} valueArray
+     * @param {boolean} [writeInDataArea=false]
+     * @return {*} 
+     * @memberof SheetData
+     */
     directEdit(xOffset: number, yOffset: number, valueArray: any[][], writeInDataArea = false) {
         return this.rsd.directEditRawSheetValues(xOffset, yOffset, valueArray, writeInDataArea);
     }
