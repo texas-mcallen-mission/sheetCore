@@ -58,6 +58,10 @@ interface manyKiDataEntries { // array of kiDataEntries
     [index: number]: kiDataEntry;
 }
 
+interface keyedKiDataEntries {
+    [index: string]:kiDataEntry
+}
+
 interface kiDataEntry {  // defines an object of key-value pairs.
     [index: string]: any;
 }
@@ -396,9 +400,9 @@ class kiDataClass {
      * @return {*}  {manyKiDataEntries}
      * @memberof kiDataClass
      */
-    groupByKey(targetKey: string): manyKiDataEntries {
+    groupByKey(targetKey: string): keyedKiDataEntries {
         let data = this.data;
-        let outData: manyKiDataEntries = {};
+        let outData: keyedKiDataEntries = {};
         let test: kiDataEntry = {};
 
         for (let entry of data) {
