@@ -88,10 +88,27 @@ class SheetData {
             return
         }
 
-        let columnsTargeted = []
+        let columnsTargeted: number[] = []
+        let dataInOrder: any[] = []
+
+        let keys = this.getKeys()
         for (let key in data) {
             // WYLO: go through keys, find columns for them / if they exist, and then create range(s) to modify.
+            if (keys.includes(key)) {
+                columnsTargeted.push(this.getIndex(key))
+                dataInOrder.push(data[key])
+            }
         }
+
+        // one bajillion range edits- not optimized for multi-range / consecutive column entries.
+        for (let i = 0; i < columnsTargeted.length;i++) {
+            let column = columnsTargeted[i]
+            let key = dataInOrder[i]
+            let finalXOffset = xOffset + this.getHeaderRow()
+            let outData = [[key]]
+            this.directEdit(finalXOffset, column, outData,true)
+        }
+        
 
     }
 
