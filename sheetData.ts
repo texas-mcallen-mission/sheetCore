@@ -81,7 +81,13 @@ class SheetData {
     appendData(data: {}) {
         return this.rsd.appendDataRow(data);
     }
-
+    /**
+     *  directModify: modify a partial 
+     *
+     * @param {number} xOffset - ONE-INDEXED position of target row.
+     * @param {(kiDataEntry | {})} data data you want to add
+     * @memberof SheetData 
+     */
     directModify(xOffset: number, data: kiDataEntry | {}) {
         if (this.rsd.allowWrite == false) {
             console.error("tried to modify a write-only sheet")
