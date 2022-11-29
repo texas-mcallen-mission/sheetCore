@@ -137,6 +137,24 @@ class kiDataClass {
 
     }
 
+    /**
+     *  returns all unique values for a key in the dataset.
+     *
+     * @param {*} targetKey
+     * @return {*}  {any[]}
+     * @memberof kiDataClass
+     */
+    getUniqueEntries(targetKey): any[] {
+        let outData = []
+        for (let entry of this.data) {
+            if (entry.hasOwnProperty(targetKey) && !outData.includes(entry[targetKey])) {
+                outData.push(entry[targetKey])
+            }
+        }
+
+        return outData
+    }
+
     addIterant(newKey: string, startVal: number = 0) {
         let inData = this.data
         for (let i = startVal; i < inData.length + startVal; i++){
