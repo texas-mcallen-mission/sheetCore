@@ -326,15 +326,16 @@ class RawSheetData {
     keyNamesToIgnore: string[] = []
     onCache = false
     indexToKey: string[] = []
-    requireRemote:boolean = false
+    requireRemote: boolean = false
+    sheetaa: GoogleAppsScript.Spreadsheet.Sheet
     
     get sheet() {
-        //@ts-expect-error Same reason as the setter for this
+        ////@ts-expect-error Same reason as the setter for this
         return this.sheetaa
     }
 
     set sheet(sheetObj) {
-        //@ts-expect-error (can't declare this without a call to SpreadsheetApp for a placeholder, which is expensive IO wise.)
+        ////@ts-expect-error (can't declare this without a call to SpreadsheetApp for a placeholder, which is expensive IO wise.)
         this.sheetaa = sheetObj
     }
 
