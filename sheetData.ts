@@ -444,8 +444,8 @@ class RawSheetData {
         // Step 2: If the target spreadsheet does not have a tab that matches the tabname:
         // create the sheet, and then add a header on the appropriate row.
         let targetSpreadsheet = SpreadsheetApp.openById(targetSheetId);
-        this.sheet = targetSpreadsheet.getSheetByName(this.tabName);
-        if (this.sheet == null) {
+        let sheet = targetSpreadsheet.getSheetByName(this.tabName);
+        if (sheet == null) {
             console.warn("Creating Sheet on target spreadsheet!");
             SpreadsheetApp.flush(); // Because otherwise, we have problems
             this.sheet = targetSpreadsheet.insertSheet(this.tabName);
@@ -454,6 +454,8 @@ class RawSheetData {
             // it appears that the second flush is not necessary to ensure stability, but if it becomes a problem, that's probably it.
             this.setHeaders(this.indexToKey);
             // throw ("Couldn't construct SheetData: no sheet found with name '" + this.tabName + "'");
+        } else {
+            this.sheet = sheet
         }
         
         // step 3: avoid building soft columns if on cache

@@ -145,7 +145,7 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     getUniqueEntries(targetKey): any[] {
-        let outData = []
+        let outData:string[] = []
         for (let entry of this.data) {
             if (entry.hasOwnProperty(targetKey) && !outData.includes(entry[targetKey])) {
                 outData.push(entry[targetKey])
@@ -166,8 +166,8 @@ class kiDataClass {
     }
 
     removeSmaller(key, testVal: number):this {
-        let inData = this.data
-        let outData = []
+        let inData: kiDataEntry[] = this.data
+        let outData: kiDataEntry[] = []
         for (let entry of inData) {
             if (entry.hasOwnProperty(key) && +entry[key] >= testVal) {
                 outData.push(entry)
