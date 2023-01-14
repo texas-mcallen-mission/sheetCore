@@ -150,6 +150,7 @@ class kiDataClass {
             if (keys.includes(testEntry[joinKey])) {
                 testEntry.push(...keys[keys.indexOf(testEntry[joinKey])])
             }
+            outData.push(testEntry)
         }
 
         return outData
