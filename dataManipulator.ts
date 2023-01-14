@@ -137,6 +137,25 @@ class kiDataClass {
 
     }
 
+
+    leftJoin(secondDataset: kiDataEntry[], joinKey:string) {
+        let outData: kiDataEntry[] = []
+        let secondDataClass = new kiDataClass(secondDataset)
+        // I'm not sure what this will do if there are two things in a second table...
+        // It's been a long time since I've done this stuff...
+        let keys = secondDataClass.getUniqueEntries(joinKey)
+
+        for (let entry of this.data) {
+            let testEntry = entry
+            if (keys.includes(testEntry[joinKey])) {
+                testEntry.push(...keys[keys.indexOf(testEntry[joinKey])])
+            }
+        }
+
+        return outData
+    }
+
+
     /**
      *  returns all unique values for a key in the dataset.
      *
@@ -154,7 +173,14 @@ class kiDataClass {
 
         return outData
     }
-
+    /**
+     *
+     *
+     * @param {string} newKey
+     * @param {number} [startVal=0]
+     * @return {*} 
+     * @memberof kiDataClass
+     */
     addIterant(newKey: string, startVal: number = 0) {
         let inData = this.data
         for (let i = startVal; i < inData.length + startVal; i++){
@@ -165,7 +191,15 @@ class kiDataClass {
         return this
     }
 
-    removeSmaller(key, testVal: number):this {
+    /**
+     *  Removes anything smaller than a test value.
+     *
+     * @param {string} key
+     * @param {number} testVal
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    removeSmaller(key: string, testVal: number): this {
         let inData: kiDataEntry[] = this.data
         let outData: kiDataEntry[] = []
         for (let entry of inData) {
@@ -179,46 +213,7 @@ class kiDataClass {
 
 
 
-    // /**
-    //  *  like keepMatchingByKey but for only one test value
-    //  *
-    //  * @param {string} key
-    //  * @param {*} testVal
-    //  * @return {*}  {kiDataEntry[]}
-    //  * @memberof kiDataClass
-    //  */
-    // keepMatchingOnly(key: string, testVal: any): kiDataEntry[] {
-    //     let outData: kiDataEntry[] = [];
-    //     let inData = this.data;
-    //     for (let entry of inData) {
-    //         if (entry.hasOwnProperty(key) && entry[key] == testVal) {
-    //             outData.push(entry);
-    //         } else {
-    //             // do nothing
-    //         }
-    //     }
-    //     return outData;
-    // }
-    // /**
-    //  * like removeMatchingByKey but for only one test value
-    //  *
-    //  * @param {string} key
-    //  * @param {*} testVal
-    //  * @return {*}  {kiDataEntry[]}
-    //  * @memberof kiDataClass
-    //  */
-    // removeMatching(key: string, testVal: any): kiDataEntry[] {
-    //     let outData: kiDataEntry[] = [];
-    //     let inData = this.data;
-    //     for (let entry of inData) {
-    //         if (entry.hasOwnProperty(key) && entry[key] == testVal) {
-    //             // do nothing
-    //         } else {
-    //             outData.push(entry);
-    //         }
-    //     }
-    //     return outData;
-    // }
+
     get newKeys(): string[] {
         return this.additionalKeys;
     }
