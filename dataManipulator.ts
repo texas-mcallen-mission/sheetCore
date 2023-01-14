@@ -153,7 +153,7 @@ class kiDataClass {
             let testEntry = entry
             let testValue = testEntry[joinKey]
             if (keys.includes(testValue)) {
-                testEntry.push(data[keys.indexOf(testValue)])
+                testEntry = { ...entry, ...data[keys.indexOf(testValue)] }
             }
             outData.push(testEntry)
         }
