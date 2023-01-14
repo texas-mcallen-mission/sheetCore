@@ -139,7 +139,44 @@ class kiDataClass {
 
     }
 
+    /**
+     *  Inner join: keeps data from this.data only when ithas a match in the second given dataset.
+     *
+     * @param {kiDataEntry[]} secondDataset
+     * @param {string} joinKey
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    innerJoin(secondDataset: kiDataEntry[], joinKey: string): this {
+        let outData: kiDataEntry[] = [];
+        let secondDataClass = new kiDataClass(secondDataset);
+        // I'm not sure what this will do if there are two things in a second table...
+        // It's been a long time since I've done this stuff...
+        let keys = secondDataClass.getDataFromKey(joinKey);
+        // hopefully this keeps match order?
+        let data: kiDataEntry[] = secondDataClass.end;
 
+        for (let entry of this.data) {
+            let testEntry = entry;
+            let testValue = testEntry[joinKey];
+            if (keys.includes(testValue)) {
+                testEntry = { ...entry, ...data[keys.indexOf(testValue)] };
+                outData.push(testEntry);
+            }
+        }
+        // In the future, this method will return this for chaining.
+        this.data = outData;
+        return this;
+    }
+    
+    /**
+     * Left-Join: returns all data in this.data and joins based on a single key in a second dataset.
+     *
+     * @param {kiDataEntry[]} secondDataset
+     * @param {string} joinKey
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
     leftJoin(secondDataset: kiDataEntry[], joinKey: string): this {
         let outData: kiDataEntry[] = []
         let secondDataClass = new kiDataClass(secondDataset)
