@@ -140,7 +140,7 @@ class kiDataClass {
     }
 
 
-    leftJoin(secondDataset: kiDataEntry[], joinKey:string) {
+    leftJoin(secondDataset: kiDataEntry[], joinKey:string):this {
         let outData: kiDataEntry[] = []
         let secondDataClass = new kiDataClass(secondDataset)
         // I'm not sure what this will do if there are two things in a second table...
@@ -151,13 +151,15 @@ class kiDataClass {
 
         for (let entry of this.data) {
             let testEntry = entry
-            if (keys.includes(testEntry[joinKey])) {
-                testEntry.push(data[keys.indexOf(testEntry[joinKey])])
+            let testValue = testEntry[joinKey]
+            if (keys.includes(testValue)) {
+                testEntry.push(data[keys.indexOf(testValue)])
             }
             outData.push(testEntry)
         }
-
-        return outData
+        // In the future, this method will return this for chaining.
+        this.data = outData
+        return this
     }
 
     getDataFromKey(targetKey: string): any[]{
