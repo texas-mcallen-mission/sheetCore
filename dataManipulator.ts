@@ -140,7 +140,7 @@ class kiDataClass {
     }
 
 
-    leftJoin(secondDataset: kiDataEntry[], joinKey:string):this {
+    leftJoin(secondDataset: kiDataEntry[], joinKey: string): this {
         let outData: kiDataEntry[] = []
         let secondDataClass = new kiDataClass(secondDataset)
         // I'm not sure what this will do if there are two things in a second table...
