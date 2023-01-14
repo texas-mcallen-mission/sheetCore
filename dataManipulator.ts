@@ -1,5 +1,7 @@
 //@ts-check
 
+import { orderBy } from 'lodash';
+
 // pulled from key-indicator-system/dataflow/kidata-class
 // this gets used in several things, and it makes a lot of sense to move it over to the shared core.
 
@@ -143,12 +145,14 @@ class kiDataClass {
         let secondDataClass = new kiDataClass(secondDataset)
         // I'm not sure what this will do if there are two things in a second table...
         // It's been a long time since I've done this stuff...
-        let keys = secondDataClass.getUniqueEntries(joinKey)
+        let keys = secondDataClass.getDataFromKey(joinKey)
+        // hopefully this keeps match order?
+        let data: kiDataEntry[] = secondDataClass.end
 
         for (let entry of this.data) {
             let testEntry = entry
             if (keys.includes(testEntry[joinKey])) {
-                testEntry.push(...keys[keys.indexOf(testEntry[joinKey])])
+                testEntry.push(data[keys.indexOf(testEntry[joinKey])])
             }
             outData.push(testEntry)
         }
@@ -156,6 +160,15 @@ class kiDataClass {
         return outData
     }
 
+    getDataFromKey(targetKey: string): any[]{
+        let outData: any[] = []
+        for (let entry of this.data) {
+            if (entry.hasOwnProperty(targetKey)) {
+                outData.push(entry[targetKey])
+            }
+        }
+        return outData
+    }
 
     /**
      *  returns all unique values for a key in the dataset.
@@ -672,7 +685,6 @@ class kiDataClass {
         // } else {
         //     test.push(...match);
         // }
-
         for (let entry of this.data) {
             if (entry.hasOwnProperty(key) && matchArray.includes(entry[key])) {
                 output.push(entry);
