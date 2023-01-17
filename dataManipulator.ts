@@ -538,16 +538,22 @@ class kiDataClass {
                 switch (granularity) {
                     case timeGranularities.year:
                         date.setUTCMonth(0); // note: the lack of breaks here is ON PURPOSE.  See the above note for why.
+                        //fallthrough
                     case timeGranularities.month:
                         date.setUTCDate(1); // oddly enough, if set to zero, it'll give the 31st of (the month before?)... super weird.
+                        //fallthrough
                     case timeGranularities.day:
                         date.setUTCHours(0);
+                        //fallthrough
                     case timeGranularities.hour:
                         date.setUTCMinutes(0);
+                        //fallthrough
                     case timeGranularities.minute:
                         date.setUTCSeconds(0);
+                        //fallthrough
                     case timeGranularities.second:
                         date.setUTCMilliseconds(0);
+                        //fallthrough
                     case timeGranularities.millisecond:
                         break;
                     default:
@@ -587,16 +593,22 @@ class kiDataClass {
                 switch (granularity) {
                     case timeGranularities.year:
                         date.setUTCMonth(0); // note: the lack of breaks here is ON PURPOSE.  See the above note for why.
+                        // fallthrough
                     case timeGranularities.month:
                         date.setUTCDate(1); // oddly enough, if set to zero, it'll give the 31st of (the month before?)... super weird.
+                        // fallthrough
                     case timeGranularities.day:
                         date.setUTCHours(0);
+                        // fallthrough
                     case timeGranularities.hour:
                         date.setUTCMinutes(0);
+                        // fallthrough
                     case timeGranularities.minute:
                         date.setUTCSeconds(0);
+                        // fallthrough
                     case timeGranularities.second:
                         date.setUTCMilliseconds(0);
+                        // fallthrough
                     case timeGranularities.millisecond:
                         break;
                     default:
@@ -756,7 +768,8 @@ class kiDataClass {
         //     test.push(...match);
         // }
         for (let entry of this.data) {
-            if (entry.hasOwnProperty(key) && matchArray.includes(entry[key])) {
+            // was entry.hasOwnProperty(key)
+            if (Object.prototype.hasOwnProperty.call(entry,key) && matchArray.includes(entry[key])) {
                 output.push(entry);
                 // console.log("match")
             }
