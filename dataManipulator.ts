@@ -61,7 +61,7 @@ interface manyKiDataEntries { // array of kiDataEntries
 }
 
 interface keyedKiDataEntries {
-    [index: string]:kiDataEntry
+    [index: string]: kiDataEntry;
 }
 
 interface kiDataEntry {  // defines an object of key-value pairs.
@@ -200,7 +200,7 @@ class kiDataClass {
         this.data = outData;
         return this;
     }
-    
+
     /**
      * Left-Join: returns all data in this.data and joins based on a single key in a second dataset.
      *
@@ -210,35 +210,35 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     leftJoin(secondDataset: kiDataEntry[], joinKey: string): this {
-        let outData: kiDataEntry[] = []
-        let secondDataClass = new kiDataClass(secondDataset)
+        let outData: kiDataEntry[] = [];
+        let secondDataClass = new kiDataClass(secondDataset);
         // I'm not sure what this will do if there are two things in a second table...
         // It's been a long time since I've done this stuff...
-        let keys = secondDataClass.getDataFromKey(joinKey)
+        let keys = secondDataClass.getDataFromKey(joinKey);
         // hopefully this keeps match order?
-        let data: kiDataEntry[] = secondDataClass.end
+        let data: kiDataEntry[] = secondDataClass.end;
 
         for (let entry of this.data) {
-            let testEntry = entry
-            let testValue = testEntry[joinKey]
+            let testEntry = entry;
+            let testValue = testEntry[joinKey];
             if (keys.includes(testValue)) {
-                testEntry = { ...entry, ...data[keys.indexOf(testValue)] }
+                testEntry = { ...entry, ...data[keys.indexOf(testValue)] };
             }
-            outData.push(testEntry)
+            outData.push(testEntry);
         }
         // In the future, this method will return this for chaining.
-        this.data = outData
-        return this
+        this.data = outData;
+        return this;
     }
 
-    getDataFromKey(targetKey: string): any[]{
-        let outData: any[] = []
+    getDataFromKey(targetKey: string): any[] {
+        let outData: any[] = [];
         for (let entry of this.data) {
             if (entry.hasOwnProperty(targetKey)) {
-                outData.push(entry[targetKey])
+                outData.push(entry[targetKey]);
             }
         }
-        return outData
+        return outData;
     }
 
     /**
@@ -249,14 +249,14 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     getUniqueEntries(targetKey): any[] {
-        let outData:string[] = []
+        let outData: string[] = [];
         for (let entry of this.data) {
             if (entry.hasOwnProperty(targetKey) && !outData.includes(entry[targetKey])) {
-                outData.push(entry[targetKey])
+                outData.push(entry[targetKey]);
             }
         }
 
-        return outData
+        return outData;
     }
     /**
      *
@@ -267,13 +267,13 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     addIterant(newKey: string, startVal: number = 0) {
-        let inData = this.data
-        for (let i = startVal; i < inData.length + startVal; i++){
-            inData[i][newKey] = i
+        let inData = this.data;
+        for (let i = startVal; i < inData.length + startVal; i++) {
+            inData[i][newKey] = i;
         }
-        this.data = inData
-        this.newKeys.push(newKey)
-        return this
+        this.data = inData;
+        this.newKeys.push(newKey);
+        return this;
     }
 
     /**
@@ -285,15 +285,15 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     removeSmaller(key: string, testVal: number): this {
-        let inData: kiDataEntry[] = this.data
-        let outData: kiDataEntry[] = []
+        let inData: kiDataEntry[] = this.data;
+        let outData: kiDataEntry[] = [];
         for (let entry of inData) {
             if (entry.hasOwnProperty(key) && +entry[key] >= testVal) {
-                outData.push(entry)
+                outData.push(entry);
             }
         }
-        this.data = outData
-        return this
+        this.data = outData;
+        return this;
     }
 
 
@@ -333,7 +333,7 @@ class kiDataClass {
             average: 0,
             sampleStDev: 0,
             popStDev: 0,
-            
+
         };
         let data = this.data;
 
