@@ -1,6 +1,5 @@
 //@ts-check
 
-import { orderBy } from 'lodash';
 
 // pulled from key-indicator-system/dataflow/kidata-class
 // this gets used in several things, and it makes a lot of sense to move it over to the shared core.
@@ -247,6 +246,7 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     getUniqueEntries(targetKey): any[] {
+        
         let outData: string[] = [];
         for (let entry of this.data) {
             if (entry.hasOwnProperty(targetKey) && !outData.includes(entry[targetKey])) {

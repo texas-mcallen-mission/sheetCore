@@ -48,7 +48,7 @@ interface recursiveData { // literally no idea if this will work
 
 interface recursiveFunctionData{
     keysLeft: string[],
-    data: {}
+    data: Object
 }
 
 /**
@@ -79,8 +79,8 @@ interface columnConfig {
     [index: string]: number,
 }
 
-function THIS_IS_A_DEMO_THING_YOU_SHOULDNT_USE_AND_SO_IT_HAS_A_REALLY_LONG_NAME_TO_DISSUADE_YOU_FROM_USING_IT() {
-    let shCo: sheetDataEntry = {
+function DEMO_RAW_SHEET_DATA() {
+    const shCo: sheetDataEntry = {
         tabName: "DEMONSTRATION_HEY",
         includeSoftcodedColumns: true,
         sheetId: SpreadsheetApp.getActiveSpreadsheet().getId(),
@@ -94,5 +94,6 @@ function THIS_IS_A_DEMO_THING_YOU_SHOULDNT_USE_AND_SO_IT_HAS_A_REALLY_LONG_NAME_
     };
 
     let rawSheet = new RawSheetData(shCo);
+    console.log(rawSheet.getData())
 }
 
