@@ -139,6 +139,38 @@ class kiDataClass {
 
     }
 
+
+    /** Right join: merges matching data from the current dataset in with the second one, and keeps other values from the second dataset too.
+     * 
+     * @param {kiDataEntry[]} secondDataset 
+     * @param {string} joinKey 
+     * @returns {*} {this}
+     * 
+     * @memberof kiDataCLass
+     */
+    rightJoin(secondDataset: kiDataEntry[], joinKey: string): this {
+        let outData: kiDataEntry[] = [];
+        // I'm not sure what this will do if there are two things in a second table...
+        // It's been a long time since I've done this stuff...
+        let keys = this.getDataFromKey(joinKey);
+        // hopefully this keeps match order?
+        let data: kiDataEntry[] = this.data;
+
+        for (let entry of secondDataset) {
+            let testEntry = entry;
+            let testValue = testEntry[joinKey];
+            if (keys.includes(testValue)) {
+                testEntry = { ...entry, ...data[keys.indexOf(testValue)] };
+            }
+            outData.push(testEntry);
+        }
+
+        this.data = outData;
+
+        return this;
+    }
+
+
     /**
      *  Inner join: keeps data from this.data only when ithas a match in the second given dataset.
      *
