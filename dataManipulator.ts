@@ -76,13 +76,13 @@ interface statEntry extends kiDataEntry {
 function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEntry) {
     let targetValue = kiDataEntry[keySet[0]];
     if (keySet.length == 1) {
-        if (!targetObj.hasOwnProperty(targetValue)) {
+        if (!Object.prototype.hasOwnProperty.call(targetObj,targetValue)) {
             targetObj[targetValue] = [];
             // Theoretically I could stick the Aggregation functions in here...
         }
         targetObj[targetValue].push(kiDataEntry);
-    } else {
-        if (!targetObj.hasOwnProperty(targetValue)) {
+    } else { 
+        if (!Object.hasOwnProperty.call(targetObj, targetValue) /*targetObj.hasOwnProperty(targetValue)*/) {
             targetObj[targetValue] = {};
         }
         // targetObj[targetValue].assign()
@@ -231,7 +231,7 @@ class kiDataClass {
     getDataFromKey(targetKey: string): any[] {
         let outData: any[] = [];
         for (let entry of this.data) {
-            if (entry.hasOwnProperty(targetKey)) {
+            if (Object.prototype.hasOwnProperty.call(entry,targetKey)) {
                 outData.push(entry[targetKey]);
             }
         }
@@ -249,7 +249,7 @@ class kiDataClass {
         
         let outData: string[] = [];
         for (const entry of this.data) {
-            if (entry.hasOwnProperty(targetKey) && !outData.includes(entry[targetKey])) {
+            if (Object.prototype.hasOwnProperty.call(entry,targetKey) && !outData.includes(entry[targetKey])) {
                 outData.push(entry[targetKey]);
             }
         }
@@ -286,7 +286,7 @@ class kiDataClass {
         let inData: kiDataEntry[] = this.data;
         let outData: kiDataEntry[] = [];
         for (let entry of inData) {
-            if (entry.hasOwnProperty(key) && +entry[key] >= testVal) {
+            if (Object.prototype.hasOwnProperty.call(entry,key) && +entry[key] >= testVal) {
                 outData.push(entry);
             }
         }
@@ -431,10 +431,10 @@ class kiDataClass {
                     // for (let entry of inputObject[key]) {
                     for (let aggKey of keysToAggregate) {
                         let targetKeyString = key[aggKey];
-                        if (shardKey != null && key.hasOwnProperty(shardKey) && key[shardKey] != "") {
+                        if (shardKey != null && Object.prototype.hasOwnProperty.call(key,shardKey) && key[shardKey] != "") {
                             targetKeyString += key[shardKey];
                         }
-                        if (!subEntry.hasOwnProperty(targetKeyString)) {
+                        if (!Object.prototype.hasOwnProperty.call(subEntry,targetKeyString)) {
                             subEntry[targetKeyString] = 0;
                             newKeys.push(targetKeyString);
                         }
@@ -474,7 +474,7 @@ class kiDataClass {
 
         // Step 3: Update internal key list.
         for (let key of aggDataCombo.newKeys) {
-            if (!this.additionalKeys.includes(key)) {
+            if (!Object.prototype.hasOwnProperty.call(this.additionalKeys,key)) {
                 this.additionalKeys.push(key);
             }
         }
@@ -503,7 +503,7 @@ class kiDataClass {
         let test: kiDataEntry = {};
 
         for (let entry of data) {
-            if (entry.hasOwnProperty(targetKey)) {
+            if (Object.prototype.hasOwnProperty.call(entry,targetKey)) {
                 let key = entry[targetKey];
                 if (!(key in outData)) {
                     console.log("Adding first entry for:", key);
@@ -531,7 +531,7 @@ class kiDataClass {
         // let test: kiDataEntry = {};
 
         for (let entry of data) {
-            if (entry.hasOwnProperty(timeSeriesKey)) {
+            if (Object.prototype.hasOwnProperty.call(entry,timeSeriesKey)/*entry.hasOwnProperty(timeSeriesKey)*/) {
                 let date: Date = new Date(entry[timeSeriesKey]);
                 // I used a case statement (without breaks, for the most part) because it removes redundancy- we're comparing by .getUTCTime, which gives us milliseconds.
                 // This is the integer equivalent of .floor'ing something at increasing orders of magnitude.
@@ -586,7 +586,7 @@ class kiDataClass {
         let test: kiDataEntry = {};
 
         for (let entry of data) {
-            if (entry.hasOwnProperty(timeSeriesKey)) {
+            if (Object.prototype.hasOwnProperty.call(entry,timeSeriesKey)) {
                 let date: Date = new Date(entry[timeSeriesKey]);
                 // I used a case statement (without breaks, for the most part) because it removes redundancy- we're comparing by .getUTCTime, which gives us milliseconds.
                 // This is the integer equivalent of .floor'ing something at increasing orders of magnitude.
@@ -742,7 +742,7 @@ class kiDataClass {
         // }
 
         for (let entry of this.data) {
-            if (entry.hasOwnProperty(key) && !matchArray.includes(entry[key])) {
+            if (Object.prototype.hasOwnProperty.call(entry,key) && !matchArray.includes(entry[key])) {
                 output.push(entry);
                 // console.log("match")
             }

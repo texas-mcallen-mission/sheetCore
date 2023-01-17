@@ -486,7 +486,7 @@ class RawSheetData {
      */
     renameKey(targetKey: string, newName: string): void {
         let currentKeys = this.keyToIndex
-        if(!currentKeys.hasOwnProperty(targetKey)){ return}
+        if (!Object.prototype.hasOwnProperty.call(currentKeys,targetKey)){ return}
         let targetColumn = currentKeys[targetKey]
 
         this.keyToIndex[newName] = targetColumn
