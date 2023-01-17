@@ -38,9 +38,9 @@ class mathEngineClass {
  * @return {*}  {manyKiDataClasses}
  */
 function splitKiData(kiDataObj: kiDataClass, key: string): manyKiDataClasses {
-    let kiData = kiDataObj.end;
+    const kiData = kiDataObj.end;
     let output: manyKiDataClasses = {};
-    for (let entry of kiData) {
+    for (const entry of kiData) {
         if (output[entry[key]] == undefined) {
             output[entry[key]] = new kiDataClass([]);
         }
@@ -248,7 +248,7 @@ class kiDataClass {
     getUniqueEntries(targetKey): any[] {
         
         let outData: string[] = [];
-        for (let entry of this.data) {
+        for (const entry of this.data) {
             if (entry.hasOwnProperty(targetKey) && !outData.includes(entry[targetKey])) {
                 outData.push(entry[targetKey]);
             }
@@ -388,13 +388,14 @@ class kiDataClass {
         let data: kiDataEntry[] = this.data;
 
         for (let entry of data) {
-            data[newKey] = this.mathEngine.basic(data[key1], constant, operator);
+            entry[newKey] = this.mathEngine.basic(data[key1], constant, operator);
         }
+        this.data = data
         return this;
     }
 
     groupDataByMultipleKeys(groupingKeys: string[]): groupedData {
-        let outData: {} = {};
+        let outData: groupedData = {};
         let inData: kiDataEntry[] = this.data;
 
         for (let entry of inData) {

@@ -38,7 +38,7 @@ sheetcore
 
 #### Defined in
 
-[sheetData.ts:1433](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L1433)
+[sheetData.ts:1433](https://github.com/texas-mcallen-mission/sheetCore/blob/f946cb8/sheetData.ts#L1433)
 
 ___
 
@@ -60,7 +60,7 @@ Formats and stores the allSheetData object in the cache. Can be retrieved with g
 
 #### Defined in
 
-[sheetData.ts:1340](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L1340)
+[sheetData.ts:1340](https://github.com/texas-mcallen-mission/sheetCore/blob/f946cb8/sheetData.ts#L1340)
 
 ___
 
@@ -76,7 +76,7 @@ Gets the allSheetData object from the cache and returns it. Must have been cache
 
 #### Defined in
 
-[sheetData.ts:1286](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L1286)
+[sheetData.ts:1286](https://github.com/texas-mcallen-mission/sheetCore/blob/f946cb8/sheetData.ts#L1286)
 
 ___
 
@@ -103,4 +103,4 @@ If you want to have softcoded columns, you need to enable them in the config.
 
 #### Defined in
 
-[sheetData.ts:1421](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L1421)
+[sheetData.ts:1421](https://github.com/texas-mcallen-mission/sheetCore/blob/f946cb8/sheetData.ts#L1421)
