@@ -1,4 +1,4 @@
-[sheetcore](../README.md) / sheetCoreConfigInfo
+[sheetcore](../docs.md) / sheetCoreConfigInfo
 
 # Interface: sheetCoreConfigInfo
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[sheetData.ts:10](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L10)
+[sheetData.ts:10](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L10)
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:9](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L9)
+[sheetData.ts:9](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L9)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[sheetData.ts:8](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L8)
+[sheetData.ts:8](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L8)

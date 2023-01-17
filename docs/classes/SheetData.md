@@ -1,4 +1,4 @@
-[sheetcore](../README.md) / SheetData
+[sheetcore](../docs.md) / SheetData
 
 # Class: SheetData
 
@@ -66,7 +66,7 @@ Technical note: all of the above functionality is implemented through the hidden
 
 #### Defined in
 
-[sheetData.ts:41](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L41)
+[sheetData.ts:41](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L41)
 
 ## Accessors
 
@@ -80,7 +80,7 @@ Technical note: all of the above functionality is implemented through the hidden
 
 #### Defined in
 
-[sheetData.ts:37](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L37)
+[sheetData.ts:37](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L37)
 
 • `set` **rsd**(`rawSheetData`): `void`
 
@@ -102,7 +102,7 @@ SheetData
 
 #### Defined in
 
-[sheetData.ts:33](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L33)
+[sheetData.ts:33](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L33)
 
 ## Methods
 
@@ -128,7 +128,7 @@ SheetData
 
 #### Defined in
 
-[sheetData.ts:68](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L68)
+[sheetData.ts:68](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L68)
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:72](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L72)
+[sheetData.ts:72](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L72)
 
 ___
 
@@ -175,7 +175,7 @@ SheetData
 
 #### Defined in
 
-[sheetData.ts:88](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L88)
+[sheetData.ts:88](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L88)
 
 ___
 
@@ -191,7 +191,7 @@ Clears the content of this Sheet below the header row, leaving formatting intact
 
 #### Defined in
 
-[sheetData.ts:238](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L238)
+[sheetData.ts:238](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L238)
 
 ___
 
@@ -211,7 +211,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:53](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L53)
+[sheetData.ts:53](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L53)
 
 ___
 
@@ -231,7 +231,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:45](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L45)
+[sheetData.ts:45](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L45)
 
 ___
 
@@ -261,7 +261,7 @@ SheetData
 
 #### Defined in
 
-[sheetData.ts:138](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L138)
+[sheetData.ts:138](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L138)
 
 ___
 
@@ -288,7 +288,7 @@ SheetData
 
 #### Defined in
 
-[sheetData.ts:98](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L98)
+[sheetData.ts:98](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L98)
 
 ___
 
@@ -312,7 +312,7 @@ An array containing all values from the given column.
 
 #### Defined in
 
-[sheetData.ts:264](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L264)
+[sheetData.ts:264](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L264)
 
 ___
 
@@ -336,7 +336,7 @@ An array containing all values for the given key.
 
 #### Defined in
 
-[sheetData.ts:255](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L255)
+[sheetData.ts:255](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L255)
 
 ___
 
@@ -350,7 +350,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:77](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L77)
+[sheetData.ts:77](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L77)
 
 ___
 
@@ -368,7 +368,7 @@ The data from this sheet as an array of objects.
 
 #### Defined in
 
-[sheetData.ts:215](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L215)
+[sheetData.ts:215](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L215)
 
 ___
 
@@ -384,7 +384,7 @@ Returns the index, starting with 0, of the header row of this sheet.
 
 #### Defined in
 
-[sheetData.ts:158](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L158)
+[sheetData.ts:158](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L158)
 
 ___
 
@@ -402,7 +402,7 @@ The header row if this sheet.
 
 #### Defined in
 
-[sheetData.ts:199](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L199)
+[sheetData.ts:199](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L199)
 
 ___
 
@@ -424,7 +424,7 @@ Returns the index for the column with the given key string.
 
 #### Defined in
 
-[sheetData.ts:167](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L167)
+[sheetData.ts:167](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L167)
 
 ___
 
@@ -446,7 +446,7 @@ Returns the key string for the column with the given index.
 
 #### Defined in
 
-[sheetData.ts:175](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L175)
+[sheetData.ts:175](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L175)
 
 ___
 
@@ -464,7 +464,7 @@ An array of defined keys in this sheet.
 
 #### Defined in
 
-[sheetData.ts:246](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L246)
+[sheetData.ts:246](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L246)
 
 ___
 
@@ -480,7 +480,7 @@ Returns the Sheet object for this SheetData.
 
 #### Defined in
 
-[sheetData.ts:144](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L144)
+[sheetData.ts:144](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L144)
 
 ___
 
@@ -496,7 +496,7 @@ Returns the name of the Sheet for this SheetData.
 
 #### Defined in
 
-[sheetData.ts:151](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L151)
+[sheetData.ts:151](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L151)
 
 ___
 
@@ -514,7 +514,7 @@ The data from this sheet as a two dimentional array.
 
 #### Defined in
 
-[sheetData.ts:207](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L207)
+[sheetData.ts:207](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L207)
 
 ___
 
@@ -536,7 +536,7 @@ Returns true if this SheetData object has a defined key attached to the given in
 
 #### Defined in
 
-[sheetData.ts:183](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L183)
+[sheetData.ts:183](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L183)
 
 ___
 
@@ -558,7 +558,7 @@ Returns true if this SheetData object has a defined value for the given key.
 
 #### Defined in
 
-[sheetData.ts:191](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L191)
+[sheetData.ts:191](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L191)
 
 ___
 
@@ -580,7 +580,7 @@ Inserts rows of data into the Sheet, formatted as an array of row objects.
 
 #### Defined in
 
-[sheetData.ts:223](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L223)
+[sheetData.ts:223](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L223)
 
 ___
 
@@ -602,7 +602,7 @@ Inserts rows of data into the Sheet. Takes a 2D array.
 
 #### Defined in
 
-[sheetData.ts:231](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L231)
+[sheetData.ts:231](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L231)
 
 ___
 
@@ -624,7 +624,7 @@ Inserts rows of data into the Sheet, formatted as an array of row objects.
 
 #### Defined in
 
-[sheetData.ts:280](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L280)
+[sheetData.ts:280](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L280)
 
 ___
 
@@ -646,7 +646,7 @@ Returns the index, starting with 0, of the header row of this sheet.
 
 #### Defined in
 
-[sheetData.ts:286](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L286)
+[sheetData.ts:286](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L286)
 
 ___
 
@@ -668,4 +668,4 @@ Sets the data in the Sheet, erasing data already there. Takes a 2D array.
 
 #### Defined in
 
-[sheetData.ts:272](https://github.com/texas-mcallen-mission/sheetCore/blob/65f7795/sheetData.ts#L272)
+[sheetData.ts:272](https://github.com/texas-mcallen-mission/sheetCore/blob/171e33a/sheetData.ts#L272)
