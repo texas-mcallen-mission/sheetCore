@@ -3,6 +3,9 @@
 // interface getStatsArgs {
 //     stDev?: "pop" | "sample",
 // }
+interface kiDataEntry {  // defines an object of key-value pairs.
+    [index: string]: any;
+}
 
 interface aggDataReturn {
     data: kiDataEntry[],
@@ -48,6 +51,11 @@ interface recursiveFunctionData{
     data: {}
 }
 
+/**
+ * Config data required to create a new rawSheetData class.
+ *
+ * @interface sheetDataEntry
+ */
 interface sheetDataEntry {
     tabName: string,
     headerRow: number,
@@ -69,7 +77,6 @@ interface manySheetDataEntries {
 
 interface columnConfig {
     [index: string]: number,
-
 }
 
 function THIS_IS_A_DEMO_THING_YOU_SHOULDNT_USE_AND_SO_IT_HAS_A_REALLY_LONG_NAME_TO_DISSUADE_YOU_FROM_USING_IT() {

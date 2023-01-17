@@ -82,12 +82,11 @@ class SheetData {
      *  Useful in cases where you don't care as much about the order of entries as you do them not colliding with each other...
      *
      * @param {*} data
-     * @param {*} {}
      * @return {*} 
      * @memberof SheetData
      */
-    appendData(data: {}) {
-        return this.rsd.appendDataRow(data);
+    appendData(data: {}):void {
+        this.rsd.appendDataRow(data);
     }
     /**
      *  directModify: modify a partial 
@@ -292,6 +291,7 @@ class SheetData {
 /**
  * A RawSheetData instance. This should be wrapped in a SheetData before use.
  * @see SheetData
+ * @param {sheetDataEntry} config data
  */
 class RawSheetData {
     /*
@@ -319,7 +319,7 @@ class RawSheetData {
     // Declarations to make the Typescript checker happy:
     tabName: string = "";
     headerRow: number = 0;
-    keyToIndex: columnConfig = {}
+    keyToIndex: columnConfig = {} 
     includeSoftcodedColumns:boolean = false
     sheetId:string = ""
     allowWrite:boolean = false
@@ -636,7 +636,7 @@ class RawSheetData {
      *  returns a sheetDataConfig object post-initialization that can be used in caching applications 
      *
      * @param {boolean} [isForCaching=false]
-     * @return {*}  {sheetDataEntry}
+     * @return {sheetDataEntry} returns sheetDataEntry config  
      * @memberof RawSheetData
      */
     getEntryConfig(isForCaching:boolean = false): sheetDataEntry {
@@ -1353,8 +1353,10 @@ function cacheAllSheetData(allSheetData:manySheetDatas) {
     }
     console.log(preCacheValues)
     cache.put(
+        //@ts-expect-error this gets defined in the actual key-indicator-system.  Needs rework
         sheetCoreConfig.cacheKey,
         JSON.stringify(preCacheValues),
+        //@ts-expect-error same as above
         sheetCoreConfig.cacheExpiration,
     );
 }

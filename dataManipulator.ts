@@ -64,9 +64,7 @@ interface keyedKiDataEntries {
     [index: string]: kiDataEntry;
 }
 
-interface kiDataEntry {  // defines an object of key-value pairs.
-    [index: string]: any;
-}
+
 
 interface statEntry extends kiDataEntry {
     sum: number,
