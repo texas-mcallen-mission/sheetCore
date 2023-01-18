@@ -48,7 +48,11 @@ interface recursiveData { // literally no idea if this will work
 
 interface recursiveFunctionData{
     keysLeft: string[],
-    data: Object
+    data: recursiveFunctionDataData
+}
+
+interface recursiveFunctionDataData{
+    [index:string]: any
 }
 
 /**

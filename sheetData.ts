@@ -12,7 +12,6 @@ interface sheetCoreConfigInfo {
 
 
 
-
 /**
  * @classdesc SheetData is basically a better version of Sheet. It provides greater access to the data in a sheet than the Sheet class does, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
  *
@@ -85,7 +84,7 @@ class SheetData {
      * @return {*} 
      * @memberof SheetData
      */
-    appendData(data: {}):void {
+    appendData(data: kiDataEntry):void {
         this.rsd.appendDataRow(data);
     }
     /**

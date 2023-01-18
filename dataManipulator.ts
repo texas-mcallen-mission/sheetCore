@@ -681,7 +681,7 @@ class kiDataClass {
         let output: any[] = [];
 
         for (let entry of this.data) {
-            let sum: number = 0;
+            let sum = 0;
             for (let key of listOfKeys) {
                 // let targetKey = listOfKeys[key];
                 // uses the unary operator, seems pretty slick... hope it doesn't break anything!
