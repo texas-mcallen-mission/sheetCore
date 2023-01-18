@@ -12,7 +12,6 @@ interface sheetCoreConfigInfo {
 
 
 
-
 /**
  * @classdesc SheetData is basically a better version of Sheet. It provides greater access to the data in a sheet than the Sheet class does, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
  *
@@ -82,12 +81,11 @@ class SheetData {
      *  Useful in cases where you don't care as much about the order of entries as you do them not colliding with each other...
      *
      * @param {*} data
-     * @param {*} {}
      * @return {*} 
      * @memberof SheetData
      */
-    appendData(data: {}) {
-        return this.rsd.appendDataRow(data);
+    appendData(data: kiDataEntry):void {
+        this.rsd.appendDataRow(data);
     }
     /**
      *  directModify: modify a partial 
@@ -96,14 +94,14 @@ class SheetData {
      * @param {(kiDataEntry | {})} data data you want to add
      * @memberof SheetData 
      */
-    directModify(xOffset: number, data: kiDataEntry | {}) {
+    directModify(xOffset: number, data: kiDataEntry) {
         if (this.rsd.allowWrite == false) {
             console.error("tried to modify a write-only sheet")
             return
         }
 
         let columnsTargeted: number[] = []
-        let dataInOrder: any[] = []
+        let dataInOrder: object[] = []
 
         let keys = this.getKeys()
         for (let key in data) {
@@ -136,7 +134,7 @@ class SheetData {
      * @return {*} 
      * @memberof SheetData
      */
-    directEdit(xOffset: number, yOffset: number, valueArray: any[][], writeInDataArea = false) {
+    directEdit(xOffset: number, yOffset: number, valueArray: sheetDataValueRaw[], writeInDataArea = false) {
         return this.rsd.directEditRawSheetValues(xOffset, yOffset, valueArray, writeInDataArea);
     }
     /**
@@ -292,6 +290,7 @@ class SheetData {
 /**
  * A RawSheetData instance. This should be wrapped in a SheetData before use.
  * @see SheetData
+ * @param {sheetDataEntry} config data
  */
 class RawSheetData {
     /*
@@ -317,24 +316,25 @@ class RawSheetData {
 
 
     // Declarations to make the Typescript checker happy:
-    tabName: string = "";
-    headerRow: number = 0;
-    keyToIndex: columnConfig = {}
-    includeSoftcodedColumns:boolean = false
-    sheetId:string = ""
-    allowWrite:boolean = false
+    tabName = "";
+    headerRow = 0;
+    keyToIndex = {} 
+    includeSoftcodedColumns = false
+    sheetId = ""
+    allowWrite = false
     keyNamesToIgnore: string[] = []
     onCache = false
     indexToKey: string[] = []
-    requireRemote:boolean = false
+    requireRemote = false
+    sheetaa: GoogleAppsScript.Spreadsheet.Sheet
     
     get sheet() {
-        //@ts-expect-error Same reason as the setter for this
+        ////@ts-expect-error Same reason as the setter for this
         return this.sheetaa
     }
 
     set sheet(sheetObj) {
-        //@ts-expect-error (can't declare this without a call to SpreadsheetApp for a placeholder, which is expensive IO wise.)
+        ////@ts-expect-error (can't declare this without a call to SpreadsheetApp for a placeholder, which is expensive IO wise.)
         this.sheetaa = sheetObj
     }
 
@@ -366,7 +366,7 @@ class RawSheetData {
         }
         // Step 1.1: Setting the Sheet ID, and making sure the tab exists.
 
-        let targetSheetId: string = "";
+        let targetSheetId = "";
 
         // if the target sheet is undefined, assume we're going to hit the ActiveSpreadsheet instead (this could be changed via a config option in the future, I guess...)
         // if the target sheet is accessible, set the sheet ID
@@ -381,7 +381,7 @@ class RawSheetData {
             targetSheetId = SpreadsheetApp.getActiveSpreadsheet().getId();
 
         } else {
-            let isAccessible: boolean = false;
+            let isAccessible = false;
             try {
                 let sheet = DriveApp.getFileById(sheetConfig.sheetId);
                 sheet.getDescription();
@@ -443,8 +443,8 @@ class RawSheetData {
         // Step 2: If the target spreadsheet does not have a tab that matches the tabname:
         // create the sheet, and then add a header on the appropriate row.
         let targetSpreadsheet = SpreadsheetApp.openById(targetSheetId);
-        this.sheet = targetSpreadsheet.getSheetByName(this.tabName);
-        if (this.sheet == null) {
+        let sheet = targetSpreadsheet.getSheetByName(this.tabName);
+        if (sheet == null) {
             console.warn("Creating Sheet on target spreadsheet!");
             SpreadsheetApp.flush(); // Because otherwise, we have problems
             this.sheet = targetSpreadsheet.insertSheet(this.tabName);
@@ -453,10 +453,12 @@ class RawSheetData {
             // it appears that the second flush is not necessary to ensure stability, but if it becomes a problem, that's probably it.
             this.setHeaders(this.indexToKey);
             // throw ("Couldn't construct SheetData: no sheet found with name '" + this.tabName + "'");
+        } else {
+            this.sheet = sheet
         }
         
         // step 3: avoid building soft columns if on cache
-        let onCache: boolean = false
+        let onCache = false
         //@ts-expect-error
         if (typeof sheetConfig.fromCache == undefined || sheetConfig.fromCache == "" || sheetConfig.fromCache == null) { // I *think* I covered my bases here
             onCache = false
@@ -483,7 +485,7 @@ class RawSheetData {
      */
     renameKey(targetKey: string, newName: string): void {
         let currentKeys = this.keyToIndex
-        if(!currentKeys.hasOwnProperty(targetKey)){ return}
+        if (!Object.prototype.hasOwnProperty.call(currentKeys,targetKey)){ return}
         let targetColumn = currentKeys[targetKey]
 
         this.keyToIndex[newName] = targetColumn
@@ -501,9 +503,9 @@ class RawSheetData {
 
 
 
-        let addedKeys: any[] = [];
+        let addedKeys: string[] = [];
         //TODO REMOVE ignoredKeys once this is over??
-        let ignoredKeys: any[] = [];
+        let ignoredKeys: string[] = [];
         // BEEBOOO: FOR FINDING MORE QUICKLY.
         // Currently trying to figure out why keys are not getting synchronized.
         for (let key of keyArray) {
@@ -577,9 +579,9 @@ class RawSheetData {
 
 
 
-        let addedKeys: any[] = [];
+        let addedKeys: string[] = [];
         //TODO REMOVE ignoredKeys once this is over??
-        let ignoredKeys: any[] = []
+        let ignoredKeys: string[] = []
         // BEEBOOO: FOR FINDING MORE QUICKLY.
         // Currently trying to figure out why keys are not getting synchronized.
         for (let key of inputSheetData.getKeys()) {
@@ -633,10 +635,10 @@ class RawSheetData {
      *  returns a sheetDataConfig object post-initialization that can be used in caching applications 
      *
      * @param {boolean} [isForCaching=false]
-     * @return {*}  {sheetDataEntry}
+     * @return {sheetDataEntry} returns sheetDataEntry config  
      * @memberof RawSheetData
      */
-    getEntryConfig(isForCaching:boolean = false): sheetDataEntry {
+    getEntryConfig(isForCaching = false): sheetDataEntry {
         let outEntry: sheetDataEntry = {
             tabName: this.tabName,
             headerRow: this.headerRow,
@@ -669,7 +671,7 @@ class RawSheetData {
      * @param {boolean} [writeInDataArea=false]
      * @memberof RawSheetData
      */
-    directEditRawSheetValues(xOffset: number, yOffset: number, valueArray: any[][], writeInDataArea = false): void {
+    directEditRawSheetValues(xOffset: number, yOffset: number, valueArray: sheetDataValueRaw[], writeInDataArea = false): void {
         if (yOffset + valueArray.length > this.getHeaderRow() && !writeInDataArea) {
             console.warn("Tried to write to protected row in sheet" + this.getTabName());
         } else {
@@ -917,7 +919,7 @@ class RawSheetData {
      * @return {*} 
      * @memberof RawSheetData
      */
-    setHeaders(headerData:any[]) {
+    setHeaders(headerData:string[]) {
         if (this.allowWrite == false) {
             console.warn("tried to write to read-only sheet");
             return;
@@ -941,7 +943,7 @@ class RawSheetData {
      * @returns {any[][]} The data from this sheet as a two dimentional array.
      */
     getValues() {
-        let values:any[] = [];
+        let values:sheetDataValueRaw = [];
         let rawValues = this.getSheet().getDataRange().getValues();
         for (let i = this.headerRow + 1; i > 0; i--) rawValues.shift(); //Skip header rows
         for (let row of rawValues) if (row[0] != "") values.push(row); //Skip blank rows
@@ -953,15 +955,15 @@ class RawSheetData {
      * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
      *
      * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties. Only includes rows below the header row. Blank rows (rows whose leftmost cell is the empty string) are skipped.
-     * @returns {{}[]} The data from this sheet as an array of objects.
+     * @returns {kiDataEntry[]} The data from this sheet as an array of objects.
      */
     getData() {
-        let outValues:any[] = [];
-        let values:any[] = this.getValues();
+        let outValues:kiDataEntry[] = [];
+        let values:kiDataEntry[] = this.getValues();
         for (let row of values) {
             if (row[0] == "") continue; //Skip blank rows
 
-            let rowObj: {} = {};
+            let rowObj: object = {};
             for (let i = 0; i < row.length; i++) {
                 let key = this.indexToKey[i];
                 rowObj[key] = row[i];
@@ -1009,12 +1011,12 @@ class RawSheetData {
         }
         if (data.length == 0) return;
 
-        let values: any[] = [];
+        let values: sheetDataValueRaw = [];
         let skippedKeys = new Set();
         let maxIndex = 0;
 
         for (let rowData of data) {
-            let arr:any = [];
+            let arr = [];
             for (let key in rowData) {
                 if (!this.hasKey(key)) {
                     skippedKeys.add(key);
@@ -1055,12 +1057,12 @@ class RawSheetData {
     appendDataRow(data) {
         // if (data.length == 0) return;
 
-        let values:any[] = [];
+        let values = [];
         let skippedKeys = new Set();
         let maxIndex = 0;
 
         // for (let rowData of data) {
-        let arr:any[] = [];
+        let arr = [];
         for (let key in data) {
             if (!this.hasKey(key)) {
                 skippedKeys.add(key);
@@ -1088,7 +1090,7 @@ class RawSheetData {
      * Inserts rows of data into the Sheet. Takes an array of objects.
      * @param {Object[]} values The values to insert.
      */
-    appendRowValues(values: any[]) {
+    appendRowValues(values: sheetDataValueRaw[]) {
         this.getSheet().appendRow(values);
         // range.setValues(values);
     }
@@ -1121,12 +1123,12 @@ class RawSheetData {
     insertData(data) {
         if (data.length == 0) return;
 
-        let values:any[] = [];
+        let values = [];
         let skippedKeys = new Set();
         let maxIndex = 0;
 
         for (let rowData of data) {
-            let arr:any[] = [];
+            let arr = [];
             for (let key in rowData) {
                 if (!this.hasKey(key)) {
                     skippedKeys.add(key);
@@ -1231,9 +1233,9 @@ class RawSheetData {
      * @returns An array containing all values from the given column.
      * @param {number} index The index of the column, starting from 0.
      */
-    getAllOfIndex(index) {
-        let values:any[] = this.getValues();
-        let arr:any[] = [];
+    getAllOfIndex(index):sheetDataValueRaw {
+        let values = this.getValues();
+        let arr = [];
 
         for (let row = 0; row < values.length; row++) {
             let val = values[row][index];
@@ -1350,8 +1352,10 @@ function cacheAllSheetData(allSheetData:manySheetDatas) {
     }
     console.log(preCacheValues)
     cache.put(
+        //@ts-expect-error this gets defined in the actual key-indicator-system.  Needs rework
         sheetCoreConfig.cacheKey,
         JSON.stringify(preCacheValues),
+        //@ts-expect-error same as above
         sheetCoreConfig.cacheExpiration,
     );
 }

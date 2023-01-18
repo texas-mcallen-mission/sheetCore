@@ -17,3 +17,4 @@ Most, if not all of the code used in this repository is TypeScript, not pure Jav
 The data modification portion currently uses a compiled-for-AppScript version of Lodash because there's not a good way to conveniently clone objects- and especially not classes- in vanilla JS.  We also use it in the ``key-indicator-system`` to deep merge the configuration file.
 
 If you want to automatically deploy code to your sheets, take a look at this: 
+

@@ -3,6 +3,11 @@
 // interface getStatsArgs {
 //     stDev?: "pop" | "sample",
 // }
+interface kiDataEntry {  // defines an object of key-value pairs.
+    // This is one of those annoying things we can't really get around because Sheets only guarantees it'll return any's.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [index: string]: any;
+}
 
 interface aggDataReturn {
     data: kiDataEntry[],
@@ -35,6 +40,13 @@ interface timeGranularity {
 }
 
 
+// this is exactly how the Google Sheets documentation (and their types) say they'll return stuff.  This is the correct option.
+// https://developers.google.com/apps-script/reference/spreadsheet/range#getValue()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any 
+type sheetDataValueRaw = any[]
+
+
+
 interface manySheetDatas {
     [index: string]: SheetData,
 }
@@ -45,9 +57,14 @@ interface recursiveData { // literally no idea if this will work
 
 interface recursiveFunctionData{
     keysLeft: string[],
-    data: {}
+    data: object
 }
 
+/**
+ * Config data required to create a new rawSheetData class.
+ *
+ * @interface sheetDataEntry
+ */
 interface sheetDataEntry {
     tabName: string,
     headerRow: number,
@@ -69,11 +86,10 @@ interface manySheetDataEntries {
 
 interface columnConfig {
     [index: string]: number,
-
 }
 
-function THIS_IS_A_DEMO_THING_YOU_SHOULDNT_USE_AND_SO_IT_HAS_A_REALLY_LONG_NAME_TO_DISSUADE_YOU_FROM_USING_IT() {
-    let shCo: sheetDataEntry = {
+function DEMO_RAW_SHEET_DATA() {
+    const shCo: sheetDataEntry = {
         tabName: "DEMONSTRATION_HEY",
         includeSoftcodedColumns: true,
         sheetId: SpreadsheetApp.getActiveSpreadsheet().getId(),
@@ -87,5 +103,6 @@ function THIS_IS_A_DEMO_THING_YOU_SHOULDNT_USE_AND_SO_IT_HAS_A_REALLY_LONG_NAME_
     };
 
     let rawSheet = new RawSheetData(shCo);
+    console.log(rawSheet.getData())
 }
 

@@ -1,5 +1,6 @@
 //@ts-check
 
+
 // pulled from key-indicator-system/dataflow/kidata-class
 // this gets used in several things, and it makes a lot of sense to move it over to the shared core.
 
@@ -37,9 +38,10 @@ class mathEngineClass {
  * @return {*}  {manyKiDataClasses}
  */
 function splitKiData(kiDataObj: kiDataClass, key: string): manyKiDataClasses {
-    let kiData = kiDataObj.end;
+    const kiData = kiDataObj.end;
+    
     let output: manyKiDataClasses = {};
-    for (let entry of kiData) {
+    for (const entry of kiData) {
         if (output[entry[key]] == undefined) {
             output[entry[key]] = new kiDataClass([]);
         }
@@ -59,12 +61,10 @@ interface manyKiDataEntries { // array of kiDataEntries
 }
 
 interface keyedKiDataEntries {
-    [index: string]:kiDataEntry
+    [index: string]: kiDataEntry;
 }
 
-interface kiDataEntry {  // defines an object of key-value pairs.
-    [index: string]: any;
-}
+
 
 interface statEntry extends kiDataEntry {
     sum: number,
@@ -77,13 +77,13 @@ interface statEntry extends kiDataEntry {
 function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEntry) {
     let targetValue = kiDataEntry[keySet[0]];
     if (keySet.length == 1) {
-        if (!targetObj.hasOwnProperty(targetValue)) {
+        if (!Object.prototype.hasOwnProperty.call(targetObj,targetValue)) {
             targetObj[targetValue] = [];
             // Theoretically I could stick the Aggregation functions in here...
         }
         targetObj[targetValue].push(kiDataEntry);
-    } else {
-        if (!targetObj.hasOwnProperty(targetValue)) {
+    } else { 
+        if (!Object.hasOwnProperty.call(targetObj, targetValue) /*targetObj.hasOwnProperty(targetValue)*/) {
             targetObj[targetValue] = {};
         }
         // targetObj[targetValue].assign()
@@ -129,12 +129,118 @@ class kiDataClass {
     additionalKeys: string[];
     mathEngine: mathEngineClass;
 
-    constructor(kiData: any[]) {
+    constructor(kiData: kiDataEntry[]|object[]) {
         this.data = [];
         this.data = kiData;
         this.additionalKeys = [];
         this.mathEngine = new mathEngineClass();
 
+    }
+
+
+    /** Right join: merges matching data from the current dataset in with the second one, and keeps other values from the second dataset too.
+     * 
+     * @param {kiDataEntry[]} secondDataset 
+     * @param {string} joinKey 
+     * @returns {*} {this}
+     * 
+     * @memberof kiDataCLass
+     */
+    rightJoin(secondDataset: kiDataEntry[], joinKey: string): this {
+        let outData: kiDataEntry[] = [];
+        // I'm not sure what this will do if there are two things in a second table...
+        // It's been a long time since I've done this stuff...
+        let keys = this.getDataFromKey(joinKey);
+        // hopefully this keeps match order?
+        let data: kiDataEntry[] = this.data;
+
+        for (let entry of secondDataset) {
+            let testEntry = entry;
+            let testValue = testEntry[joinKey];
+            if (keys.includes(testValue)) {
+                testEntry = { ...entry, ...data[keys.indexOf(testValue)] };
+            }
+            outData.push(testEntry);
+        }
+
+        this.data = outData;
+
+        return this;
+    }
+
+
+    /**
+     *  Inner join: keeps data from this.data only when ithas a match in the second given dataset.
+     *
+     * @param {kiDataEntry[]} secondDataset
+     * @param {string} joinKey
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    innerJoin(secondDataset: kiDataEntry[], joinKey: string): this {
+        let outData: kiDataEntry[] = [];
+        let secondDataClass = new kiDataClass(secondDataset);
+        // I'm not sure what this will do if there are two things in a second table...
+        // It's been a long time since I've done this stuff...
+        let keys = secondDataClass.getDataFromKey(joinKey);
+        // hopefully this keeps match order?
+        let data: kiDataEntry[] = secondDataClass.end;
+
+        for (let entry of this.data) {
+            let testEntry = entry;
+            let testValue = testEntry[joinKey];
+            if (keys.includes(testValue)) {
+                testEntry = { ...entry, ...data[keys.indexOf(testValue)] };
+                outData.push(testEntry);
+            }
+        }
+        // In the future, this method will return this for chaining.
+        this.data = outData;
+        return this;
+    }
+
+    /**
+     * Left-Join: returns all data in this.data and joins based on a single key in a second dataset.
+     *
+     * @param {kiDataEntry[]} secondDataset
+     * @param {string} joinKey
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    leftJoin(secondDataset: kiDataEntry[], joinKey: string): this {
+        let outData: kiDataEntry[] = [];
+        let secondDataClass = new kiDataClass(secondDataset);
+        // I'm not sure what this will do if there are two things in a second table...
+        // It's been a long time since I've done this stuff...
+        let keys = secondDataClass.getDataFromKey(joinKey);
+        // hopefully this keeps match order?
+        let data: kiDataEntry[] = secondDataClass.end;
+
+        for (let entry of this.data) {
+            let testEntry = entry;
+            let testValue = testEntry[joinKey];
+            if (keys.includes(testValue)) {
+                testEntry = { ...entry, ...data[keys.indexOf(testValue)] };
+            }
+            outData.push(testEntry);
+        }
+        // In the future, this method will return this for chaining.
+        this.data = outData;
+        return this;
+    }
+
+        // This is one of those annoying things we can't really get around because Sheets only guarantees it'll return any's.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    getDataFromKey(targetKey: string): any[] {
+        // This is one of those annoying things we can't really get around because Sheets only guarantees it'll return any's.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let outData: any[] = [];
+        for (let entry of this.data) {
+            if (Object.prototype.hasOwnProperty.call(entry,targetKey)) {
+                outData.push(entry[targetKey]);
+            }
+        }
+        return outData;
     }
 
     /**
@@ -144,81 +250,58 @@ class kiDataClass {
      * @return {*}  {any[]}
      * @memberof kiDataClass
      */
-    getUniqueEntries(targetKey): any[] {
-        let outData = []
-        for (let entry of this.data) {
-            if (entry.hasOwnProperty(targetKey) && !outData.includes(entry[targetKey])) {
-                outData.push(entry[targetKey])
+    getUniqueEntries(targetKey): sheetDataValueRaw {
+        
+        let outData: string[] = [];
+        for (const entry of this.data) {
+            if (Object.prototype.hasOwnProperty.call(entry,targetKey) && !outData.includes(entry[targetKey])) {
+                outData.push(entry[targetKey]);
             }
         }
 
-        return outData
+        return outData;
     }
-
-    addIterant(newKey: string, startVal: number = 0) {
-        let inData = this.data
-        for (let i = startVal; i < inData.length + startVal; i++){
-            inData[i][newKey] = i
+    /**
+     *
+     *
+     * @param {string} newKey
+     * @param {number} [startVal=0]
+     * @return {*} 
+     * @memberof kiDataClass
+     */
+    addIterant(newKey: string, startVal = 0) {
+        let inData = this.data;
+        for (let i = startVal; i < inData.length + startVal; i++) {
+            inData[i][newKey] = i;
         }
-        this.data = inData
-        this.newKeys.push(newKey)
-        return this
+        this.data = inData;
+        this.newKeys.push(newKey);
+        return this;
     }
 
-    removeSmaller(key, testVal: number):this {
-        let inData = this.data
-        let outData = []
+    /**
+     *  Removes anything smaller than a test value.
+     *
+     * @param {string} key
+     * @param {number} testVal
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    removeSmaller(key: string, testVal: number): this {
+        let inData: kiDataEntry[] = this.data;
+        let outData: kiDataEntry[] = [];
         for (let entry of inData) {
-            if (entry.hasOwnProperty(key) && +entry[key] >= testVal) {
-                outData.push(entry)
+            if (Object.prototype.hasOwnProperty.call(entry,key) && +entry[key] >= testVal) {
+                outData.push(entry);
             }
         }
-        this.data = outData
-        return this
+        this.data = outData;
+        return this;
     }
 
 
 
-    // /**
-    //  *  like keepMatchingByKey but for only one test value
-    //  *
-    //  * @param {string} key
-    //  * @param {*} testVal
-    //  * @return {*}  {kiDataEntry[]}
-    //  * @memberof kiDataClass
-    //  */
-    // keepMatchingOnly(key: string, testVal: any): kiDataEntry[] {
-    //     let outData: kiDataEntry[] = [];
-    //     let inData = this.data;
-    //     for (let entry of inData) {
-    //         if (entry.hasOwnProperty(key) && entry[key] == testVal) {
-    //             outData.push(entry);
-    //         } else {
-    //             // do nothing
-    //         }
-    //     }
-    //     return outData;
-    // }
-    // /**
-    //  * like removeMatchingByKey but for only one test value
-    //  *
-    //  * @param {string} key
-    //  * @param {*} testVal
-    //  * @return {*}  {kiDataEntry[]}
-    //  * @memberof kiDataClass
-    //  */
-    // removeMatching(key: string, testVal: any): kiDataEntry[] {
-    //     let outData: kiDataEntry[] = [];
-    //     let inData = this.data;
-    //     for (let entry of inData) {
-    //         if (entry.hasOwnProperty(key) && entry[key] == testVal) {
-    //             // do nothing
-    //         } else {
-    //             outData.push(entry);
-    //         }
-    //     }
-    //     return outData;
-    // }
+
     get newKeys(): string[] {
         return this.additionalKeys;
     }
@@ -228,7 +311,7 @@ class kiDataClass {
         return this.data;
     }
 
-    bulkAppendObject(pairsToAdd: {}): this {
+    bulkAppendObject(pairsToAdd: kiDataEntry): this {
         let inData: kiDataEntry[] = this.data;
         let outData: kiDataEntry[] = [];
         for (let entry of inData) {
@@ -242,7 +325,7 @@ class kiDataClass {
     }
 
     /** returns a bunch of stats for a given dataset key.  needs to have numbers. */
-    getStats(key1: string, prependKeyToStatName: boolean = false): statEntry {
+    getStats(key1: string, prependKeyToStatName = false): statEntry {
         let prepend = "";
         if (prependKeyToStatName == true) {
             prepend = key1;
@@ -253,7 +336,7 @@ class kiDataClass {
             average: 0,
             sampleStDev: 0,
             popStDev: 0,
-            
+
         };
         let data = this.data;
 
@@ -310,13 +393,14 @@ class kiDataClass {
         let data: kiDataEntry[] = this.data;
 
         for (let entry of data) {
-            data[newKey] = this.mathEngine.basic(data[key1], constant, operator);
+            entry[newKey] = this.mathEngine.basic(data[key1], constant, operator);
         }
+        this.data = data
         return this;
     }
 
     groupDataByMultipleKeys(groupingKeys: string[]): groupedData {
-        let outData: {} = {};
+        let outData: groupedData = {};
         let inData: kiDataEntry[] = this.data;
 
         for (let entry of inData) {
@@ -341,21 +425,21 @@ class kiDataClass {
         // Recursive function declarations:
 
 
-        function aggData_(depthLevels: number /*Length of the keysToAggregate object */, inputObject: {}, dataPassthrough: kiDataEntry[], keysToAggregate: string[], keysToKeep: string[], shardKey: string | null, newKeys: string[]): aggDataReturn {
+        function aggData_(depthLevels: number /*Length of the keysToAggregate object */, inputObject: object, dataPassthrough: kiDataEntry[], keysToAggregate: string[], keysToKeep: string[], shardKey: string | null, newKeys: string[]): aggDataReturn {
             let outData: kiDataEntry[] = dataPassthrough;
             // inputObject.getIndex;
             if (depthLevels == 0) { // this should get me to the level of kiDataEntry[], I *think*.
                 let subEntry = {};
-                //@ts-ignore - I don't know how to properly define a recursive thing- by the time you get to this execution branch it should be guaranteed to be an array of objects.
-                for (let key of inputObject) {
+                //.   //@ts-ignore - I don't know how to properly define a recursive thing- by the time you get to this execution branch it should be guaranteed to be an array of objects.
+                for (let key in inputObject) {
                     // aggregation code
                     // for (let entry of inputObject[key]) {
                     for (let aggKey of keysToAggregate) {
                         let targetKeyString = key[aggKey];
-                        if (shardKey != null && key.hasOwnProperty(shardKey) && key[shardKey] != "") {
+                        if (shardKey != null && Object.prototype.hasOwnProperty.call(key,shardKey) && key[shardKey] != "") {
                             targetKeyString += key[shardKey];
                         }
-                        if (!subEntry.hasOwnProperty(targetKeyString)) {
+                        if (!Object.prototype.hasOwnProperty.call(subEntry,targetKeyString)) {
                             subEntry[targetKeyString] = 0;
                             newKeys.push(targetKeyString);
                         }
@@ -395,7 +479,7 @@ class kiDataClass {
 
         // Step 3: Update internal key list.
         for (let key of aggDataCombo.newKeys) {
-            if (!this.additionalKeys.includes(key)) {
+            if (!Object.prototype.hasOwnProperty.call(this.additionalKeys,key)) {
                 this.additionalKeys.push(key);
             }
         }
@@ -424,7 +508,7 @@ class kiDataClass {
         let test: kiDataEntry = {};
 
         for (let entry of data) {
-            if (entry.hasOwnProperty(targetKey)) {
+            if (Object.prototype.hasOwnProperty.call(entry,targetKey)) {
                 let key = entry[targetKey];
                 if (!(key in outData)) {
                     console.log("Adding first entry for:", key);
@@ -452,23 +536,29 @@ class kiDataClass {
         // let test: kiDataEntry = {};
 
         for (let entry of data) {
-            if (entry.hasOwnProperty(timeSeriesKey)) {
+            if (Object.prototype.hasOwnProperty.call(entry,timeSeriesKey)/*entry.hasOwnProperty(timeSeriesKey)*/) {
                 let date: Date = new Date(entry[timeSeriesKey]);
                 // I used a case statement (without breaks, for the most part) because it removes redundancy- we're comparing by .getUTCTime, which gives us milliseconds.
                 // This is the integer equivalent of .floor'ing something at increasing orders of magnitude.
                 switch (granularity) {
                     case timeGranularities.year:
                         date.setUTCMonth(0); // note: the lack of breaks here is ON PURPOSE.  See the above note for why.
+                        //fallthrough
                     case timeGranularities.month:
                         date.setUTCDate(1); // oddly enough, if set to zero, it'll give the 31st of (the month before?)... super weird.
+                        //fallthrough
                     case timeGranularities.day:
                         date.setUTCHours(0);
+                        //fallthrough
                     case timeGranularities.hour:
                         date.setUTCMinutes(0);
+                        //fallthrough
                     case timeGranularities.minute:
                         date.setUTCSeconds(0);
+                        //fallthrough
                     case timeGranularities.second:
                         date.setUTCMilliseconds(0);
+                        //fallthrough
                     case timeGranularities.millisecond:
                         break;
                     default:
@@ -501,23 +591,29 @@ class kiDataClass {
         let test: kiDataEntry = {};
 
         for (let entry of data) {
-            if (entry.hasOwnProperty(timeSeriesKey)) {
+            if (Object.prototype.hasOwnProperty.call(entry,timeSeriesKey)) {
                 let date: Date = new Date(entry[timeSeriesKey]);
                 // I used a case statement (without breaks, for the most part) because it removes redundancy- we're comparing by .getUTCTime, which gives us milliseconds.
                 // This is the integer equivalent of .floor'ing something at increasing orders of magnitude.
                 switch (granularity) {
                     case timeGranularities.year:
                         date.setUTCMonth(0); // note: the lack of breaks here is ON PURPOSE.  See the above note for why.
+                        // fallthrough
                     case timeGranularities.month:
                         date.setUTCDate(1); // oddly enough, if set to zero, it'll give the 31st of (the month before?)... super weird.
+                        // fallthrough
                     case timeGranularities.day:
                         date.setUTCHours(0);
+                        // fallthrough
                     case timeGranularities.hour:
                         date.setUTCMinutes(0);
+                        // fallthrough
                     case timeGranularities.minute:
                         date.setUTCSeconds(0);
+                        // fallthrough
                     case timeGranularities.second:
                         date.setUTCMilliseconds(0);
+                        // fallthrough
                     case timeGranularities.millisecond:
                         break;
                     default:
@@ -587,10 +683,10 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     createSumOfKeys(listOfKeys: string[], newKeyName: string): this {
-        let output: any[] = [];
+        let output: kiDataEntry[] = [];
 
         for (let entry of this.data) {
-            let sum: number = 0;
+            let sum = 0;
             for (let key of listOfKeys) {
                 // let targetKey = listOfKeys[key];
                 // uses the unary operator, seems pretty slick... hope it doesn't break anything!
@@ -641,7 +737,7 @@ class kiDataClass {
      * @return {*} 
      * @memberof kiDataClass
      */
-    removeMatchingByKey(key: string, matchArray: any[]): this {
+    removeMatchingByKey(key: string, matchArray: kiDataEntry[]): this {
         let output: kiDataEntry[] = [];
         // let test = [];
         // if (typeof match == 'string') {
@@ -651,7 +747,7 @@ class kiDataClass {
         // }
 
         for (let entry of this.data) {
-            if (entry.hasOwnProperty(key) && !matchArray.includes(entry[key])) {
+            if (Object.prototype.hasOwnProperty.call(entry,key) && !matchArray.includes(entry[key])) {
                 output.push(entry);
                 // console.log("match")
             }
@@ -676,9 +772,9 @@ class kiDataClass {
         // } else {
         //     test.push(...match);
         // }
-
         for (let entry of this.data) {
-            if (entry.hasOwnProperty(key) && matchArray.includes(entry[key])) {
+            // was entry.hasOwnProperty(key)
+            if (Object.prototype.hasOwnProperty.call(entry,key) && matchArray.includes(entry[key])) {
                 output.push(entry);
                 // console.log("match")
             }

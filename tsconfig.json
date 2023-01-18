@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "lib": [
+            "ESNext"
+        ],
+        "target": "ES6",
+        "types": [
+            "google-apps-script"
+        ],
+        "outDir": "./ts",
+        "rootDir": "./",
+        "typeRoots": [
+            "./typescript-interfaces.ts",
+            "./dataManipulator.ts"
+        ]
+    }
+}
