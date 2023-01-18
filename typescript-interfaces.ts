@@ -4,6 +4,8 @@
 //     stDev?: "pop" | "sample",
 // }
 interface kiDataEntry {  // defines an object of key-value pairs.
+    // This is one of those annoying things we can't really get around because Sheets only guarantees it'll return any's.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [index: string]: any;
 }
 
@@ -38,6 +40,13 @@ interface timeGranularity {
 }
 
 
+// this is exactly how the Google Sheets documentation (and their types) say they'll return stuff.  This is the correct option.
+// https://developers.google.com/apps-script/reference/spreadsheet/range#getValue()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any 
+type sheetDataValueRaw = any[]
+
+
+
 interface manySheetDatas {
     [index: string]: SheetData,
 }
@@ -48,11 +57,7 @@ interface recursiveData { // literally no idea if this will work
 
 interface recursiveFunctionData{
     keysLeft: string[],
-    data: recursiveFunctionDataData
-}
-
-interface recursiveFunctionDataData{
-    [index:string]: any
+    data: object
 }
 
 /**

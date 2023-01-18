@@ -39,6 +39,7 @@ class mathEngineClass {
  */
 function splitKiData(kiDataObj: kiDataClass, key: string): manyKiDataClasses {
     const kiData = kiDataObj.end;
+    
     let output: manyKiDataClasses = {};
     for (const entry of kiData) {
         if (output[entry[key]] == undefined) {
@@ -128,7 +129,7 @@ class kiDataClass {
     additionalKeys: string[];
     mathEngine: mathEngineClass;
 
-    constructor(kiData: any[]) {
+    constructor(kiData: kiDataEntry[]|object[]) {
         this.data = [];
         this.data = kiData;
         this.additionalKeys = [];
@@ -228,7 +229,11 @@ class kiDataClass {
         return this;
     }
 
+        // This is one of those annoying things we can't really get around because Sheets only guarantees it'll return any's.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getDataFromKey(targetKey: string): any[] {
+        // This is one of those annoying things we can't really get around because Sheets only guarantees it'll return any's.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let outData: any[] = [];
         for (let entry of this.data) {
             if (Object.prototype.hasOwnProperty.call(entry,targetKey)) {
@@ -245,7 +250,7 @@ class kiDataClass {
      * @return {*}  {any[]}
      * @memberof kiDataClass
      */
-    getUniqueEntries(targetKey): any[] {
+    getUniqueEntries(targetKey): sheetDataValueRaw {
         
         let outData: string[] = [];
         for (const entry of this.data) {
@@ -264,7 +269,7 @@ class kiDataClass {
      * @return {*} 
      * @memberof kiDataClass
      */
-    addIterant(newKey: string, startVal: number = 0) {
+    addIterant(newKey: string, startVal = 0) {
         let inData = this.data;
         for (let i = startVal; i < inData.length + startVal; i++) {
             inData[i][newKey] = i;
@@ -306,7 +311,7 @@ class kiDataClass {
         return this.data;
     }
 
-    bulkAppendObject(pairsToAdd: {}): this {
+    bulkAppendObject(pairsToAdd: kiDataEntry): this {
         let inData: kiDataEntry[] = this.data;
         let outData: kiDataEntry[] = [];
         for (let entry of inData) {
@@ -320,7 +325,7 @@ class kiDataClass {
     }
 
     /** returns a bunch of stats for a given dataset key.  needs to have numbers. */
-    getStats(key1: string, prependKeyToStatName: boolean = false): statEntry {
+    getStats(key1: string, prependKeyToStatName = false): statEntry {
         let prepend = "";
         if (prependKeyToStatName == true) {
             prepend = key1;
@@ -420,13 +425,13 @@ class kiDataClass {
         // Recursive function declarations:
 
 
-        function aggData_(depthLevels: number /*Length of the keysToAggregate object */, inputObject: {}, dataPassthrough: kiDataEntry[], keysToAggregate: string[], keysToKeep: string[], shardKey: string | null, newKeys: string[]): aggDataReturn {
+        function aggData_(depthLevels: number /*Length of the keysToAggregate object */, inputObject: object, dataPassthrough: kiDataEntry[], keysToAggregate: string[], keysToKeep: string[], shardKey: string | null, newKeys: string[]): aggDataReturn {
             let outData: kiDataEntry[] = dataPassthrough;
             // inputObject.getIndex;
             if (depthLevels == 0) { // this should get me to the level of kiDataEntry[], I *think*.
                 let subEntry = {};
-                //@ts-ignore - I don't know how to properly define a recursive thing- by the time you get to this execution branch it should be guaranteed to be an array of objects.
-                for (let key of inputObject) {
+                //.   //@ts-ignore - I don't know how to properly define a recursive thing- by the time you get to this execution branch it should be guaranteed to be an array of objects.
+                for (let key in inputObject) {
                     // aggregation code
                     // for (let entry of inputObject[key]) {
                     for (let aggKey of keysToAggregate) {
@@ -678,7 +683,7 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     createSumOfKeys(listOfKeys: string[], newKeyName: string): this {
-        let output: any[] = [];
+        let output: kiDataEntry[] = [];
 
         for (let entry of this.data) {
             let sum = 0;
@@ -732,7 +737,7 @@ class kiDataClass {
      * @return {*} 
      * @memberof kiDataClass
      */
-    removeMatchingByKey(key: string, matchArray: any[]): this {
+    removeMatchingByKey(key: string, matchArray: kiDataEntry[]): this {
         let output: kiDataEntry[] = [];
         // let test = [];
         // if (typeof match == 'string') {

@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "types": ["@types/google-apps-script"],
+        "allowJs": true,
+
+    },
+    "extends":"tsconfig.json",
+    "include": [
+        "dataManipulator.ts",
+        "sheetData.ts",
+        "typescript-interfaces.ts",
+        ".eslintrc.json"
+    ],
+    "rules":""
+    
+}
