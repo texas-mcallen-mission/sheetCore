@@ -271,8 +271,8 @@ class kiDataClass {
      */
     addIterant(newKey: string, startVal = 0) {
         let inData = this.data;
-        for (let i = startVal; i < inData.length + startVal; i++) {
-            inData[i][newKey] = i;
+        for (let i = 0; i < inData.length; i++) {
+            inData[i][newKey] = i+startVal;
         }
         this.data = inData;
         this.newKeys.push(newKey);
