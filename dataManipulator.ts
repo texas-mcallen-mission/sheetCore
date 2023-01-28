@@ -737,7 +737,7 @@ class kiDataClass {
      * @return {*} 
      * @memberof kiDataClass
      */
-    removeMatchingByKey(key: string, matchArray: kiDataEntry[]): this {
+    removeMatchingByKey(key: string, matchArray: (string|number|boolean|null)[]): this {
         let output: kiDataEntry[] = [];
         // let test = [];
         // if (typeof match == 'string') {
