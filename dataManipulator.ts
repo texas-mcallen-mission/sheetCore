@@ -97,6 +97,24 @@ interface groupedData {
     [index: string]: groupedData | kiDataEntry[];
 }
 
+function convertToSheetDate_(input: string | Date) {
+    let date = new Date(input)
+    let output = ""
+
+    // making a  month / day / year / hours:minutes:seconds
+
+    
+    output += (date.getMonth()+1) + "/" // month
+    output += date.getDate() + "/"; // day
+    output += date.getFullYear() + " "; // year
+    output += date.getHours() + ":"; // hours
+    output += date.getMinutes + ":";
+    output += date.getSeconds() + " "
+    output.trim()
+    
+    return output
+}
+
 class kiDataClass {
     // TODO Get rid of this stuff, move it to external arguments.  (Will be pretty ezpz with the joining stuff in the pipeline.)
     internal_config = {
@@ -137,6 +155,18 @@ class kiDataClass {
 
     }
 
+
+    convertToSheetDate(inKey: string, outKey: string): this {
+        let outData = this.data
+
+        for (let entry of outData) {
+            if (Object.hasOwnProperty.call(entry, inKey)) {
+                entry[outKey] = convertToSheetDate_(entry[inKey])
+            }
+        }
+        this.data = outData
+        return this
+    }
 
     /** Right join: merges matching data from the current dataset in with the second one, and keeps other values from the second dataset too.
      * 
