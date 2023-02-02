@@ -108,7 +108,7 @@ function convertToSheetDate_(input: string | Date) {
     output += date.getDate() + "/"; // day
     output += date.getFullYear() + " "; // year
     output += date.getHours() + ":"; // hours
-    output += date.getMinutes + ":";
+    output += date.getMinutes() + ":";
     output += date.getSeconds() + " "
     output.trim()
     
