@@ -1,6 +1,6 @@
 # Where You Left Off
 
-Set up a math engine class so I can reuse (and keep things organized-ish) the math engine stuff.
+Set up a math engine class so I can reuse the math engine stuff and keep things organized-ish.
 
 Currently about to get started writing something to calculate population standard deviation (should I add a flag for it to calculate pop stdev too?)
 

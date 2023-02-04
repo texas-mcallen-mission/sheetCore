@@ -1,0 +1,13 @@
+{
+    "plugin": [
+        "typedoc-plugin-markdown"
+    ],
+    "out": "docs",
+    "readme": "none",
+    "githubPages": false,
+    "entryDocument": "docs.md",
+    "entryPoints": [
+        "sheetData.ts",
+        "dataManipulator.ts"
+    ]
+}
