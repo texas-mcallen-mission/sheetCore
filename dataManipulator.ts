@@ -97,6 +97,29 @@ interface groupedData {
     [index: string]: groupedData | kiDataEntry[];
 }
 
+/**
+ * @description Given a Date or string, convert to a mm/dd/yyyy hh:mm:ss string that Google Sheets appreciates.
+ * @param {(string | Date)} input
+ * @return {*} 
+ */
+function convertToSheetDate_(input: string | Date) {
+    let date = new Date(input)
+    let output = ""
+
+    // making a  month / day / year / hours:minutes:seconds
+
+    
+    output += (date.getMonth()+1) + "/" // month
+    output += date.getDate() + "/"; // day
+    output += date.getFullYear() + " "; // year
+    output += date.getHours() + ":"; // hours
+    output += date.getMinutes() + ":";
+    output += date.getSeconds() + " "
+    output.trim()
+    
+    return output
+}
+
 class kiDataClass {
     // TODO Get rid of this stuff, move it to external arguments.  (Will be pretty ezpz with the joining stuff in the pipeline.)
     internal_config = {
@@ -137,6 +160,24 @@ class kiDataClass {
 
     }
 
+    /**
+     * @description This takes Javascript dates and other strings and turns them into a format that Google Sheets likes better.
+     * @param {string} inKey - object key that has the date on it
+     * @param {string} outKey - output key where date is stored.  (Can be the same as inKey)
+     * @return {*}  {this} returns this for chaining.
+     * @memberof kiDataClass
+     */
+    convertToSheetDate(inKey: string, outKey: string): this {
+        let outData = this.data
+
+        for (let entry of outData) {
+            if (Object.hasOwnProperty.call(entry, inKey)) {
+                entry[outKey] = convertToSheetDate_(entry[inKey])
+            }
+        }
+        this.data = outData
+        return this
+    }
 
     /** Right join: merges matching data from the current dataset in with the second one, and keeps other values from the second dataset too.
      * 
