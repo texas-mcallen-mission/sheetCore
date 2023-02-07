@@ -152,12 +152,44 @@ class kiDataClass {
     additionalKeys: string[];
     mathEngine: mathEngineClass;
 
-    constructor(kiData: kiDataEntry[]|object[]) {
+    constructor(kiData: kiDataEntry[] | object[]) {
         this.data = [];
         this.data = kiData;
         this.additionalKeys = [];
         this.mathEngine = new mathEngineClass();
 
+    }
+
+    sort(sortKey: string): this {
+        this.copyKey(sortKey, "COMPARISONKEYTHINGY")
+        let outData = this.data;
+        
+        function compareObjectsByKey(a: kiDataEntry, b: kiDataEntry) {
+            if (a["COMPARISONKEYTHINGY"] > b["COMPARISONKEYTHINGY"]) {
+                return -1
+            } else if (b["COMPARISONKEYTHINGY"] > a["COMPARISONKEYTHINGY"]) {
+                return 1
+            } else {
+                return 0
+            }
+        }
+
+        outData.sort(compareObjectsByKey)
+        this.data = outData
+        return this;
+    }
+
+    copyKey(inKey, outKey,defaultValue:string|[]|object|null = ""): this {
+        const outData = this.data
+        for (const entry of outData) {
+            if (Object.hasOwnProperty.call(entry, inKey)) {
+                entry[outKey] = inKey
+            } else {
+                entry[outKey] = defaultValue
+            }
+        }
+        this.data = outData
+        return this
     }
 
     /**
