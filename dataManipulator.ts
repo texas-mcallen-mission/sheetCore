@@ -97,6 +97,11 @@ interface groupedData {
     [index: string]: groupedData | kiDataEntry[];
 }
 
+/**
+ * @description Given a Date or string, convert to a mm/dd/yyyy hh:mm:ss string that Google Sheets appreciates.
+ * @param {(string | Date)} input
+ * @return {*} 
+ */
 function convertToSheetDate_(input: string | Date) {
     let date = new Date(input)
     let output = ""
@@ -155,7 +160,13 @@ class kiDataClass {
 
     }
 
-
+    /**
+     * @description This takes Javascript dates and other strings and turns them into a format that Google Sheets likes better.
+     * @param {string} inKey - object key that has the date on it
+     * @param {string} outKey - output key where date is stored.  (Can be the same as inKey)
+     * @return {*}  {this} returns this for chaining.
+     * @memberof kiDataClass
+     */
     convertToSheetDate(inKey: string, outKey: string): this {
         let outData = this.data
 
