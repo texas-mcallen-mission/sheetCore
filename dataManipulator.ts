@@ -119,6 +119,17 @@ function convertToSheetDate_(input: string | Date) {
     
     return output
 }
+interface sortArgs{
+    descending?: boolean
+    valueType: sortTypes
+}
+
+enum sortTypes {
+    integer="integer",
+    string="string",
+    date = "date",
+    unknown = "unknown"
+}
 
 class kiDataClass {
     // TODO Get rid of this stuff, move it to external arguments.  (Will be pretty ezpz with the joining stuff in the pipeline.)
@@ -160,21 +171,125 @@ class kiDataClass {
 
     }
 
-    sort(sortKey: string): this {
+    sort(sortKey: string,sortArgs:sortArgs): this {
         this.copyKey(sortKey, "COMPARISONKEYTHINGY")
         let outData = this.data;
-        
-        function compareObjectsByKey(a: kiDataEntry, b: kiDataEntry) {
+        var descending = -1
+        if (Object.hasOwn(sortArgs, "descending")) {
+            if (sortArgs.descending = true) {
+                descending = 1
+            }
+        }
+        /**
+         * @description default / other sort comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
+         * @param {kiDataEntry} a
+         * @param {kiDataEntry} b
+         * @return {*} 
+         */
+        function compareObjectsByKey_(a: kiDataEntry, b: kiDataEntry) {
+
+            let outVal = 0
             if (a["COMPARISONKEYTHINGY"] > b["COMPARISONKEYTHINGY"]) {
-                return -1
+                outVal = -1
             } else if (a["COMPARISONKEYTHINGY"] < b["COMPARISONKEYTHINGY"]) {
-                return 1
+                outVal = 1
             } else {
-                return 0
+                outVal = 0
+            }
+            if (typeof descending !== 'undefined') {
+                return outVal * descending
+            } else {
+                console.log("ascending/descending switch didn't work!")
+                return outVal
+            }
+        }
+        /**
+         * @description date comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
+         * @param {kiDataEntry} a
+         * @param {kiDataEntry} b
+         * @return {*} 
+         */
+        function compareObjectsByDate_(a: kiDataEntry, b: kiDataEntry) {
+            let outVal = 0
+            let date1 = new Date(a["COMPARISONKEYTHINGY"]).getTime()
+            let date2 = new Date(b["COMPARISONKEYTHINGY"]).getTime()
+            if (date1 > date2) {
+                outVal = -1;
+            } else if (date1 < date2) {
+                outVal = 1;
+            } else {
+                outVal = 0;
+            }
+            if (typeof descending !== 'undefined') {
+                return outVal * descending;
+            } else {
+                console.log("ascending/descending switch didn't work!");
+                return outVal;
+            }
+        }
+        /**
+                 * @description string comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
+                 * @param {kiDataEntry} a
+                 * @param {kiDataEntry} b
+                 * @return {*} 
+                 */
+        function compareObjectsByString_(a: kiDataEntry, b: kiDataEntry) {
+            let outVal = 0;
+            let string1 = String(a["COMPARISONKEYTHINGY"]).toLowerCase()
+            let string2 = String(b["COMPARISONKEYTHINGY"]).toLowerCase()
+            if (string1 > string2) {
+                outVal = -1;
+            } else if (string1 < string2) {
+                outVal = 1;
+            } else {
+                outVal = 0;
+            }
+            if (typeof descending !== 'undefined') {
+                return outVal * descending;
+            } else {
+                console.log("ascending/descending switch didn't work!");
+                return outVal;
+            }
+        }
+        /**
+         * @description
+         * @param {kiDataEntry} a
+         * @param {kiDataEntry} b
+         * @return {*} 
+         */
+        function compareObjectsByNumber_(a: kiDataEntry, b: kiDataEntry) {
+            let outVal = 0;
+            let num1 = +a["COMPARISONKEYTHINGY"]
+            let num2 = +a["COMPARISONKEYTHINGY"]
+            if (num1 > num2) {
+                outVal = -1;
+            } else if (num1 < num2) {
+                outVal = 1;
+            } else {
+                outVal = 0;
+            }
+            if (typeof descending !== 'undefined') {
+                return outVal * descending;
+            } else {
+                console.log("ascending/descending switch didn't work!");
+                return outVal;
             }
         }
 
-        outData.sort(compareObjectsByKey)
+        switch (sortArgs.valueType) {
+            case sortTypes.date:
+                outData.sort(compareObjectsByDate_)
+                break;
+            case sortTypes.integer:
+                outData.sort(compareObjectsByNumber_);
+                break;
+            case sortTypes.string:
+                outData.sort(compareObjectsByString_)
+            default:
+                outData.sort(compareObjectsByKey_)
+                break;
+        }
+
         this.data = outData
         return this;
     }
