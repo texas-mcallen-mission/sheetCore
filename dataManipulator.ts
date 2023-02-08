@@ -280,7 +280,7 @@ class kiDataClass {
             }
         }
 
-        let nulledData = this.popEmptyAndNull(sortKey)
+        let nulledData = this.popMissing(sortKey)
 
 
         switch (sortArgs.valueType) {
@@ -306,18 +306,18 @@ class kiDataClass {
     }
 
     /**
-     * @description returns all data that doesn't have a working value for a given key, and removes it from the internal dataset.
+     * @description returns all data that doesn't have something stored at `targetKey`, and removes it from the internal dataset.
      * @param {*} targetKey
      * @return {*}  {kiDataEntry[]}
      * @memberof kiDataClass
      */
-    popEmptyAndNull(targetKey): kiDataEntry[] {
+    popMissing(targetKey): kiDataEntry[] {
         // written originally to support .sort()
         let output: kiDataEntry[] = []
         let outData: kiDataEntry[] = []
 
         for (const entry of this.data) {
-            if (!Object.hasOwn(entry, targetKey) || entry.targetKey == null || typeof entry.targetKey == 'undefined') {
+            if (!Object.hasOwn(entry, targetKey)) {
                 output.push(entry)
             } else {
                 outData.push(entry)
