@@ -167,7 +167,7 @@ class kiDataClass {
         function compareObjectsByKey(a: kiDataEntry, b: kiDataEntry) {
             if (a["COMPARISONKEYTHINGY"] > b["COMPARISONKEYTHINGY"]) {
                 return -1
-            } else if (b["COMPARISONKEYTHINGY"] > a["COMPARISONKEYTHINGY"]) {
+            } else if (a["COMPARISONKEYTHINGY"] < b["COMPARISONKEYTHINGY"]) {
                 return 1
             } else {
                 return 0
@@ -183,7 +183,7 @@ class kiDataClass {
         const outData = this.data
         for (const entry of outData) {
             if (Object.hasOwnProperty.call(entry, inKey)) {
-                entry[outKey] = inKey
+                entry[outKey] = entry[inKey]
             } else {
                 entry[outKey] = defaultValue
             }
