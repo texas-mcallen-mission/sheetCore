@@ -125,7 +125,7 @@ interface sortArgs{
 }
 
 enum sortTypes {
-    integer="integer",
+    number ="number",
     string="string",
     date = "date",
     unknown = "unknown"
@@ -294,7 +294,7 @@ class kiDataClass {
             case sortTypes.date:
                 outData.sort(compareObjectsByDate_)
                 break;
-            case sortTypes.integer:
+            case sortTypes.number:
                 outData.sort(compareObjectsByNumber_);
                 break;
             case sortTypes.string:
