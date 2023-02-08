@@ -252,7 +252,7 @@ class kiDataClass {
                 return outVal;
             }
         }
-        // TODO THIS ONE DOESN'T WORK!!!!
+        // TODO THIS ONE DOESN'T WORK, BUT THE BASIC COMPARATOR WORKS FOR NUMBERS.  WHAT???
         
         /** number comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
          * @description
