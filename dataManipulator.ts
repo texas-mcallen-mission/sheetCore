@@ -172,14 +172,8 @@ class kiDataClass {
     }
 
     sort(sortKey: string,sortArgs:sortArgs): this {
-        this.copyKey(sortKey, "COMPARISONKEYTHINGY")
-        let outData = this.data;
-        var descending = -1
-        if (Object.hasOwn(sortArgs, "descending")) {
-            if (sortArgs.descending = true) {
-                descending = 1
-            }
-        }
+        // step 0: comparator function declarations
+
         /**
          * @description default / other sort comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
          * @param {kiDataEntry} a
@@ -251,7 +245,7 @@ class kiDataClass {
                 return outVal;
             }
         }
-        /**
+        /** number comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
          * @description
          * @param {kiDataEntry} a
          * @param {kiDataEntry} b
@@ -275,6 +269,19 @@ class kiDataClass {
                 return outVal;
             }
         }
+        // step 1: actually sort the data 
+
+        this.copyKey(sortKey, "COMPARISONKEYTHINGY");
+        let outData = this.data;
+        var descending = -1;
+        if (Object.hasOwn(sortArgs, "descending")) {
+            if (sortArgs.descending = true) {
+                descending = 1;
+            }
+        }
+
+        let nulledData = this.popEmptyAndNull(sortKey)
+
 
         switch (sortArgs.valueType) {
             case sortTypes.date:
@@ -291,7 +298,33 @@ class kiDataClass {
         }
 
         this.data = outData
+        // put data that doesn't have values at the end.
+        if (nulledData.length > 0) {
+            this.data.push(...nulledData)
+        }
         return this;
+    }
+
+    /**
+     * @description returns all data that doesn't have a working value for a given key, and removes it from the internal dataset.
+     * @param {*} targetKey
+     * @return {*}  {kiDataEntry[]}
+     * @memberof kiDataClass
+     */
+    popEmptyAndNull(targetKey): kiDataEntry[] {
+        // written originally to support .sort()
+        let output: kiDataEntry[] = []
+        let outData: kiDataEntry[] = []
+
+        for (const entry of this.data) {
+            if (!Object.hasOwn(entry, targetKey) || entry.targetKey == null || typeof entry.targetKey == 'undefined') {
+                output.push(entry)
+            } else {
+                outData.push(entry)
+            }
+        }
+        this.data = outData
+        return output
     }
 
     copyKey(inKey, outKey,defaultValue:string|[]|object|null = ""): this {
