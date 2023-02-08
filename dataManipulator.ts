@@ -170,7 +170,14 @@ class kiDataClass {
         this.mathEngine = new mathEngineClass();
 
     }
-
+    /**
+     * @description Sorter!  Can sort by numbers, integers, dates, and gives its best shot at everything else.  Can do ascending & descending as well.  Puts values with missing keys at the very end.
+     * 
+     * @param {string} sortKey
+     * @param {sortArgs} sortArgs
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
     sort(sortKey: string,sortArgs:sortArgs): this {
         // step 0: comparator function declarations
 
@@ -298,11 +305,25 @@ class kiDataClass {
         }
 
         this.data = outData
+
         // put data that doesn't have values at the end.
         if (nulledData.length > 0) {
             this.data.push(...nulledData)
         }
+        // cleanup: remove internal comparison key.
+        this.removeKey("COMPARISONKEYTHINGY")
         return this;
+    }
+
+    removeKey(targetKey): this{
+        for (const entry of this.data) {
+            if (Object.hasOwn(entry, targetKey)) {
+                delete entry[targetKey]
+            }
+        }
+
+
+        return this
     }
 
     /**
