@@ -252,6 +252,8 @@ class kiDataClass {
                 return outVal;
             }
         }
+        // TODO THIS ONE DOESN'T WORK!!!!
+        
         /** number comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
          * @description
          * @param {kiDataEntry} a
@@ -259,6 +261,7 @@ class kiDataClass {
          * @return {*} 
          */
         function compareObjectsByNumber_(a: kiDataEntry, b: kiDataEntry) {
+            throw "PLEASE REFACTOR THIS!"
             let outVal = 0;
             let num1 = +a["COMPARISONKEYTHINGY"]
             let num2 = +a["COMPARISONKEYTHINGY"]
