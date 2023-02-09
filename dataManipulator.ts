@@ -252,7 +252,7 @@ class kiDataClass {
                 return outVal;
             }
         }
-        // TODO THIS ONE DOESN'T WORK, BUT THE BASIC COMPARATOR WORKS FOR NUMBERS.  WHAT???
+
         
         /** number comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
          * @description
@@ -261,10 +261,9 @@ class kiDataClass {
          * @return {*} 
          */
         function compareObjectsByNumber_(a: kiDataEntry, b: kiDataEntry) {
-            throw "PLEASE REFACTOR THIS!"
             let outVal = 0;
             let num1 = +a["COMPARISONKEYTHINGY"]
-            let num2 = +a["COMPARISONKEYTHINGY"]
+            let num2 = +b["COMPARISONKEYTHINGY"]
             if (num1 > num2) {
                 outVal = -1;
             } else if (num1 < num2) {
@@ -279,8 +278,7 @@ class kiDataClass {
                 return outVal;
             }
         }
-        // step 1: actually sort the data 
-
+        // step 1: set up things for comparator functions to do their job
         this.copyKey(sortKey, "COMPARISONKEYTHINGY");
         let outData = this.data;
         var descending = -1;
@@ -289,10 +287,11 @@ class kiDataClass {
                 descending = 1;
             }
         }
-
+        // remove data that doesn't have entries for the comparison key, so that they don't crash the sorter and wind up at the bottom
         let nulledData = this.popMissing(sortKey)
-
-
+        
+        // step 2: actually sort the data 
+        
         switch (sortArgs.valueType) {
             case sortTypes.date:
                 outData.sort(compareObjectsByDate_)
@@ -315,6 +314,8 @@ class kiDataClass {
         }
         // cleanup: remove internal comparison key.
         this.removeKey("COMPARISONKEYTHINGY")
+
+        // annd done!
         return this;
     }
 
