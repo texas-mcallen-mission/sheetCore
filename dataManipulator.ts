@@ -197,12 +197,7 @@ class kiDataClass {
             } else {
                 outVal = 0
             }
-            if (typeof descending !== 'undefined') {
-                return outVal * descending
-            } else {
-                console.log("ascending/descending switch didn't work!")
-                return outVal
-            }
+            return outVal * descending
         }
         /**
          * @description date comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
@@ -221,12 +216,7 @@ class kiDataClass {
             } else {
                 outVal = 0;
             }
-            if (typeof descending !== 'undefined') {
-                return outVal * descending;
-            } else {
-                console.log("ascending/descending switch didn't work!");
-                return outVal;
-            }
+            return outVal * descending
         }
         /**
                  * @description string comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
@@ -245,12 +235,7 @@ class kiDataClass {
             } else {
                 outVal = 0;
             }
-            if (typeof descending !== 'undefined') {
-                return outVal * descending;
-            } else {
-                console.log("ascending/descending switch didn't work!");
-                return outVal;
-            }
+            return outVal * descending
         }
 
         
@@ -271,12 +256,7 @@ class kiDataClass {
             } else {
                 outVal = 0;
             }
-            if (typeof descending !== 'undefined') {
-                return outVal * descending;
-            } else {
-                console.log("ascending/descending switch didn't work!");
-                return outVal;
-            }
+            return outVal * descending
         }
         // step 1: set up things for comparator functions to do their job
         this.copyKey(sortKey, "COMPARISONKEYTHINGY");
@@ -284,7 +264,7 @@ class kiDataClass {
         var descending = -1;
         if (Object.hasOwn(sortArgs, "descending")) {
             if (sortArgs.descending = true) {
-                descending = 1;
+                descending = descending * -1 // logical invert
             }
         }
         // remove data that doesn't have entries for the comparison key, so that they don't crash the sorter and wind up at the bottom
