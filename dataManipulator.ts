@@ -119,6 +119,17 @@ function convertToSheetDate_(input: string | Date) {
     
     return output
 }
+interface sortArgs{
+    descending?: boolean
+    valueType: sortTypes
+}
+
+enum sortTypes {
+    number ="number",
+    string="string",
+    date = "date",
+    unknown = "unknown"
+}
 
 class kiDataClass {
     // TODO Get rid of this stuff, move it to external arguments.  (Will be pretty ezpz with the joining stuff in the pipeline.)
@@ -152,12 +163,187 @@ class kiDataClass {
     additionalKeys: string[];
     mathEngine: mathEngineClass;
 
-    constructor(kiData: kiDataEntry[]|object[]) {
+    constructor(kiData: kiDataEntry[] | object[]) {
         this.data = [];
         this.data = kiData;
         this.additionalKeys = [];
         this.mathEngine = new mathEngineClass();
 
+    }
+    /**
+     * @description Sorter!  Can sort by numbers, integers, dates, and gives its best shot at everything else.  Can do ascending & descending as well.  Puts values with missing keys at the very end.
+     * 
+     * @param {string} sortKey
+     * @param {sortArgs} sortArgs
+     * @return {*}  {this}
+     * @memberof kiDataClass
+     */
+    sort(sortKey: string,sortArgs:sortArgs): this {
+        // step 0: comparator function declarations
+
+        /**
+         * @description default / other sort comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
+         * @param {kiDataEntry} a
+         * @param {kiDataEntry} b
+         * @return {*} 
+         */
+        function compareObjectsByKey_(a: kiDataEntry, b: kiDataEntry) {
+
+            let outVal = 0
+            if (a["COMPARISONKEYTHINGY"] > b["COMPARISONKEYTHINGY"]) {
+                outVal = -1
+            } else if (a["COMPARISONKEYTHINGY"] < b["COMPARISONKEYTHINGY"]) {
+                outVal = 1
+            } else {
+                outVal = 0
+            }
+            return outVal * descending
+        }
+        /**
+         * @description date comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
+         * @param {kiDataEntry} a
+         * @param {kiDataEntry} b
+         * @return {*} 
+         */
+        function compareObjectsByDate_(a: kiDataEntry, b: kiDataEntry) {
+            let outVal = 0
+            let date1 = new Date(a["COMPARISONKEYTHINGY"]).getTime()
+            let date2 = new Date(b["COMPARISONKEYTHINGY"]).getTime()
+            if (date1 > date2) {
+                outVal = -1;
+            } else if (date1 < date2) {
+                outVal = 1;
+            } else {
+                outVal = 0;
+            }
+            return outVal * descending
+        }
+        /**
+                 * @description string comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
+                 * @param {kiDataEntry} a
+                 * @param {kiDataEntry} b
+                 * @return {*} 
+                 */
+        function compareObjectsByString_(a: kiDataEntry, b: kiDataEntry) {
+            let outVal = 0;
+            let string1 = String(a["COMPARISONKEYTHINGY"]).toLowerCase()
+            let string2 = String(b["COMPARISONKEYTHINGY"]).toLowerCase()
+            if (string1 > string2) {
+                outVal = -1;
+            } else if (string1 < string2) {
+                outVal = 1;
+            } else {
+                outVal = 0;
+            }
+            return outVal * descending
+        }
+
+        
+        /** number comparator, for default array sorter.  Compares by `COMPARISONKEYTHINGY`, which you can set by using the copyKey method.
+         * @description
+         * @param {kiDataEntry} a
+         * @param {kiDataEntry} b
+         * @return {*} 
+         */
+        function compareObjectsByNumber_(a: kiDataEntry, b: kiDataEntry) {
+            let outVal = 0;
+            let num1 = +a["COMPARISONKEYTHINGY"]
+            let num2 = +b["COMPARISONKEYTHINGY"]
+            if (num1 > num2) {
+                outVal = -1;
+            } else if (num1 < num2) {
+                outVal = 1;
+            } else {
+                outVal = 0;
+            }
+            return outVal * descending
+        }
+        // step 1: set up things for comparator functions to do their job
+        this.copyKey(sortKey, "COMPARISONKEYTHINGY");
+        let outData = this.data;
+        let descending = -1;
+        if (Object.hasOwn(sortArgs, "descending")) {
+            if (sortArgs.descending === true) {
+                descending = descending * -1 // logical invert
+            }
+        }
+        // remove data that doesn't have entries for the comparison key, so that they don't crash the sorter and wind up at the bottom
+        let missingKeyData = this.popMissing(sortKey)
+        
+        // step 2: actually sort the data 
+        
+        switch (sortArgs.valueType) {
+            case sortTypes.date:
+                outData.sort(compareObjectsByDate_)
+                break;
+            case sortTypes.number:
+                outData.sort(compareObjectsByNumber_);
+                break;
+            case sortTypes.string:
+                outData.sort(compareObjectsByString_);
+                break;
+            default:
+                outData.sort(compareObjectsByKey_)
+                break;
+        }
+
+        this.data = outData
+
+        // put data that doesn't have values at the end.
+        if (missingKeyData.length > 0) {
+            this.data.push(...missingKeyData)
+        }
+        // cleanup: remove internal comparison key.
+        this.removeKey("COMPARISONKEYTHINGY")
+
+        // annd done!
+        return this;
+    }
+
+    removeKey(targetKey): this{
+        for (const entry of this.data) {
+            if (Object.hasOwn(entry, targetKey)) {
+                delete entry[targetKey]
+            }
+        }
+
+
+        return this
+    }
+
+    /**
+     * @description returns all data that doesn't have something stored at `targetKey`, and removes it from the internal dataset.
+     * @param {*} targetKey
+     * @return {*}  {kiDataEntry[]}
+     * @memberof kiDataClass
+     */
+    popMissing(targetKey): kiDataEntry[] {
+        // written originally to support .sort()
+        let output: kiDataEntry[] = []
+        let outData: kiDataEntry[] = []
+
+        for (const entry of this.data) {
+            if (!Object.hasOwn(entry, targetKey)) {
+                output.push(entry)
+            } else {
+                outData.push(entry)
+            }
+        }
+        this.data = outData
+        return output
+    }
+
+    copyKey(inKey, outKey,defaultValue:string|[]|object|null = ""): this {
+        const outData = this.data
+        for (const entry of outData) {
+            if (Object.hasOwnProperty.call(entry, inKey)) {
+                entry[outKey] = entry[inKey]
+            } else {
+                entry[outKey] = defaultValue
+            }
+        }
+        this.data = outData
+        return this
     }
 
     /**
@@ -871,20 +1057,23 @@ class kiDataClass {
     }
     /**
      * Removes all entries where isDuplicate == true
-     *
+     *  Should 
      * @return {*}  {this}
      * @memberof kiDataClass
      */
     removeDuplicates(): this {
-        let output: kiDataEntry[] = [];
-        for (let entry of this.data) {
-            if (!entry.isDuplicate) {
-                output.push(entry);
-            }
-        }
-        this.data = output;
+        console.warn("please replace this with removeMatchingByKey('isDuplicate',[true])")
+        this.removeMatchingByKey("isDuplicate", [true])
+        // let output: kiDataEntry[] = [];
+        // for (let entry of this.data) {
+        //     if (!entry.isDuplicate) {
+        //         output.push(entry);
+        //     }
+        // }
+        // this.data = output;
         return this;
     }
+
 
     /**
      * Generalized version of calculateRR
@@ -894,7 +1083,7 @@ class kiDataClass {
      * @return {*}  {this}
      * @memberof kiDataClass
      */
-    calculatePercentage(numeratorKey: string, denominatorKey: string, newKeyName): this {
+    calculatePercentage(numeratorKey: string, denominatorKey: string, newKeyName:string): this {
         let output: kiDataEntry[] = [];
 
         for (let entry of this.data) {
@@ -966,7 +1155,7 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     getThisWeeksData(): this {
-        let sundayDate = getSundayOfCurrentWeek();
+        let sundayDate = getSundayOfCurrentWeek_();
         let minMillis = sundayDate.getTime();
 
         return this.removeBeforeDate(sundayDate);
@@ -978,15 +1167,20 @@ class kiDataClass {
  *
  * @return {*}  {Date}
  */
-function getSundayOfCurrentWeek(): Date {
+function getSundayOfCurrentWeek_(): Date {
     const today = new Date();
     const first = today.getDate() - today.getDay() + 1;
     const last = first + 6;
 
     const monday = new Date(today.setDate(first));
-    console.log(monday); // 👉️ Mon Jan 17 2022
+    console.log(monday);
 
     const sunday = new Date(today.setDate(last - 8));
     console.log(sunday);
     return sunday;
+}
+
+function getSundayOfCurrentWeek(): Date{
+    console.error("please rename this function to getSundayOfCurrentWeek_")
+    return getSundayOfCurrentWeek_()
 }
