@@ -261,7 +261,7 @@ class kiDataClass {
         // step 1: set up things for comparator functions to do their job
         this.copyKey(sortKey, "COMPARISONKEYTHINGY");
         let outData = this.data;
-        var descending = -1;
+        let descending = -1;
         if (Object.hasOwn(sortArgs, "descending")) {
             if (sortArgs.descending === true) {
                 descending = descending * -1 // logical invert
@@ -280,7 +280,8 @@ class kiDataClass {
                 outData.sort(compareObjectsByNumber_);
                 break;
             case sortTypes.string:
-                outData.sort(compareObjectsByString_)
+                outData.sort(compareObjectsByString_);
+                break;
             default:
                 outData.sort(compareObjectsByKey_)
                 break;
