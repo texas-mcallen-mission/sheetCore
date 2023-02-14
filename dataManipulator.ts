@@ -1056,20 +1056,23 @@ class kiDataClass {
     }
     /**
      * Removes all entries where isDuplicate == true
-     *
+     *  Should 
      * @return {*}  {this}
      * @memberof kiDataClass
      */
     removeDuplicates(): this {
-        let output: kiDataEntry[] = [];
-        for (let entry of this.data) {
-            if (!entry.isDuplicate) {
-                output.push(entry);
-            }
-        }
-        this.data = output;
+        console.warn("please replace this with removeMatchingByKey('isDuplicate',[true])")
+        this.removeMatchingByKey("isDuplicate", [true])
+        // let output: kiDataEntry[] = [];
+        // for (let entry of this.data) {
+        //     if (!entry.isDuplicate) {
+        //         output.push(entry);
+        //     }
+        // }
+        // this.data = output;
         return this;
     }
+
 
     /**
      * Generalized version of calculateRR
@@ -1079,7 +1082,7 @@ class kiDataClass {
      * @return {*}  {this}
      * @memberof kiDataClass
      */
-    calculatePercentage(numeratorKey: string, denominatorKey: string, newKeyName): this {
+    calculatePercentage(numeratorKey: string, denominatorKey: string, newKeyName:string): this {
         let output: kiDataEntry[] = [];
 
         for (let entry of this.data) {
@@ -1151,7 +1154,7 @@ class kiDataClass {
      * @memberof kiDataClass
      */
     getThisWeeksData(): this {
-        let sundayDate = getSundayOfCurrentWeek();
+        let sundayDate = getSundayOfCurrentWeek_();
         let minMillis = sundayDate.getTime();
 
         return this.removeBeforeDate(sundayDate);
@@ -1163,15 +1166,20 @@ class kiDataClass {
  *
  * @return {*}  {Date}
  */
-function getSundayOfCurrentWeek(): Date {
+function getSundayOfCurrentWeek_(): Date {
     const today = new Date();
     const first = today.getDate() - today.getDay() + 1;
     const last = first + 6;
 
     const monday = new Date(today.setDate(first));
-    console.log(monday); // 👉️ Mon Jan 17 2022
+    console.log(monday);
 
     const sunday = new Date(today.setDate(last - 8));
     console.log(sunday);
     return sunday;
+}
+
+function getSundayOfCurrentWeek(): Date{
+    console.error("please rename this function to getSundayOfCurrentWeek_")
+    return getSundayOfCurrentWeek_()
 }
