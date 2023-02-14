@@ -263,12 +263,12 @@ class kiDataClass {
         let outData = this.data;
         var descending = -1;
         if (Object.hasOwn(sortArgs, "descending")) {
-            if (sortArgs.descending = true) {
+            if (sortArgs.descending === true) {
                 descending = descending * -1 // logical invert
             }
         }
         // remove data that doesn't have entries for the comparison key, so that they don't crash the sorter and wind up at the bottom
-        let nulledData = this.popMissing(sortKey)
+        let missingKeyData = this.popMissing(sortKey)
         
         // step 2: actually sort the data 
         
@@ -289,8 +289,8 @@ class kiDataClass {
         this.data = outData
 
         // put data that doesn't have values at the end.
-        if (nulledData.length > 0) {
-            this.data.push(...nulledData)
+        if (missingKeyData.length > 0) {
+            this.data.push(...missingKeyData)
         }
         // cleanup: remove internal comparison key.
         this.removeKey("COMPARISONKEYTHINGY")
