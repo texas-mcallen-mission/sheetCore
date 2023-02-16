@@ -1,14 +1,14 @@
 {
-  "name": "sheetcore",
-  "dependencies": {
-    "@types/google-apps-script": "^1.0.55",
-    "@types/lodash": "^4.14.184"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.48.2",
-    "@typescript-eslint/parser": "^5.48.2",
-    "eslint": "^8.32.0",
-    "typedoc": "^0.23.24",
-    "typedoc-plugin-markdown": "^3.14.0"
-  }
+    "name": "sheetcore",
+    "dependencies": {
+        "@types/google-apps-script": "^1.0.55",
+        "@types/lodash": "^4.14.184"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.48.2",
+        "@typescript-eslint/parser": "^5.48.2",
+        "eslint": "^8.32.0",
+        "typedoc": "^0.23.24",
+        "typedoc-plugin-markdown": "^3.14.0"
+    }
 }
