@@ -37,11 +37,17 @@ class SheetData {
         // @ts-expect-error same as the setter above.
         return this.rsdata
     }
+    /**
+     *  Creates an instance of SheetData.  To do so, you need to feed it a rawSheetData object, which includes the configuration stuff.
+     * @param {RawSheetData} rawSheetData
+     * @memberof SheetData
+     */
     constructor(rawSheetData:RawSheetData) {
         this.rsd = rawSheetData;
     }
 
     destroyRows(finalRow: number): void {
+        console.error("If you see this: you're using destroyRows, which breaks CRUD compatibility.  Please refactor your code!")
         if (+finalRow > 0) {
             this.rsd.destroyUntilRow(+finalRow)
         } else {
@@ -50,6 +56,7 @@ class SheetData {
     }
 
     clearRows(numRows: number) {
+        console.error("If you see this: you're using destroyRows, which breaks CRUD compatibility.  Please refactor your code!")
         if (typeof numRows == typeof 12) {
             this.rsd.deleteUntilRow(numRows)
         } else {
@@ -65,7 +72,7 @@ class SheetData {
      * @memberof SheetData
      */
     addKeys(thingToCopyFrom: SheetData):this {
-        this.rsd.syncDataColumns(thingToCopyFrom.rsd,this)
+        this.rsd.syncDataColumns(thingToCopyFrom.rsd/*,this*/)
         return this
     }
     addKeysFromArray(keyArray: string[]): this {
@@ -96,7 +103,7 @@ class SheetData {
      */
     directModify(xOffset: number, data: kiDataEntry) {
         if (this.rsd.allowWrite == false) {
-            console.error("tried to modify a write-only sheet")
+            console.error("tried to modify a read-only sheet")
             return
         }
 
@@ -328,6 +335,7 @@ class RawSheetData {
     requireRemote = false
     sheetaa: GoogleAppsScript.Spreadsheet.Sheet
     add_iterant: boolean;
+    crud_iterant_name = "iterant_CRUD"
     
     get sheet() {
         ////@ts-expect-error Same reason as the setter for this
@@ -473,6 +481,9 @@ class RawSheetData {
 
         if (Object.prototype.hasOwnProperty.call(sheetConfig, "use_iterant")==true && sheetConfig.use_iterant == true) {
             this.add_iterant = true
+            this.crud_iterant_name = "iterant_CRUD"
+            // keeps the iterant from getting syncronized into a sheet
+            this.keyNamesToIgnore.push(this.crud_iterant_name)
         }
 
     // end of constructing method
@@ -480,7 +491,42 @@ class RawSheetData {
 
 
     //Private class methods
-    
+
+    // New CRUD Methods
+
+    /**
+     * @description partial modify method- give it a kiData entry with a row number or a partial entry and a row number to update the values at that position.
+     * 
+     * @param {kiDataEntry} kiData
+     * @param {(number|null)} [rowNumber=null]
+     * @memberof RawSheetData
+     */
+    crud_updateRow(kiData:kiDataEntry,rowNumber:number|null = null){
+        if (this.allowWrite == false) {
+            console.error("tried to modify a read-only sheet");
+            return;
+        }
+        let targetRow = -1
+        if(Object.prototype.hasOwnProperty.call(kiData,this.crud_iterant_name)){
+            targetRow = kiData[this.crud_iterant_name]
+        }
+        if(rowNumber != null){
+            targetRow = rowNumber
+        }
+        if(targetRow == -1){
+            console.error("no valid position given, exiting")
+            
+        }
+        let xPos = this.headerRow + targetRow + 1 // offset by 1 to account for zero indexing changes?
+        let sheet = this.getSheet()
+        for (const key in kiData){
+            let value = kiData[key]
+            let yPos = this.getIndex(key)
+            let range = sheet.getRange(xPos,yPos)
+            range.setValue(value)
+        }
+    }
+
     /**
      *  renameKey: Replaces the name of a key with a given string.  If the given key does not exist, it will return without doing anything.
      *
@@ -489,15 +535,16 @@ class RawSheetData {
      * @memberof RawSheetData
      */
     renameKey(targetKey: string, newName: string): void {
+        
+        
         let currentKeys = this.keyToIndex
         if (!Object.prototype.hasOwnProperty.call(currentKeys,targetKey)){ return}
         let targetColumn = currentKeys[targetKey]
 
         this.keyToIndex[newName] = targetColumn
         this.indexToKey[targetColumn] = newName
-        // this.keyToIndex[key] = index;
-
-        // this.indexToKey[index] = key;
+        
+    
     }
 
     
@@ -577,7 +624,7 @@ class RawSheetData {
      * @param {RawSheetData} inputSheetData
      * @memberof RawSheetData
      */
-    syncDataColumns(inputSheetData: RawSheetData,self:SheetData): void {
+    syncDataColumns(inputSheetData: RawSheetData/*,self:SheetData*/): void {
         // this has been updated so that you can use any remote / not remote thing
         // let formSheetData = allSheetData.form;
         // let dataSheetData = allSheetData.data;
@@ -947,31 +994,37 @@ class RawSheetData {
      * Returns the data from this sheet as a two dimensional array. Only includes rows below the header row. Blank rows (rows whose leftmost cell is the empty string) are skipped.
      * @returns {any[][]} The data from this sheet as a two dimentional array.
      */
-    getValues() {
+    getValues(skipEmpty=true) {
         let values:sheetDataValueRaw = [];
         let rawValues = this.getSheet().getDataRange().getValues();
         for (let i = this.headerRow + 1; i > 0; i--) rawValues.shift(); //Skip header rows
-        for (let row of rawValues) if (row[0] != "") values.push(row); //Skip blank rows
+        for (let row of rawValues) if (skipEmpty && row[0] != "") values.push(row); //Skip blank rows
         return values;
     }
 
     /**
      * !!WARNING!!
      * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
-     *
+     *  If use_iterant is set to true in the passed in config, includes an iterant with the key stored at this.crud_iterant_name
      * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties. Only includes rows below the header row. Blank rows (rows whose leftmost cell is the empty string) are skipped.
      * @returns {kiDataEntry[]} The data from this sheet as an array of objects.
      */
     getData() {
         let outValues:kiDataEntry[] = [];
         let values:kiDataEntry[] = this.getValues();
-        for (let row of values) {
+
+        for (let i = 0; i<values.length;i++) {
+            const row = values[i]
             if (row[0] == "") continue; //Skip blank rows
 
             let rowObj: object = {};
             for (let i = 0; i < row.length; i++) {
                 let key = this.indexToKey[i];
                 rowObj[key] = row[i];
+            }
+
+            if(this.add_iterant == true){
+                rowObj[this.crud_iterant_name] = i
             }
 
             outValues.push(rowObj);
