@@ -37,6 +37,8 @@ The main draw to this is that instead of getting each entry of your data in arra
     {name:"Sean",order:"burrito",qty:1}
 ```
 
+At any kind of scale, this is a *way* more elegant solution than trying to keep track of indices and the like.
+
 ## Other information
 
 At present, this library is *mostly* CRUD capable.
