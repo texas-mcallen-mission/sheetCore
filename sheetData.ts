@@ -499,20 +499,27 @@ class RawSheetData {
             console.error("tried to modify a read-only sheet");
             return;
         }
+        if(this.add_iterant == false){
+            throw "tried to use new method on old sheet config.  Please update your configs!"
+        }
         const sheet = this.getSheet()
         for(const entry of kiDataArray){
-            //
+            // have to make a copy so we don't mutate the original kiData entry on accident.
+            // thaaaaanks, JS
+            const entryCopy = { ...entry }
+
             let targetRow = -1
-            if (Object.prototype.hasOwnProperty.call(entry, this.crud_iterant_name)) {
-                targetRow = entry[this.crud_iterant_name];
+            if (Object.prototype.hasOwnProperty.call(entryCopy, this.crud_iterant_name)) {
+                targetRow = entryCopy[this.crud_iterant_name];
             }
             if(targetRow <= 0){
                 console.error("no valid position given or tried to modify header, position given: ",targetRow)
                 return
             }
             const xPos = this.headerRow + targetRow + 1
-            for(const key in entry){
-                const value = entry[key]
+            delete entryCopy[this.crud_iterant_name]
+            for(const key in entryCopy){
+                const value = entryCopy[key]
                 const yPos = this.getIndex(key) + 1
                 const range = sheet.getRange(xPos, yPos)
             }
@@ -523,18 +530,24 @@ class RawSheetData {
     /**
      * @description partial modify method- give it a kiData entry with a row number or a partial entry and a row number to update the values at that position.
      * 
-     * @param {kiDataEntry} kiData
+     * @param {kiDataEntry} kiDataCopy
      * @param {(number|null)} [rowNumber=null]
      * @memberof RawSheetData
      */
     crud_updateRow(kiData:kiDataEntry,rowNumber:number|null = null){
+        // have to make a copy so we don't mutate the original kiData entry on accident.
+        // thaaaaanks, JS
+        const kiDataCopy = {...kiData}
         if (this.allowWrite == false) {
             console.error("tried to modify a read-only sheet");
             return;
         }
+        if (this.add_iterant == false) {
+            throw "tried to use new method on old sheet config.  Please update your configs!";
+        }
         let targetRow = -1
-        if(Object.prototype.hasOwnProperty.call(kiData,this.crud_iterant_name)){
-            targetRow = kiData[this.crud_iterant_name]
+        if(Object.prototype.hasOwnProperty.call(kiDataCopy,this.crud_iterant_name)){
+            targetRow = kiDataCopy[this.crud_iterant_name]
         }
         if(rowNumber != null){
             targetRow = rowNumber
@@ -548,8 +561,10 @@ class RawSheetData {
         }
         const xPos = this.headerRow + targetRow + 1 // offset by 1 to account for zero indexing changes?
         const sheet = this.getSheet()
-        for (const key in kiData){
-            const value = kiData[key]
+        // since we're not actually including this, we have to get rid of it...
+        delete kiDataCopy[this.crud_iterant_name]
+        for (const key in kiDataCopy){
+            const value = kiDataCopy[key]
             const yPos = this.getIndex(key) + 1
             const range = sheet.getRange(xPos,yPos)
             range.setValue(value)
