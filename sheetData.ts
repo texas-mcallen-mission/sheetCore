@@ -327,6 +327,7 @@ class RawSheetData {
     indexToKey: string[] = []
     requireRemote = false
     sheetaa: GoogleAppsScript.Spreadsheet.Sheet
+    add_iterant: boolean;
     
     get sheet() {
         ////@ts-expect-error Same reason as the setter for this
@@ -469,6 +470,10 @@ class RawSheetData {
             this.addSoftColumns();
         }
         this.onCache = onCache
+
+        if (Object.prototype.hasOwnProperty.call(sheetConfig, "use_iterant")==true && sheetConfig.use_iterant == true) {
+            this.add_iterant = true
+        }
 
     // end of constructing method
     }
