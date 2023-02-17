@@ -516,12 +516,14 @@ class RawSheetData {
         if(targetRow == -1){
             console.error("no valid position given, exiting")
             
+        } else if(targetRow == 0){
+            console.error("tried to modify header...")
         }
         let xPos = this.headerRow + targetRow + 1 // offset by 1 to account for zero indexing changes?
         let sheet = this.getSheet()
         for (const key in kiData){
             let value = kiData[key]
-            let yPos = this.getIndex(key)
+            let yPos = this.getIndex(key) + 1
             let range = sheet.getRange(xPos,yPos)
             range.setValue(value)
         }
