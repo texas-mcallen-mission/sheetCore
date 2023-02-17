@@ -494,6 +494,32 @@ class RawSheetData {
 
     // New CRUD Methods
 
+    crud_updateRows(kiDataArray:kiDataEntry[]){
+        if (this.allowWrite == false) {
+            console.error("tried to modify a read-only sheet");
+            return;
+        }
+        const sheet = this.getSheet()
+        for(const entry of kiDataArray){
+            //
+            let targetRow = -1
+            if (Object.prototype.hasOwnProperty.call(entry, this.crud_iterant_name)) {
+                targetRow = entry[this.crud_iterant_name];
+            }
+            if(targetRow <= 0){
+                console.error("no valid position given or tried to modify header, position given: ",targetRow)
+                return
+            }
+            const xPos = this.headerRow + targetRow + 1
+            for(const key in entry){
+                const value = entry[key]
+                const yPos = this.getIndex(key) + 1
+                const range = sheet.getRange(xPos, yPos)
+            }
+        }
+        console.log("Modified ",kiDataArray.length,"entries on sheet ",this.getTabName())
+    }
+
     /**
      * @description partial modify method- give it a kiData entry with a row number or a partial entry and a row number to update the values at that position.
      * 
@@ -515,16 +541,17 @@ class RawSheetData {
         }
         if(targetRow == -1){
             console.error("no valid position given, exiting")
-            
+            return
         } else if(targetRow == 0){
             console.error("tried to modify header...")
+            return
         }
-        let xPos = this.headerRow + targetRow + 1 // offset by 1 to account for zero indexing changes?
-        let sheet = this.getSheet()
+        const xPos = this.headerRow + targetRow + 1 // offset by 1 to account for zero indexing changes?
+        const sheet = this.getSheet()
         for (const key in kiData){
-            let value = kiData[key]
-            let yPos = this.getIndex(key) + 1
-            let range = sheet.getRange(xPos,yPos)
+            const value = kiData[key]
+            const yPos = this.getIndex(key) + 1
+            const range = sheet.getRange(xPos,yPos)
             range.setValue(value)
         }
     }
