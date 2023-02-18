@@ -571,11 +571,11 @@ class RawSheetData {
         if (this.add_iterant == false) {
             throw "tried to use new method on old sheet config.  Please update your configs!";
         }
-        if (this.deletion_cache_check() == false) {
-            this.crud_deleteRows(data);
-            console.log("Unable to destroy rows, clearing / blanking instead.");
-            return;
-        }
+        // if (this.deletion_cache_check() == false) {
+        //     this.crud_deleteRows(data);
+        //     console.log("Unable to destroy rows, clearing / blanking instead.");
+        //     return;
+        // }
         
         let targetRows: number[] = []
         for (let entry of data) {
@@ -606,12 +606,12 @@ class RawSheetData {
         if (this.add_iterant == false) {
             throw "tried to use new method on old sheet config.  Please update your configs!";
         }
-        if (this.deletion_cache_check() == false) {
-            this.crud_deleteRow(data)
-            console.log("Unable to destroy row, clearing / blanking instead.")
+        // if (this.deletion_cache_check() == false) {
+        //     this.crud_deleteRow(data)
+        //     console.log("Unable to destroy row, clearing / blanking instead.")
 
-            return
-        }
+        //     return
+        // }
         let targetRow = getIterant_(data, this.crud_iterant_name)
         if (targetRow && targetRow <= 0) {
             console.log("tried to modify invalid or header row")
@@ -649,7 +649,7 @@ class RawSheetData {
         const dataLength = this.getHeaders().length
         for(const entry of entryArray){
             const xPos = entry + this.headerRow + 1
-            const clearRange = this.getSheet().getRange(xPos, 0, 1, dataLength)
+            const clearRange = this.getSheet().getRange(xPos, 1, 1, dataLength)
             clearRange.clearContent()
         }
     }
@@ -680,7 +680,7 @@ class RawSheetData {
         const xPos = targetRow + this.headerRow + 1
 
         const dataLength = this.getHeaders().length
-        const outRange = this.getSheet().getRange(xPos, 0, 1, dataLength)
+        const outRange = this.getSheet().getRange(xPos, 1, 1, dataLength)
         outRange.clearContent()
 
     }
