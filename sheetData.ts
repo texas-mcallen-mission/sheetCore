@@ -11,6 +11,29 @@ interface sheetCoreConfigInfo {
 }
 
 
+interface deleteCheck_cacheData {
+    time:number
+}
+
+
+/**
+ * @description this gets used by rsd deletion methods, helps keep code overhead down.
+ * Returns -1 if unable to get a position.
+ * @param {(kiDataEntry | number)} data
+ * @param {string} iterant_name
+ * @return {*}  {number}
+ */
+function getIterant_(data: kiDataEntry | number,iterant_name:string):number|-1{
+    if(typeof data == 'number') {
+        return data
+    } else if (Object.prototype.hasOwnProperty.call(data, iterant_name)) {
+        // sticking a + in front is a way to convert stuff to a number
+        return +data[iterant_name]
+    } else {
+        return -1
+    }
+
+}
 
 /**
  * @classdesc SheetData is basically a better version of Sheet. It provides greater access to the data in a sheet than the Sheet class does, given certain assumptions about the format of that Sheet. Functions in the Sheet class usually organize data by row, then by column index number; most SheetData functions organize data by row, then by column header string (or hardcoded key string). This preserves structure when reordering columns or moving data between Sheets as long as corresponding columns have identical headers.
@@ -325,26 +348,28 @@ class RawSheetData {
     // Declarations to make the Typescript checker happy:
     tabName = "";
     headerRow = 0;
-    keyToIndex = {} 
-    includeSoftcodedColumns = false
-    sheetId = ""
-    allowWrite = false
-    keyNamesToIgnore: string[] = []
-    onCache = false
-    indexToKey: string[] = []
-    requireRemote = false
-    sheetaa: GoogleAppsScript.Spreadsheet.Sheet
+    keyToIndex = {};
+    includeSoftcodedColumns = false;
+    sheetId = "";
+    allowWrite = false;
+    keyNamesToIgnore: string[] = [];
+    onCache = false;
+    indexToKey: string[] = [];
+    requireRemote = false;
+    sheetaa: GoogleAppsScript.Spreadsheet.Sheet;
     add_iterant: boolean;
-    crud_iterant_name = "iterant_CRUD"
+    crud_iterant_name = "iterant_CRUD";
+    data_update_time: number;
+    crud_cacheKey: string;
     
     get sheet() {
         ////@ts-expect-error Same reason as the setter for this
-        return this.sheetaa
+        return this.sheetaa;
     }
 
     set sheet(sheetObj) {
         ////@ts-expect-error (can't declare this without a call to SpreadsheetApp for a placeholder, which is expensive IO wise.)
-        this.sheetaa = sheetObj
+        this.sheetaa = sheetObj;
     }
 
 
@@ -369,9 +394,9 @@ class RawSheetData {
         
         //@ts-expect-error - the check on == "" is a just-in-case for restoring from cache
         if (typeof sheetConfig.requireRemote == undefined || sheetConfig.requireRemote == "" || sheetConfig.requireRemote == null) { // I *think* I covered my bases here
-            this.requireRemote = false
+            this.requireRemote = false;
         } else {
-            this.requireRemote = sheetConfig.requireRemote
+            this.requireRemote = sheetConfig.requireRemote;
         }
         // Step 1.1: Setting the Sheet ID, and making sure the tab exists.
 
@@ -382,9 +407,9 @@ class RawSheetData {
         // if the target sheet is *not* undefined and is inaccessible, throw an error
         if (typeof sheetConfig.sheetId == undefined || sheetConfig.sheetId == "" || sheetConfig.sheetId == null) { // I *think* I covered my bases here
             if (this.requireRemote == true) {
-                let errorMessage = "Remote sheet ID required, none given"
-                console.error(errorMessage)
-                throw errorMessage
+                let errorMessage = "Remote sheet ID required, none given";
+                console.error(errorMessage);
+                throw errorMessage;
             }
             console.info("Using local sheet");
             targetSheetId = SpreadsheetApp.getActiveSpreadsheet().getId();
@@ -401,7 +426,7 @@ class RawSheetData {
                 } else {
                     isAccessible = true;
                     console.info("using external sheet id for", sheetConfig.tabName);
-                    targetSheetId = sheetConfig.sheetId
+                    targetSheetId = sheetConfig.sheetId;
                 }
             }
 
@@ -423,13 +448,13 @@ class RawSheetData {
         // step 1.2: allowing page writes 
         // @ts-expect-error
         if (typeof sheetConfig.allowWrite == undefined || sheetConfig.allowWrite == "" || sheetConfig.allowWrite == null) { // I *think* I covered my bases here 
-            this.allowWrite = true
+            this.allowWrite = true;
         } else {
             if (typeof sheetConfig.allowWrite == 'boolean') {
-                this.allowWrite = sheetConfig.allowWrite
+                this.allowWrite = sheetConfig.allowWrite;
             } else {
-                let errorMessage = "allowWrite was declared incorrectly, has type " + typeof sheetConfig.allowWrite + "and value: " + sheetConfig.allowWrite + "should be null or boolean"
-                throw errorMessage
+                let errorMessage = "allowWrite was declared incorrectly, has type " + typeof sheetConfig.allowWrite + "and value: " + sheetConfig.allowWrite + "should be null or boolean";
+                throw errorMessage;
                 
             }
         }
@@ -437,10 +462,10 @@ class RawSheetData {
         // step 1.3: set values for syncing DataFlow columns to ignore
         //@ts-expect-error
         if (typeof sheetConfig.keyNamesToIgnore == undefined || sheetConfig.keyNamesToIgnore == "" || sheetConfig.keyNamesToIgnore == null) { // I *think* I covered my bases here
-            this.keyNamesToIgnore = []
+            this.keyNamesToIgnore = [];
         } else {
             // not much type checking on this one, though it might be necessary for the future.  Dunno.
-            this.keyNamesToIgnore = sheetConfig.keyNamesToIgnore
+            this.keyNamesToIgnore = sheetConfig.keyNamesToIgnore;
         }
 
 
@@ -463,37 +488,210 @@ class RawSheetData {
             this.setHeaders(this.indexToKey);
             // throw ("Couldn't construct SheetData: no sheet found with name '" + this.tabName + "'");
         } else {
-            this.sheet = sheet
+            this.sheet = sheet;
         }
         
         // step 3: avoid building soft columns if on cache
-        let onCache = false
+        let onCache = false;
         //@ts-expect-error
         if (typeof sheetConfig.fromCache == undefined || sheetConfig.fromCache == "" || sheetConfig.fromCache == null) { // I *think* I covered my bases here
-            onCache = false
+            onCache = false;
         } else {
-            onCache = sheetConfig.fromCache
+            onCache = sheetConfig.fromCache;
         }
         if (sheetConfig.includeSoftcodedColumns == true && onCache == false) {
             this.addSoftColumns();
         }
-        this.onCache = onCache
+        this.onCache = onCache;
 
-        if (Object.prototype.hasOwnProperty.call(sheetConfig, "use_iterant")==true && sheetConfig.use_iterant == true) {
-            this.add_iterant = true
-            this.crud_iterant_name = "iterant_CRUD"
+        if (Object.prototype.hasOwnProperty.call(sheetConfig, "use_iterant") == true && sheetConfig.use_iterant == true) {
+            this.add_iterant = true;
+            this.crud_iterant_name = "iterant_CRUD";
             // keeps the iterant from getting syncronized into a sheet
-            this.keyNamesToIgnore.push(this.crud_iterant_name)
+            this.keyNamesToIgnore.push(this.crud_iterant_name);
         }
-
-    // end of constructing method
+        
+        // add cache key for newer CRUD methods
+        this.crud_cacheKey = this.tabName + "_CRUD_CHECK"
+        // end of constructing method
     }
 
 
     //Private class methods
 
     // New CRUD Methods
+    /**
+     * @description return true if it's okay to delete rows because nothing else has pulled the data yet.
+     * @return {*}  {boolean}
+     * @memberof RawSheetData
+     */
+    deletion_cache_check():boolean {
+        function convertToDeleteCheck_(input: string): deleteCheck_cacheData {
+            let output: deleteCheck_cacheData = {
+                time: 0
+            };
+            output = { ...output, ...JSON.parse(input) };
+            return output
+        }
 
+        const cache = CacheService.getScriptCache()
+        const cacheData = convertToDeleteCheck_(cache.get(this.crud_cacheKey))
+
+        if (cacheData.time != 0) {
+            if (cacheData.time == this.data_update_time) {
+                return false
+            } else {
+                return true
+            }
+        } else {
+            // default, no cache value exists
+            return true
+        }
+    }
+
+
+    /**
+     * @description how we make sure we don't get weird errors with concurrency when deleting rows.
+     * @memberof RawSheetData
+     */
+    updateLastPulled() {
+        const cache = CacheService.getScriptCache()
+        const time = new Date().getMilliseconds()
+        this.data_update_time = time
+        const outData: deleteCheck_cacheData = {
+            time:time
+        }
+        cache.put(this.crud_cacheKey,JSON.stringify(outData))
+    }
+    crud_destroyRows(data: kiDataEntry[] | number[]) {
+        if (this.allowWrite == false) {
+            console.error("tried to modify a read-only sheet");
+            return;
+        }
+        if (this.add_iterant == false) {
+            throw "tried to use new method on old sheet config.  Please update your configs!";
+        }
+        if (this.deletion_cache_check() == false) {
+            this.crud_deleteRows(data);
+            console.log("Unable to destroy rows, clearing / blanking instead.");
+            return;
+        }
+        
+        let targetRows: number[] = []
+        for (let entry of data) {
+            let iterant = getIterant_(entry, this.crud_iterant_name)
+            if(iterant>-1){targetRows.push(iterant)}
+        }
+        // don't want to have things shifting on us...
+        targetRows.sort()
+        
+        const sheet = this.getSheet()
+        const positionOffset = this.headerRow + 1
+        // since targetRows winds up in ascending order, we have to flip it over to delete in the right order
+        for (let i = targetRows.length - 1; i >= 0;i--) {
+            // sheet.deleteRow(entry)
+            sheet.deleteRow(targetRows[i]+positionOffset)
+
+        }
+
+        
+
+    }
+
+    crud_destroyRow(data: kiDataEntry | number) {
+        if (this.allowWrite == false) {
+            console.error("tried to modify a read-only sheet");
+            return;
+        }
+        if (this.add_iterant == false) {
+            throw "tried to use new method on old sheet config.  Please update your configs!";
+        }
+        if (this.deletion_cache_check() == false) {
+            this.crud_deleteRow(data)
+            console.log("Unable to destroy row, clearing / blanking instead.")
+
+            return
+        }
+        let targetRow = getIterant_(data, this.crud_iterant_name)
+        if (targetRow && targetRow <= 0) {
+            console.log("tried to modify invalid or header row")
+            return
+        }
+        const xPos = targetRow + this.headerRow + 1
+        // const dataLength = this.getHeaders().length;
+        this.getSheet().deleteRow(xPos)
+    }
+
+    /**
+     * @description given a bunch of positions, clear the content of each given cell
+     * @param {kiDataEntry[]} dataArray
+     * @param {(number[]|null)} [positions=null]
+     * @return {*} 
+     * @memberof RawSheetData
+     */
+    crud_deleteRows(dataArray:kiDataEntry[]|number[]){
+        if (this.allowWrite == false) {
+            console.error("tried to modify a read-only sheet");
+            return;
+        }
+        if (this.add_iterant == false) {
+            throw "tried to use new method on old sheet config.  Please update your configs!";
+        }
+        let entryArray = []
+        for (let entry of dataArray) {
+            let number = getIterant_(entry, this.crud_iterant_name)
+            if (number != -1) {
+                entryArray.push(number)
+            }
+        }
+        
+        // this.getSheet()
+        const dataLength = this.getHeaders().length
+        for(const entry of entryArray){
+            const xPos = entry + this.headerRow + 1
+            const clearRange = this.getSheet().getRange(xPos, 0, 1, dataLength)
+            clearRange.clearContent()
+        }
+    }
+
+    /**
+     * @description given a kiDataEntry with the new iterant key or a position, delete its values from a sheet.
+     * This is also the fallback method for destroyRow when something else has pulled in data already.
+     * @param {kiDataEntry} dataEntry
+     * @param {(number|null)} [position=null]
+     * @return {*} 
+     * @memberof RawSheetData
+     */
+    crud_deleteRow(dataEntry:kiDataEntry|number){
+        if (this.allowWrite == false) {
+            console.error("tried to modify a read-only sheet");
+            return;
+        }
+        if (this.add_iterant == false) {
+            throw "tried to use new method on old sheet config.  Please update your configs!";
+        }
+        let targetRow = getIterant_(dataEntry, this.crud_iterant_name)
+        
+        if(targetRow <= 0){
+            console.error("tried to edit header or given an invalid position.")
+            return
+        }
+
+        const xPos = targetRow + this.headerRow + 1
+
+        const dataLength = this.getHeaders().length
+        const outRange = this.getSheet().getRange(xPos, 0, 1, dataLength)
+        outRange.clearContent()
+
+    }
+
+    /**
+     * @description unlike the deleteRow methods, this requires a kiDataEntry because otherwise it won't have data to update with.
+     *   Also requires a key at this.crud_iterant_name to not skip an entry.
+     * @param {kiDataEntry[]} kiDataArray
+     * @return {*} 
+     * @memberof RawSheetData
+     */
     crud_updateRows(kiDataArray:kiDataEntry[]){
         if (this.allowWrite == false) {
             console.error("tried to modify a read-only sheet");
@@ -506,22 +704,27 @@ class RawSheetData {
         for(const entry of kiDataArray){
             // have to make a copy so we don't mutate the original kiData entry on accident.
             // thaaaaanks, JS
-            const entryCopy = { ...entry }
+            // const entry = { ...entry }
 
             let targetRow = -1
-            if (Object.prototype.hasOwnProperty.call(entryCopy, this.crud_iterant_name)) {
-                targetRow = entryCopy[this.crud_iterant_name];
+            if (Object.prototype.hasOwnProperty.call(entry, this.crud_iterant_name)) {
+                targetRow = entry[this.crud_iterant_name];
             }
             if(targetRow <= 0){
                 console.error("no valid position given or tried to modify header, position given: ",targetRow)
                 return
             }
             const xPos = this.headerRow + targetRow + 1
-            delete entryCopy[this.crud_iterant_name]
-            for(const key in entryCopy){
-                const value = entryCopy[key]
-                const yPos = this.getIndex(key) + 1
-                const range = sheet.getRange(xPos, yPos)
+            // delete entryCopy[this.crud_iterant_name]
+            for(const key in entry){
+                // since the crud iterant doesn't have a key, it'll crash here...
+                // also need to go and add a skip on other data setting methods.
+                if(key != this.crud_iterant_name){
+                    const value = entry[key]
+                    const yPos = this.getIndex(key) + 1
+                    const range = sheet.getRange(xPos, yPos)
+                    range.setValue(value)
+                }
             }
         }
         console.log("Modified ",kiDataArray.length,"entries on sheet ",this.getTabName())
@@ -537,7 +740,7 @@ class RawSheetData {
     crud_updateRow(kiData:kiDataEntry,rowNumber:number|null = null){
         // have to make a copy so we don't mutate the original kiData entry on accident.
         // thaaaaanks, JS
-        const kiDataCopy = {...kiData}
+        // const kiData = {...kiData}
         if (this.allowWrite == false) {
             console.error("tried to modify a read-only sheet");
             return;
@@ -546,8 +749,8 @@ class RawSheetData {
             throw "tried to use new method on old sheet config.  Please update your configs!";
         }
         let targetRow = -1
-        if(Object.prototype.hasOwnProperty.call(kiDataCopy,this.crud_iterant_name)){
-            targetRow = kiDataCopy[this.crud_iterant_name]
+        if(Object.prototype.hasOwnProperty.call(kiData,this.crud_iterant_name)){
+            targetRow = kiData[this.crud_iterant_name]
         }
         if(rowNumber != null){
             targetRow = rowNumber
@@ -562,12 +765,14 @@ class RawSheetData {
         const xPos = this.headerRow + targetRow + 1 // offset by 1 to account for zero indexing changes?
         const sheet = this.getSheet()
         // since we're not actually including this, we have to get rid of it...
-        delete kiDataCopy[this.crud_iterant_name]
-        for (const key in kiDataCopy){
-            const value = kiDataCopy[key]
-            const yPos = this.getIndex(key) + 1
-            const range = sheet.getRange(xPos,yPos)
-            range.setValue(value)
+        // delete kiData[this.crud_iterant_name]
+        for (const key in kiData){
+            if(key!=this.crud_iterant_name){
+                const value = kiData[key]
+                const yPos = this.getIndex(key) + 1
+                const range = sheet.getRange(xPos,yPos)
+                range.setValue(value)
+            }
         }
     }
 
@@ -1053,7 +1258,9 @@ class RawSheetData {
      * Returns the data from this sheet as an array of objects. Each object represents a row in this sheet and contains the data for that row as properties. Only includes rows below the header row. Blank rows (rows whose leftmost cell is the empty string) are skipped.
      * @returns {kiDataEntry[]} The data from this sheet as an array of objects.
      */
-    getData() {
+    getData():kiDataEntry[] {
+        // this.data_update_time = new Date().getTime()
+        this.updateLastPulled()
         let outValues:kiDataEntry[] = [];
         let values:kiDataEntry[] = this.getValues();
 
@@ -1335,7 +1542,8 @@ class RawSheetData {
      * @returns An array containing all values from the given column.
      * @param {number} index The index of the column, starting from 0.
      */
-    getAllOfIndex(index):sheetDataValueRaw {
+    getAllOfIndex(index): sheetDataValueRaw {
+        this.updateLastPulled()
         let values = this.getValues();
         let arr = [];
 
