@@ -563,6 +563,8 @@ class RawSheetData {
         }
         cache.put(this.crud_cacheKey,JSON.stringify(outData))
     }
+
+    // WYLO: Just need to figure out the internal caching bits and I'm done with these...
     crud_destroyRows(data: kiDataEntry[] | number[]) {
         if (this.allowWrite == false) {
             console.error("tried to modify a read-only sheet");
