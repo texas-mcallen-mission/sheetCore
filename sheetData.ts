@@ -590,7 +590,7 @@ class RawSheetData {
         targetRows.sort()
         
         const sheet = this.getSheet()
-        const positionOffset = this.headerRow + 1
+        const positionOffset = this.headerRow //+ 1 already 1-indexed
         // since targetRows winds up in ascending order, we have to flip it over to delete in the right order
         for (let i = targetRows.length - 1; i >= 0;i--) {
             // sheet.deleteRow(entry)
@@ -621,7 +621,7 @@ class RawSheetData {
             console.log("tried to modify invalid or header row")
             return
         }
-        const xPos = targetRow + this.headerRow + 1
+        const xPos = targetRow + this.headerRow //  + 1 already one-indexed.
         // const dataLength = this.getHeaders().length;
         this.getSheet().deleteRow(xPos)
     }
@@ -652,7 +652,7 @@ class RawSheetData {
         // this.getSheet()
         const dataLength = this.getHeaders().length
         for(const entry of entryArray){
-            const xPos = entry + this.headerRow + 1
+            const xPos = entry + this.headerRow // + 1 already 1-indexed
             const clearRange = this.getSheet().getRange(xPos, 1, 1, dataLength)
             clearRange.clearContent()
         }
@@ -681,7 +681,7 @@ class RawSheetData {
             return
         }
 
-        const xPos = targetRow + this.headerRow + 1
+        const xPos = targetRow + this.headerRow // + 1 already 1-indexed
 
         const dataLength = this.getHeaders().length
         const outRange = this.getSheet().getRange(xPos, 1, 1, dataLength)
@@ -766,7 +766,7 @@ class RawSheetData {
             console.error("tried to modify header...")
             return
         }
-        const xPos = this.headerRow + targetRow + 1 // offset by 1 to account for zero indexing changes?
+        const xPos = this.headerRow + targetRow // already 1-indexed + 1 // offset by 1 to account for zero indexing changes?
         const sheet = this.getSheet()
         // since we're not actually including this, we have to get rid of it...
         // delete kiData[this.crud_iterant_name]
@@ -1279,7 +1279,7 @@ class RawSheetData {
             }
 
             if(this.add_iterant == true){
-                rowObj[this.crud_iterant_name] = i
+                rowObj[this.crud_iterant_name] = i // already 1-indexed + 1 // switch from zero indexed to one indexed
             }
 
             outValues.push(rowObj);
