@@ -67,7 +67,7 @@ interface recursiveFunctionData{
  */
 interface sheetDataEntry {
     tabName: string,
-    headerRow: number,
+    headerRow: number, // zero-indexed: putting in zero will result in things winding up on row 1
     initialColumnOrder: columnConfig,
     includeSoftcodedColumns: boolean,
     sheetId?: string,
