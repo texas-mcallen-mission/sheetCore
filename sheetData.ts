@@ -1279,7 +1279,7 @@ class RawSheetData {
             }
 
             if(this.add_iterant == true){
-                rowObj[this.crud_iterant_name] = i // already 1-indexed + 1 // switch from zero indexed to one indexed
+                rowObj[this.crud_iterant_name] = i+1 // switch from zero indexed to one indexed
             }
 
             outValues.push(rowObj);
