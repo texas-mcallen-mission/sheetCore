@@ -1266,8 +1266,10 @@ class RawSheetData {
     getData():kiDataEntry[] {
         // this.data_update_time = new Date().getTime()
         this.updateLastPulled()
-        let outValues:kiDataEntry[] = [];
-        let values:kiDataEntry[] = this.getValues();
+        let outValues: kiDataEntry[] = [];
+        // let useIterant = false
+        // if(this.add_iterant)
+        let values:kiDataEntry[] = this.getValues(this.add_iterant);
 
         for (let i = 0; i<values.length;i++) {
             const row = values[i]
