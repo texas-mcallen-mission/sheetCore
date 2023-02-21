@@ -1269,7 +1269,12 @@ class RawSheetData {
         let outValues: kiDataEntry[] = [];
         // let useIterant = false
         // if(this.add_iterant)
-        let values:kiDataEntry[] = this.getValues(this.add_iterant);
+        let skipEmpty = true
+        // this doesn't seem to work correctly yet.
+        if (this.add_iterant == true) {
+            skipEmpty = false
+        }
+        let values:kiDataEntry[] = this.getValues(skipEmpty);
 
         for (let i = 0; i<values.length;i++) {
             const row = values[i]
