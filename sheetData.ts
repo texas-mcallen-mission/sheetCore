@@ -509,6 +509,8 @@ class RawSheetData {
             this.crud_iterant_name = "iterant_CRUD";
             // keeps the iterant from getting syncronized into a sheet
             this.keyNamesToIgnore.push(this.crud_iterant_name);
+        } else {
+            this.add_iterant = false
         }
         
         // add cache key for newer CRUD methods
