@@ -1525,7 +1525,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
      */
     appendRowValues(values: sheetDataValueRaw[]) {
         const row = this.getSheet().getLastRow() // I think, since this is 1-indexed, this shouldn't overwrite?  untested.
-        const column = 0
+        const column = 1
         const numCols = values[0].length
         const numRows = values.length
         const range = this.getSheet().getRange(row, column,numRows,numCols)
