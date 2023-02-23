@@ -622,7 +622,25 @@ class RawSheetData {
             console.log("tried to modify invalid or header row")
             return
         }
-        const xPos = targetRow + this.headerRow + 1 //+ this.offset//  + 1 already one-indexed.
+        /* 
+        okay, so I know adding two isn't the normal thing you see 
+        when converting from zero-indexed stuff to 1-indexed, but
+        here's the thing- in the config, headerRow is zero indexed.
+        So are the data entries.
+        headerRow:1 sets the second row (counting from zero) on the sheet
+        as the header.  The first data entry is on the third row down.
+        and *then*, since we're zero-indexing the data (because that's 
+        the more normal thing to do in arrays, at least where I'm from)
+        we have to offset it again, which means that in this case, 
+        the offset is two.
+
+        Realizing that was a pain in the butt.
+
+        What that means is that crud_destroyRow(0) will delete the first
+        row of data, right underneath the header.
+        * 
+        */
+        const xPos = targetRow + this.headerRow + 2
         // const dataLength = this.getHeaders().length;
         this.getSheet().deleteRow(xPos)
     }
@@ -652,8 +670,9 @@ class RawSheetData {
         
         // this.getSheet()
         const dataLength = this.getHeaders().length
-        for(const entry of entryArray){
-            const xPos = entry + this.headerRow + 1 //+ this.offset // + 1 already 1-indexed
+        for (const entry of entryArray) {
+            // see crud_destroyRow to explain why there's a two here
+            const xPos = entry + this.headerRow + 2
             const clearRange = this.getSheet().getRange(xPos, 1, 1, dataLength)
             clearRange.clearContent()
         }
@@ -681,8 +700,8 @@ class RawSheetData {
             console.error("tried to edit header or given an invalid position.")
             return
         }
-
-        const xPos = targetRow + this.headerRow +1 //+ this.offset// + 1 already 1-indexed
+        // see crud_destroyRow() for an explanation of why there's a two here
+        const xPos = targetRow + this.headerRow +2
 
         const dataLength = this.getHeaders().length
         const outRange = this.getSheet().getRange(xPos, 1, 1, dataLength)
@@ -719,7 +738,8 @@ class RawSheetData {
                 console.error("no valid position given or tried to modify header, position given: ",targetRow)
                 return
             }
-            const xPos = this.headerRow + targetRow +1 //+this.offset
+            // see crud_destroyRow() for an explanation of why there's a two here
+            const xPos = this.headerRow + targetRow +2
             // delete entryCopy[this.crud_iterant_name]
             for(const key in entry){
                 // since the crud iterant doesn't have a key, it'll crash here...
@@ -764,11 +784,9 @@ class RawSheetData {
             console.error("no valid position given, exiting");
             return;
         }
-        // } else if(targetRow == 0){
-        //     console.error("tried to modify header...")
-        //     return
-        // }
-        const xPos = this.headerRow + targetRow + 1 //+ this.offset // already 1-indexed + 1 // offset by 1 to account for zero indexing changes?
+        
+        // see crud_destroyRow() for an explanation of why there's a two here
+        const xPos = this.headerRow + targetRow + 2
         const sheet = this.getSheet()
         // since we're not actually including this, we have to get rid of it...
         // delete kiData[this.crud_iterant_name]
