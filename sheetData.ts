@@ -117,6 +117,7 @@ class SheetData {
             console.error("destroyRows call invalid!")
         }
     }
+
     /**
      * @description
      * @deprecated - don't want to keep this around in sheetData.  Feel free to use the underlying rawSheetData method if you need it.
@@ -1449,7 +1450,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
     appendData(data: kiDataEntry[]) {
         if (data.length == 0) return;
 
-        let values = [];
+        let values:sheetDataValueRaw[] = [];
         let skippedKeys = new Set();
         let maxIndex = 0;
 
@@ -1475,12 +1476,9 @@ crud_destroyRow(data: kiDataEntry | number):this {
         }
 
         // this.appendRowValues(values)
+        this.appendRowValues(values)
     }
-    appendRowsValue(data: kiDataEntry[]) {
-        // this is a fun one...
-        // TODO WYLO
-
-    }
+    
     /**
      *  Takes in a single data entry and puts it at the bottom of a spreadsheet.
      *  Expects a single line of data.
@@ -1526,7 +1524,11 @@ crud_destroyRow(data: kiDataEntry | number):this {
      * @param {Object[]} values The values to insert.
      */
     appendRowValues(values: sheetDataValueRaw[]) {
-        this.getSheet().appendRow(values);
+        const row = this.getSheet().getLastRow() // I think, since this is 1-indexed, this shouldn't overwrite?  untested.
+        const column = 0
+        const range = this.getSheet().getRange(row, column)
+        range.setValues(values)
+        // this.getSheet().appendRow(values);
         // range.setValues(values);
     }
     /**
