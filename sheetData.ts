@@ -1530,7 +1530,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
             console.error("tried to edit range above the header, this is weird and I don't like it.")
             // not sure if I should set this to the one after the header or throw an error.
             // so imma implement both, feel free to comment out whichever you want
-            row = this.headerRow + 1
+            row = this.headerRow + 2 // alternatively, add like a random big number here so that we don't overwrite things in case of an error?
             // throw "range received was lower than the headerRow, your data may have been lost or Sheets has lost its mind."
         }
         const column = 1
