@@ -1524,7 +1524,15 @@ crud_destroyRow(data: kiDataEntry | number):this {
      * @param {Object[]} values The values to insert.
      */
     appendRowValues(values: sheetDataValueRaw[]) {
-        const row = this.getSheet().getLastRow() // I think, since this is 1-indexed, this shouldn't overwrite?  untested.
+        // getLastRow gets the 
+        let row = this.getSheet().getLastRow() + 1
+        if (row < this.headerRow + 1) {
+            console.error("tried to edit range above the header, this is weird and I don't like it.")
+            // not sure if I should set this to the one after the header or throw an error.
+            // so imma implement both, feel free to comment out whichever you want
+            row = this.headerRow + 1
+            // throw "range received was lower than the headerRow, your data may have been lost or Sheets has lost its mind."
+        }
         const column = 1
         const numCols = values[0].length
         const numRows = values.length
