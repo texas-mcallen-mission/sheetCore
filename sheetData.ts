@@ -68,25 +68,71 @@ class SheetData {
     constructor(rawSheetData:RawSheetData) {
         this.rsd = rawSheetData;
     }
+    /**
+     * @description internal key used to do Update & Delete actions.
+     * @readonly
+     * @type {string}
+     * @memberof SheetData
+     */
+    get iterantKey(): string {
+        return this.rsd.crud_iterant_name
+    }
+    // Update methods
+    /**
+     * @description given a kiDataEntry with an internal iterant, modify values in columns with keys given.
+     * @param {kiDataEntry[]} array of partial ``kiDataEntry`` which must have a iterantKey somewhere inside.
+     * @return {*}  {ThisType<SheetData>}
+     * @memberof SheetData
+     */
+    updateRows(dataArray: kiDataEntry[]): ThisType<SheetData> {
+        this.rsd.crud_updateRows(dataArray)
+        return this
+    }
+    updateRow(dataEntry: kiDataEntry , position: number|null = null): ThisType<SheetData> {
+        this.rsd.crud_updateRow(dataEntry, position)
+        return this
+    }
+    // DELETE methods
+    deleteRows(dataArray: kiDataEntry[] | number[]): ThisType<SheetData> {
+        this.rsd.crud_deleteRows(dataArray)
+        return this
+    }
+    deleteRow(dataEntry: kiDataEntry | number): ThisType<SheetData> {
+        this.rsd.crud_deleteRow(dataEntry)
+        return this
+    }
 
+    // Deprecated because it breaks compatibility.
+    /**
+     * @deprecated - don't want to keep this around in sheetData.  Feel free to use the underlying rawSheetData method if you need it.
+     * @param {number} finalRow
+     * @memberof SheetData
+     */
     destroyRows(finalRow: number): void {
         console.error("If you see this: you're using destroyRows, which breaks CRUD compatibility.  Please refactor your code!")
+        // throw "sheetData.destroyRows() has been deprecated!"
         if (+finalRow > 0) {
             this.rsd.destroyUntilRow(+finalRow)
         } else {
             console.error("destroyRows call invalid!")
         }
     }
-
+    /**
+     * @description
+     * @deprecated - don't want to keep this around in sheetData.  Feel free to use the underlying rawSheetData method if you need it.
+     * @param {number} numRows
+     * @memberof SheetData
+     */
     clearRows(numRows: number) {
         console.error("If you see this: you're using destroyRows, which breaks CRUD compatibility.  Please refactor your code!")
+        // throw "sheetData.clearRows() has been deprecated!"
         if (typeof numRows == typeof 12) {
             this.rsd.deleteUntilRow(numRows)
         } else {
             console.error("NumRows call invalid, not deleting.")
         }
     }
-
+    // internal stuff, mostly
     /**
      *  Copies all keys that don't already exist that are not specifically excluded in the keyNamesToIgnore declaration 
         
@@ -114,8 +160,12 @@ class SheetData {
      * @return {*} 
      * @memberof SheetData
      */
-    appendData(data: kiDataEntry):void {
-        this.rsd.appendDataRow(data);
+    appendData(data: kiDataEntry|kiDataEntry[]): void {
+        if (Array.isArray(data)) {
+            this.rsd.appendData(data)
+        } else {
+            this.rsd.appendDataRow(data);
+        }
     }
     /**
      *  directModify: modify a partial 
@@ -612,6 +662,7 @@ class RawSheetData {
     
 /**
  * @description deletes entire row and shifts data up.  DO NOT USE IN CONCURRENT / MULTITHREAD APPLICATIONS.
+ *  NOT exposed to the sheetData class because it's legit a bad idea to use unless you aren't doing anything async or concurrent.
      * @param {(kiDataEntry[] | number[])} either kiDataEntry with internal iterant or a zero-indexed integer position
      * @return {*}  {this}
  * @memberof RawSheetData
@@ -660,6 +711,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
 
     /**
      * @description given a bunch of positions, clear the content of each given cell but don't shift data.  Use this in places where you have a chance of concurrency.
+     * NOT exposed to the sheetData class because it's legit a bad idea to use unless you aren't doing anything async or concurrent.
      * @param {(kiDataEntry[] | number[])} array of kiDataEntries with internal iterants or array of zero-indexed integers.
      * @return {*}  {this}
      * @memberof RawSheetData
@@ -1394,7 +1446,41 @@ crud_destroyRow(data: kiDataEntry | number):this {
 
         this.setValues(values);
     }
+    appendData(data: kiDataEntry[]) {
+        if (data.length == 0) return;
 
+        let values = [];
+        let skippedKeys = new Set();
+        let maxIndex = 0;
+
+        for (let rowData of data) {
+            let arr = [];
+            for (let key in rowData) {
+                if (!this.hasKey(key)) {
+                    skippedKeys.add(key);
+                } else {
+                    arr[this.getIndex(key)] = rowData[key];
+                    maxIndex = Math.max(maxIndex, this.getIndex(key));
+                }
+            }
+            values.push(arr);
+        }
+
+        //Force all rows to be of the same length
+        for (let arr of values)
+            if (typeof arr[maxIndex] == "undefined") arr[maxIndex] = "";
+
+        if (Object.keys(skippedKeys).length > 0) {
+            console.info("Skipped keys on", this.getTabName(), ":", skippedKeys);
+        }
+
+        // this.appendRowValues(values)
+    }
+    appendRowsValue(data: kiDataEntry[]) {
+        // this is a fun one...
+        // TODO WYLO
+
+    }
     /**
      *  Takes in a single data entry and puts it at the bottom of a spreadsheet.
      *  Expects a single line of data.
@@ -1403,7 +1489,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
      * @return {*} 
      * @memberof RawSheetData
      */
-    appendDataRow(data) {
+    appendDataRow(data:kiDataEntry) {
         // if (data.length == 0) return;
 
         let values = [];
@@ -1446,7 +1532,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
     /**
      * !!WARNING!!
      * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
-     *
+     * @deprecated - this breaks async CRUD capabilities.
      * Inserts rows of data into the Sheet. Takes a 2D array.
      * @param {any[][]} values The values to insert.
      */
@@ -1465,7 +1551,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
     /**
      * !!WARNING!!
      * This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
-     *
+     * @deprecated please use appendData() instead.
      * Sets the data in the Sheet, erasing data already there. Takes an array of row objects.
      * @param {Object} data The data to insert.
      */
