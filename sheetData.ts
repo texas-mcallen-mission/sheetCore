@@ -568,7 +568,13 @@ class RawSheetData {
     }
 
     // WYLO: Just need to figure out the internal caching bits and I'm done with these...
-    crud_destroyRows(data: kiDataEntry[] | number[]) {
+    /**
+     * @description deletes entire rows and shifts data up.  DO NOT USE IN CONCURRENT / MULTITHREAD APPLICATIONS.
+     * @param {(kiDataEntry[] | number[])} either kiDataEntries with internal iterants or an array of zero-indexed values
+     * @return {*}  {this}
+     * @memberof RawSheetData
+     */
+    crud_destroyRows(data: kiDataEntry[] | number[]):this {
         if (this.allowWrite == false) {
             console.error("tried to modify a read-only sheet");
             return;
@@ -601,10 +607,16 @@ class RawSheetData {
         }
 
         
-
+        return this
     }
-
-    crud_destroyRow(data: kiDataEntry | number) {
+    
+/**
+ * @description deletes entire row and shifts data up.  DO NOT USE IN CONCURRENT / MULTITHREAD APPLICATIONS.
+     * @param {(kiDataEntry[] | number[])} either kiDataEntry with internal iterant or a zero-indexed integer position
+     * @return {*}  {this}
+ * @memberof RawSheetData
+ */
+crud_destroyRow(data: kiDataEntry | number):this {
         if (this.allowWrite == false) {
             console.error("tried to modify a read-only sheet");
             return;
@@ -647,13 +659,13 @@ class RawSheetData {
     }
 
     /**
-     * @description given a bunch of positions, clear the content of each given cell
-     * @param {kiDataEntry[]} dataArray
-     * @param {(number[]|null)} [positions=null]
-     * @return {*} 
+     * @description given a bunch of positions, clear the content of each given cell but don't shift data.  Use this in places where you have a chance of concurrency.
+     * @param {(kiDataEntry[] | number[])} array of kiDataEntries with internal iterants or array of zero-indexed integers.
+     * @return {*}  {this}
      * @memberof RawSheetData
      */
-    crud_deleteRows(dataArray:kiDataEntry[]|number[]){
+    crud_deleteRows(dataArray: kiDataEntry[] | number[]): this{
+
         if (this.allowWrite == false) {
             console.error("tried to modify a read-only sheet");
             return;
@@ -677,6 +689,7 @@ class RawSheetData {
             const clearRange = this.getSheet().getRange(xPos, 1, 1, dataLength)
             clearRange.clearContent()
         }
+        return this
     }
 
     /**
@@ -758,15 +771,11 @@ class RawSheetData {
 
     /**
      * @description partial modify method- give it a kiData entry with a row number or a partial entry and a row number to update the values at that position.
-     * 
-     * @param {kiDataEntry} kiDataCopy
+     * @param {kiDataEntry} kiData
      * @param {(number|null)} [rowNumber=null]
      * @memberof RawSheetData
      */
     crud_updateRow(kiData:kiDataEntry,rowNumber:number|null = null){
-        // have to make a copy so we don't mutate the original kiData entry on accident.
-        // thaaaaanks, JS
-        // const kiData = {...kiData}
         if (this.allowWrite == false) {
             console.error("tried to modify a read-only sheet");
             return;
@@ -789,8 +798,7 @@ class RawSheetData {
         // see crud_destroyRow() for an explanation of why there's a two here
         const xPos = this.headerRow + targetRow + 2
         const sheet = this.getSheet()
-        // since we're not actually including this, we have to get rid of it...
-        // delete kiData[this.crud_iterant_name]
+
         for (const key in kiData){
             if(key!=this.crud_iterant_name){
                 const value = kiData[key]
