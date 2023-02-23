@@ -591,7 +591,8 @@ class RawSheetData {
         targetRows.sort()
         // this.offset = 1
         const sheet = this.getSheet()
-        const positionOffset = this.headerRow + 1//this.offset//+ 1 already 1-indexed
+        // see crud_destroyRow() for an explanation of why there's a two here
+        const positionOffset = this.headerRow + 2
         // since targetRows winds up in ascending order, we have to flip it over to delete in the right order
         for (let i = targetRows.length - 1; i >= 0;i--) {
             // sheet.deleteRow(entry)
