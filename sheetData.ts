@@ -677,7 +677,7 @@ class RawSheetData {
         }
         let targetRow = getIterant_(dataEntry, this.crud_iterant_name)
         
-        if(targetRow <= 0){
+        if(targetRow < 0){
             console.error("tried to edit header or given an invalid position.")
             return
         }
