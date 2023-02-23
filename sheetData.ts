@@ -589,9 +589,9 @@ class RawSheetData {
         }
         // don't want to have things shifting on us...
         targetRows.sort()
-        this.offset = 1
+        // this.offset = 1
         const sheet = this.getSheet()
-        const positionOffset = this.headerRow + this.offset//+ 1 already 1-indexed
+        const positionOffset = this.headerRow + 1//this.offset//+ 1 already 1-indexed
         // since targetRows winds up in ascending order, we have to flip it over to delete in the right order
         for (let i = targetRows.length - 1; i >= 0;i--) {
             // sheet.deleteRow(entry)
@@ -622,7 +622,7 @@ class RawSheetData {
             console.log("tried to modify invalid or header row")
             return
         }
-        const xPos = targetRow + this.headerRow + this.offset//  + 1 already one-indexed.
+        const xPos = targetRow + this.headerRow + 1 //+ this.offset//  + 1 already one-indexed.
         // const dataLength = this.getHeaders().length;
         this.getSheet().deleteRow(xPos)
     }
@@ -653,7 +653,7 @@ class RawSheetData {
         // this.getSheet()
         const dataLength = this.getHeaders().length
         for(const entry of entryArray){
-            const xPos = entry + this.headerRow + this.offset // + 1 already 1-indexed
+            const xPos = entry + this.headerRow + 1 //+ this.offset // + 1 already 1-indexed
             const clearRange = this.getSheet().getRange(xPos, 1, 1, dataLength)
             clearRange.clearContent()
         }
@@ -682,7 +682,7 @@ class RawSheetData {
             return
         }
 
-        const xPos = targetRow + this.headerRow + this.offset// + 1 already 1-indexed
+        const xPos = targetRow + this.headerRow +1 //+ this.offset// + 1 already 1-indexed
 
         const dataLength = this.getHeaders().length
         const outRange = this.getSheet().getRange(xPos, 1, 1, dataLength)
@@ -715,11 +715,11 @@ class RawSheetData {
             if (Object.prototype.hasOwnProperty.call(entry, this.crud_iterant_name)) {
                 targetRow = entry[this.crud_iterant_name];
             }
-            if(targetRow <= 0){
+            if(targetRow < 0){
                 console.error("no valid position given or tried to modify header, position given: ",targetRow)
                 return
             }
-            const xPos = this.headerRow + targetRow +this.offset
+            const xPos = this.headerRow + targetRow +1 //+this.offset
             // delete entryCopy[this.crud_iterant_name]
             for(const key in entry){
                 // since the crud iterant doesn't have a key, it'll crash here...
@@ -760,14 +760,15 @@ class RawSheetData {
         if(rowNumber != null){
             targetRow = rowNumber
         }
-        if(targetRow == -1){
-            console.error("no valid position given, exiting")
-            return
-        } else if(targetRow == 0){
-            console.error("tried to modify header...")
-            return
+        if (targetRow < 0) {
+            console.error("no valid position given, exiting");
+            return;
         }
-        const xPos = this.headerRow + targetRow + this.offset // already 1-indexed + 1 // offset by 1 to account for zero indexing changes?
+        // } else if(targetRow == 0){
+        //     console.error("tried to modify header...")
+        //     return
+        // }
+        const xPos = this.headerRow + targetRow + 1 //+ this.offset // already 1-indexed + 1 // offset by 1 to account for zero indexing changes?
         const sheet = this.getSheet()
         // since we're not actually including this, we have to get rid of it...
         // delete kiData[this.crud_iterant_name]
@@ -1287,7 +1288,7 @@ class RawSheetData {
             }
 
             if(this.add_iterant == true){
-                rowObj[this.crud_iterant_name] = i+1 // switch from zero indexed to one indexed
+                rowObj[this.crud_iterant_name] = i // switch from zero indexed to one indexed
             }
 
             outValues.push(rowObj);
