@@ -15,13 +15,10 @@ interface deleteCheck_cacheData {
     time:number
 }
 
-
 /**
  * @description this gets used by rsd deletion methods, helps keep code overhead down.
  * Returns -1 if unable to get a position.
- * @param {(kiDataEntry | number)} data
- * @param {string} iterant_name
- * @return {*}  {number}
+ * @return {*}  {(number|-1)} number: -1 if none found.
  */
 function getIterant_(data: kiDataEntry | number,iterant_name:string):number|-1{
     if(typeof data == 'number') {
