@@ -590,36 +590,37 @@ class RawSheetData {
 
     //Private class methods
 
+    // we didn't wind up using this one... 
+    //  /**
+    //  * @description return true if it's okay to delete rows because nothing else has pulled the data yet.
+    //  * @return {boolean}
+    //  * @memberof RawSheetData
+    //  */
+    // deletion_cache_check():boolean {
+    //     function convertToDeleteCheck_(input: string): deleteCheck_cacheData {
+    //         let output: deleteCheck_cacheData = {
+    //             time: 0
+    //         };
+    //         output = { ...output, ...JSON.parse(input) };
+    //         return output
+    //     }
+
+    //     const cache = CacheService.getScriptCache()
+    //     const cacheData = convertToDeleteCheck_(cache.get(this.crud_cacheKey))
+
+    //     if (cacheData.time != 0) {
+    //         if (cacheData.time == this.data_update_time) {
+    //             return false
+    //         } else {
+    //             return true
+    //         }
+    //     } else {
+    //         // default, no cache value exists
+    //         return true
+    //     }
+    // }
+        
     // New CRUD Methods
-    /**
-     * @description return true if it's okay to delete rows because nothing else has pulled the data yet.
-     * @return {*}  {boolean}
-     * @memberof RawSheetData
-     */
-    deletion_cache_check():boolean {
-        function convertToDeleteCheck_(input: string): deleteCheck_cacheData {
-            let output: deleteCheck_cacheData = {
-                time: 0
-            };
-            output = { ...output, ...JSON.parse(input) };
-            return output
-        }
-
-        const cache = CacheService.getScriptCache()
-        const cacheData = convertToDeleteCheck_(cache.get(this.crud_cacheKey))
-
-        if (cacheData.time != 0) {
-            if (cacheData.time == this.data_update_time) {
-                return false
-            } else {
-                return true
-            }
-        } else {
-            // default, no cache value exists
-            return true
-        }
-    }
-
 
     /**
      * @description how we make sure we don't get weird errors with concurrency when deleting rows.
@@ -639,7 +640,7 @@ class RawSheetData {
     /**
      * @description deletes entire rows and shifts data up.  DO NOT USE IN CONCURRENT / MULTITHREAD APPLICATIONS.
      * @param {(kiDataEntry[] | number[])} either kiDataEntries with internal iterants or an array of zero-indexed values
-     * @return {*}  {this}
+     * @return {*}
      * @memberof RawSheetData
      */
     crud_destroyRows(data: kiDataEntry[] | number[]):this {
@@ -682,7 +683,7 @@ class RawSheetData {
  * @description deletes entire row and shifts data up.  DO NOT USE IN CONCURRENT / MULTITHREAD APPLICATIONS.
  *  NOT exposed to the sheetData class because it's legit a bad idea to use unless you aren't doing anything async or concurrent.
      * @param {(kiDataEntry[] | number[])} either kiDataEntry with internal iterant or a zero-indexed integer position
-     * @return {*}  {this}
+     * @return {this}
  * @memberof RawSheetData
  */
 crud_destroyRow(data: kiDataEntry | number):this {
@@ -731,7 +732,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
      * @description given a bunch of positions, clear the content of each given cell but don't shift data.  Use this in places where you have a chance of concurrency.
      * NOT exposed to the sheetData class because it's legit a bad idea to use unless you aren't doing anything async or concurrent.
      * @param {(kiDataEntry[] | number[])} array of kiDataEntries with internal iterants or array of zero-indexed integers.
-     * @return {*}  {this}
+     * @return {this}
      * @memberof RawSheetData
      */
     crud_deleteRows(dataArray: kiDataEntry[] | number[]): this{
@@ -767,7 +768,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
      * This is also the fallback method for destroyRow when something else has pulled in data already.
      * @param {kiDataEntry} dataEntry
      * @param {(number|null)} [position=null]
-     * @return {*} 
+     * @return {*} this
      * @memberof RawSheetData
      */
     crud_deleteRow(dataEntry:kiDataEntry|number){
