@@ -35,7 +35,7 @@ class mathEngineClass {
  *
  * @param {kiDataClass} kiDataObj
  * @param {string} key
- * @return {*}  {manyKiDataClasses}
+ * @return {manyKiDataClasses}
  */
 function splitKiData(kiDataObj: kiDataClass, key: string): manyKiDataClasses {
     const kiData = kiDataObj.end;
