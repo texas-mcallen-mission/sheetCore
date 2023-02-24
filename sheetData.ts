@@ -165,7 +165,7 @@ class SheetData {
         if (Array.isArray(data)) {
             this.rsd.appendData(data)
         } else {
-            console.log("appending single row of data!")
+            // console.log("appending single row of data!")
             this.rsd.appendDataRow(data);
         }
     }
