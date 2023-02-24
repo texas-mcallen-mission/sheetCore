@@ -33,7 +33,7 @@ sheetDataEntry
 
 #### Defined in
 
-[typescript-interfaces.ts:74](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L74)
+[typescript-interfaces.ts:74](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L74)
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 #### Defined in
 
-[typescript-interfaces.ts:78](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L78)
+[typescript-interfaces.ts:78](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L78)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-[typescript-interfaces.ts:70](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L70)
+[typescript-interfaces.ts:70](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L70)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 #### Defined in
 
-[typescript-interfaces.ts:72](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L72)
+[typescript-interfaces.ts:72](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L72)
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 #### Defined in
 
-[typescript-interfaces.ts:71](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L71)
+[typescript-interfaces.ts:71](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L71)
 
 ___
 
@@ -83,7 +83,7 @@ ___
 
 #### Defined in
 
-[typescript-interfaces.ts:76](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L76)
+[typescript-interfaces.ts:76](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L76)
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 #### Defined in
 
-[typescript-interfaces.ts:79](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L79)
+[typescript-interfaces.ts:79](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L79)
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 #### Defined in
 
-[typescript-interfaces.ts:73](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L73)
+[typescript-interfaces.ts:73](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L73)
 
 ___
 
@@ -113,7 +113,7 @@ ___
 
 #### Defined in
 
-[typescript-interfaces.ts:69](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L69)
+[typescript-interfaces.ts:69](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L69)
 
 ___
 
@@ -123,4 +123,4 @@ ___
 
 #### Defined in
 
-[typescript-interfaces.ts:80](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L80)
+[typescript-interfaces.ts:80](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L80)

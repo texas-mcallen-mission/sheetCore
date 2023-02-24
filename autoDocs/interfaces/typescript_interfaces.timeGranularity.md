@@ -18,4 +18,4 @@
 
 #### Defined in
 
-[typescript-interfaces.ts:39](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L39)
+[typescript-interfaces.ts:39](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L39)

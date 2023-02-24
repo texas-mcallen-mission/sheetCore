@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[dataManipulator.ts:77](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L77)
+[dataManipulator.ts:77](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L77)
 
 ___
 
@@ -74,7 +74,7 @@ Given a Date or string, convert to a mm/dd/yyyy hh:mm:ss string that Google Shee
 
 #### Defined in
 
-[dataManipulator.ts:105](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L105)
+[dataManipulator.ts:105](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L105)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:1183](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L1183)
+[dataManipulator.ts:1184](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1184)
 
 ___
 
@@ -102,11 +102,9 @@ Used by getThisWeeksData.
 
 `Date`
 
-{Date}
-
 #### Defined in
 
-[dataManipulator.ts:1170](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L1170)
+[dataManipulator.ts:1171](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1171)
 
 ___
 
@@ -127,8 +125,6 @@ splits a kiDataCLass's data into little pieces by grouping by unique values on a
 
 [`manyKiDataClasses`](../interfaces/dataManipulator.manyKiDataClasses.md)
 
-{manyKiDataClasses}
-
 #### Defined in
 
-[dataManipulator.ts:40](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L40)
+[dataManipulator.ts:40](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L40)

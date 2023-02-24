@@ -175,7 +175,7 @@ class kiDataClass {
      * 
      * @param {string} sortKey
      * @param {sortArgs} sortArgs
-     * @return {*}  {this}
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     sort(sortKey: string,sortArgs:sortArgs): this {
@@ -313,11 +313,11 @@ class kiDataClass {
 
     /**
      * @description returns all data that doesn't have something stored at `targetKey`, and removes it from the internal dataset.
-     * @param {*} targetKey
-     * @return {*}  {kiDataEntry[]}
+     * @param {string} targetKey
+     * @return {kiDataEntry[]}
      * @memberof kiDataClass
      */
-    popMissing(targetKey): kiDataEntry[] {
+    popMissing(targetKey:string): kiDataEntry[] {
         // written originally to support .sort()
         let output: kiDataEntry[] = []
         let outData: kiDataEntry[] = []
@@ -350,7 +350,7 @@ class kiDataClass {
      * @description This takes Javascript dates and other strings and turns them into a format that Google Sheets likes better.
      * @param {string} inKey - object key that has the date on it
      * @param {string} outKey - output key where date is stored.  (Can be the same as inKey)
-     * @return {*}  {this} returns this for chaining.
+     * @return {this} returns this for chaining.
      * @memberof kiDataClass
      */
     convertToSheetDate(inKey: string, outKey: string): this {
@@ -369,7 +369,7 @@ class kiDataClass {
      * 
      * @param {kiDataEntry[]} secondDataset 
      * @param {string} joinKey 
-     * @returns {*} {this}
+     * @return {this} returns ``this`` for chaining
      * 
      * @memberof kiDataCLass
      */
@@ -401,7 +401,7 @@ class kiDataClass {
      *
      * @param {kiDataEntry[]} secondDataset
      * @param {string} joinKey
-     * @return {*}  {this}
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     innerJoin(secondDataset: kiDataEntry[], joinKey: string): this {
@@ -431,7 +431,7 @@ class kiDataClass {
      *
      * @param {kiDataEntry[]} secondDataset
      * @param {string} joinKey
-     * @return {*}  {this}
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     leftJoin(secondDataset: kiDataEntry[], joinKey: string): this {
@@ -474,7 +474,7 @@ class kiDataClass {
      *  returns all unique values for a key in the dataset.
      *
      * @param {*} targetKey
-     * @return {*}  {any[]}
+     * @return {string[]}
      * @memberof kiDataClass
      */
     getUniqueEntries(targetKey): sheetDataValueRaw {
@@ -511,7 +511,7 @@ class kiDataClass {
      *
      * @param {string} key
      * @param {number} testVal
-     * @return {*}  {this}
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     removeSmaller(key: string, testVal: number): this {
@@ -604,7 +604,7 @@ class kiDataClass {
      * @param {string} newKey
      * @param {string} key1
      * @param {string} key2
-     * @return {*}  {this}
+     * @return {this} returns this for chaining
      * @memberof kiDataClass
      */
     mathByKey(operator: dMath, newKey: string, key1: string, key2: string): this {
@@ -726,7 +726,7 @@ class kiDataClass {
      *  
      *
      * @param {string} targetKey
-     * @return {*}  {manyKiDataEntries}
+     * @return {keyedKiDataEntries}
      * @memberof kiDataClass
      */
     groupByKey(targetKey: string): keyedKiDataEntries {
@@ -754,7 +754,7 @@ class kiDataClass {
      * @param {string} timeSeriesKey
      * @param {string} newKey
      * @param {timeGranularities} granularity
-     * @return {*}  {this}
+     * @return {this} returns this for chaining
      * @memberof kiDataClass
      */
     addGranulatedTime(timeSeriesKey: string, newKey: string, granularity: timeGranularities): this {
@@ -809,7 +809,7 @@ class kiDataClass {
  *
  * @param {string} timeSeriesKey
  * @param {string} granularity
- * @return {*}  {manySheetDatas}
+ * @return {manyKiDataEntries}
  * @memberof SheetData
  */
     groupByTime(timeSeriesKey: string, granularity: timeGranularities): manyKiDataEntries {
@@ -867,7 +867,7 @@ class kiDataClass {
      * Also creates a key named by the argument ``breakdownKey`` that has the value for which key the thing was made.
      * @param {string[]} keysToKeep
      * @param {string[]} breakdownKeys
-     * @return {*}  {this}
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     breakdownAnalysis(keysToKeep: string[], breakdownKeys: string[], breakdownKeyName: string, keepOneIfZeroes = true): this {
@@ -906,7 +906,7 @@ class kiDataClass {
      *
      * @param {string[]} listOfKeys
      * @param {string} newKeyName
-     * @return {*}  {this}
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     createSumOfKeys(listOfKeys: string[], newKeyName: string): this {
@@ -1014,7 +1014,7 @@ class kiDataClass {
      * removes everything before a specified date.
      *
      * @param {*} date
-     * @return {*}  {this}
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     removeBeforeDate(date: Date): this {
@@ -1040,7 +1040,7 @@ class kiDataClass {
      *  used for the printed version of the TMM report to knock down cell width.
      *  if you want to add another language in the future, stick the language in the internal ``langLookup`` class.
      *  It should match what the language string from importContacts says as the key, and set the value to something recognizable.
-     * @return {*}  {this}
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     addShortLang(): this {
@@ -1057,8 +1057,9 @@ class kiDataClass {
     }
     /**
      * Removes all entries where isDuplicate == true
-     *  Should 
-     * @return {*}  {this}
+     *  Should probably replace calls to this with calls to ``removeMatchingByKey("isDuplicate",[true])``
+     * @deprecated
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     removeDuplicates(): this {
@@ -1080,7 +1081,7 @@ class kiDataClass {
      *
      * @param {string} numeratorKey
      * @param {string} denominatorKey
-     * @return {*}  {this}
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     calculatePercentage(numeratorKey: string, denominatorKey: string, newKeyName:string): this {
@@ -1102,7 +1103,7 @@ class kiDataClass {
     //  * creates a key with the name ``rrPercent`` of type float or doesn't create a key if there are no rc's in an area
     //  * requires the following keys in order to calculate:
     //  *  ``rca`` - the number of recent convert attendances
-    //  * ``rc`` - the number of recent converts 
+    //  * ``rc`` - the number of recent converts
     //  *
     //  * @return {*}  {this}
     //  * @memberof kiDataClass
@@ -1121,7 +1122,7 @@ class kiDataClass {
      * creates a key with the name ``combinedNames`` of type string
      * Uses the following keys:
      * 
-     * @return {*}  {this}
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     calculateCombinedName(): this {
@@ -1151,7 +1152,7 @@ class kiDataClass {
     /**
      * Removes everything before the current week, starting late Saturday (getting the correct day programmatically was hard, okay?)
      * Uses removeBeforeDate under the hood.
-     * @return {*}  {this}
+     * @return {this} returns ``this`` for chaining
      * @memberof kiDataClass
      */
     getThisWeeksData(): this {
@@ -1165,7 +1166,7 @@ class kiDataClass {
 /**
  *  Used by getThisWeeksData.
  *
- * @return {*}  {Date}
+ * @return {Date}
  */
 function getSundayOfCurrentWeek_(): Date {
     const today = new Date();

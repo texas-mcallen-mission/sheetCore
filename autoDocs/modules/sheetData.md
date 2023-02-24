@@ -40,7 +40,7 @@
 
 #### Defined in
 
-[sheetData.ts:1881](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1881)
+[sheetData.ts:1898](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/sheetData.ts#L1898)
 
 ___
 
@@ -62,7 +62,7 @@ Formats and stores the allSheetData object in the cache. Can be retrieved with g
 
 #### Defined in
 
-[sheetData.ts:1788](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1788)
+[sheetData.ts:1805](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/sheetData.ts#L1805)
 
 ___
 
@@ -78,7 +78,7 @@ Gets the allSheetData object from the cache and returns it. Must have been cache
 
 #### Defined in
 
-[sheetData.ts:1734](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1734)
+[sheetData.ts:1751](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/sheetData.ts#L1751)
 
 ___
 
@@ -102,11 +102,11 @@ Returns -1 if unable to get a position.
 
 `number` \| ``-1``
 
-{number}
+(number|-1) number: -1 if none found.
 
 #### Defined in
 
-[sheetData.ts:26](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L26)
+[sheetData.ts:23](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/sheetData.ts#L23)
 
 ___
 
@@ -133,4 +133,4 @@ If you want to have softcoded columns, you need to enable them in the config.
 
 #### Defined in
 
-[sheetData.ts:1869](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1869)
+[sheetData.ts:1886](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/sheetData.ts#L1886)

@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[typescript-interfaces.ts:13](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L13)
+[typescript-interfaces.ts:13](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L13)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[typescript-interfaces.ts:14](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L14)
+[typescript-interfaces.ts:14](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L14)

@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[dataManipulator.ts:130](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L130)
+[dataManipulator.ts:130](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L130)
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:128](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L128)
+[dataManipulator.ts:128](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L128)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:129](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L129)
+[dataManipulator.ts:129](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L129)
 
 ___
 
@@ -51,4 +51,4 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:131](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L131)
+[dataManipulator.ts:131](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L131)

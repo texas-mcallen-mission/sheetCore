@@ -37,7 +37,7 @@
 
 #### Defined in
 
-[typescript-interfaces.ts:46](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L46)
+[typescript-interfaces.ts:46](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L46)
 
 ## Functions
 
@@ -51,4 +51,4 @@
 
 #### Defined in
 
-[typescript-interfaces.ts:92](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/typescript-interfaces.ts#L92)
+[typescript-interfaces.ts:92](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/typescript-interfaces.ts#L92)

@@ -70,7 +70,7 @@
 
 #### Defined in
 
-[dataManipulator.ts:166](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L166)
+[dataManipulator.ts:166](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L166)
 
 ## Properties
 
@@ -80,7 +80,7 @@
 
 #### Defined in
 
-[dataManipulator.ts:163](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L163)
+[dataManipulator.ts:163](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L163)
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:162](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L162)
+[dataManipulator.ts:162](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L162)
 
 ___
 
@@ -124,7 +124,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:136](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L136)
+[dataManipulator.ts:136](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L136)
 
 ___
 
@@ -134,7 +134,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:164](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L164)
+[dataManipulator.ts:164](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L164)
 
 ## Accessors
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:537](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L537)
+[dataManipulator.ts:537](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L537)
 
 ___
 
@@ -162,7 +162,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:532](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L532)
+[dataManipulator.ts:532](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L532)
 
 ## Methods
 
@@ -188,11 +188,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns this for chaining
 
 #### Defined in
 
-[dataManipulator.ts:760](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L760)
+[dataManipulator.ts:760](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L760)
 
 ___
 
@@ -217,7 +217,7 @@ kiDataClass
 
 #### Defined in
 
-[dataManipulator.ts:499](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L499)
+[dataManipulator.ts:499](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L499)
 
 ___
 
@@ -241,11 +241,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:1046](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L1046)
+[dataManipulator.ts:1046](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1046)
 
 ___
 
@@ -275,7 +275,7 @@ kiDataClass
 
 #### Defined in
 
-[dataManipulator.ts:651](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L651)
+[dataManipulator.ts:651](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L651)
 
 ___
 
@@ -306,11 +306,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:873](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L873)
+[dataManipulator.ts:873](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L873)
 
 ___
 
@@ -330,7 +330,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:541](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L541)
+[dataManipulator.ts:541](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L541)
 
 ___
 
@@ -353,11 +353,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:1127](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L1127)
+[dataManipulator.ts:1128](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1128)
 
 ___
 
@@ -383,11 +383,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:1086](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L1086)
+[dataManipulator.ts:1087](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1087)
 
 ___
 
@@ -414,11 +414,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this} returns this for chaining.
+returns this for chaining.
 
 #### Defined in
 
-[dataManipulator.ts:356](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L356)
+[dataManipulator.ts:356](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L356)
 
 ___
 
@@ -440,7 +440,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:336](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L336)
+[dataManipulator.ts:336](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L336)
 
 ___
 
@@ -465,11 +465,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:912](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L912)
+[dataManipulator.ts:912](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L912)
 
 ___
 
@@ -489,7 +489,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:461](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L461)
+[dataManipulator.ts:461](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L461)
 
 ___
 
@@ -512,7 +512,7 @@ returns a bunch of stats for a given dataset key.  needs to have numbers.
 
 #### Defined in
 
-[dataManipulator.ts:555](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L555)
+[dataManipulator.ts:555](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L555)
 
 ___
 
@@ -531,11 +531,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:1157](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L1157)
+[dataManipulator.ts:1158](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1158)
 
 ___
 
@@ -559,11 +559,9 @@ kiDataClass
 
 [`sheetDataValueRaw`](../modules/typescript_interfaces.md#sheetdatavalueraw)
 
-{any[]}
-
 #### Defined in
 
-[dataManipulator.ts:480](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L480)
+[dataManipulator.ts:480](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L480)
 
 ___
 
@@ -587,11 +585,9 @@ kiDataClass
 
 [`keyedKiDataEntries`](../interfaces/dataManipulator.keyedKiDataEntries.md)
 
-{manyKiDataEntries}
-
 #### Defined in
 
-[dataManipulator.ts:732](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L732)
+[dataManipulator.ts:732](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L732)
 
 ___
 
@@ -620,11 +616,9 @@ SheetData
 
 [`manyKiDataEntries`](../interfaces/dataManipulator.manyKiDataEntries.md)
 
-{manySheetDatas}
-
 #### Defined in
 
-[dataManipulator.ts:815](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L815)
+[dataManipulator.ts:815](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L815)
 
 ___
 
@@ -644,7 +638,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:629](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L629)
+[dataManipulator.ts:629](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L629)
 
 ___
 
@@ -669,11 +663,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:407](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L407)
+[dataManipulator.ts:407](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L407)
 
 ___
 
@@ -701,7 +695,7 @@ kiDataClass
 
 #### Defined in
 
-[dataManipulator.ts:994](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L994)
+[dataManipulator.ts:994](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L994)
 
 ___
 
@@ -726,11 +720,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:437](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L437)
+[dataManipulator.ts:437](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L437)
 
 ___
 
@@ -753,7 +747,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:619](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L619)
+[dataManipulator.ts:619](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L619)
 
 ___
 
@@ -780,11 +774,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns this for chaining
 
 #### Defined in
 
-[dataManipulator.ts:610](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L610)
+[dataManipulator.ts:610](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L610)
 
 ___
 
@@ -804,17 +798,15 @@ kiDataClass
 
 | Name | Type |
 | :------ | :------ |
-| `targetKey` | `any` |
+| `targetKey` | `string` |
 
 #### Returns
 
 [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[]
 
-{kiDataEntry[]}
-
 #### Defined in
 
-[dataManipulator.ts:320](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L320)
+[dataManipulator.ts:320](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L320)
 
 ___
 
@@ -838,11 +830,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:1020](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L1020)
+[dataManipulator.ts:1020](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1020)
 
 ___
 
@@ -851,7 +843,9 @@ ___
 ▸ **removeDuplicates**(): [`kiDataClass`](dataManipulator.kiDataClass.md)
 
 Removes all entries where isDuplicate == true
- Should
+ Should probably replace calls to this with calls to ``removeMatchingByKey("isDuplicate",[true])``
+
+**`Deprecated`**
 
 **`Memberof`**
 
@@ -861,11 +855,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:1064](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L1064)
+[dataManipulator.ts:1065](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1065)
 
 ___
 
@@ -885,7 +879,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:303](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L303)
+[dataManipulator.ts:303](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L303)
 
 ___
 
@@ -912,7 +906,7 @@ kiDataClass
 
 #### Defined in
 
-[dataManipulator.ts:967](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L967)
+[dataManipulator.ts:967](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L967)
 
 ___
 
@@ -937,11 +931,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:517](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L517)
+[dataManipulator.ts:517](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L517)
 
 ___
 
@@ -966,11 +960,11 @@ kiDataCLass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:376](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L376)
+[dataManipulator.ts:376](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L376)
 
 ___
 
@@ -997,8 +991,8 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:181](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L181)
+[dataManipulator.ts:181](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L181)

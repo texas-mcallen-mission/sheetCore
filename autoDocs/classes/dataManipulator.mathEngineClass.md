@@ -40,4 +40,4 @@
 
 #### Defined in
 
-[dataManipulator.ts:8](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L8)
+[dataManipulator.ts:8](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L8)

@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[dataManipulator.ts:123](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L123)
+[dataManipulator.ts:123](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L123)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:124](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/dataManipulator.ts#L124)
+[dataManipulator.ts:124](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L124)
