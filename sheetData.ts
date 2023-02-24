@@ -18,7 +18,7 @@ interface deleteCheck_cacheData {
 /**
  * @description this gets used by rsd deletion methods, helps keep code overhead down.
  * Returns -1 if unable to get a position.
- * @return {*}  {(number|-1)} number: -1 if none found.
+ * @return {*}  (number|-1) number: -1 if none found.
  */
 function getIterant_(data: kiDataEntry | number,iterant_name:string):number|-1{
     if(typeof data == 'number') {
@@ -78,22 +78,41 @@ class SheetData {
     /**
      * @description given a kiDataEntry with an internal iterant, modify values in columns with keys given.
      * @param {kiDataEntry[]} array of partial ``kiDataEntry`` which must have a iterantKey somewhere inside.
-     * @return {*}  {ThisType<SheetData>}
+     * @return {ThisType<SheetData>} this
      * @memberof SheetData
      */
     updateRows(dataArray: kiDataEntry[]): ThisType<SheetData> {
         this.rsd.crud_updateRows(dataArray)
         return this
     }
+    /**
+     * @description modifies the data in a row given a parital kiData entry.
+     * @param {kiDataEntry} dataEntry
+     * @param {(number|null)} [position=null]
+     * @return {ThisType<SheetData>}
+     * @memberof SheetData
+     */
     updateRow(dataEntry: kiDataEntry , position: number|null = null): ThisType<SheetData> {
         this.rsd.crud_updateRow(dataEntry, position)
         return this
     }
     // DELETE methods
+    /**
+     * @description Deletes multiple rows given kiDataEntries with iterant keys or an array of numbers
+     * @param {(kiDataEntry[] | number[])} dataArray
+     * @return {ThisType<SheetData>}
+     * @memberof SheetData
+     */
     deleteRows(dataArray: kiDataEntry[] | number[]): ThisType<SheetData> {
         this.rsd.crud_deleteRows(dataArray)
         return this
     }
+    /**
+     * @description deletes a single row based on an iterant key or numerical position.
+     * @param {(kiDataEntry | number)} dataEntry
+     * @return {ThisType<SheetData>}
+     * @memberof SheetData
+     */
     deleteRow(dataEntry: kiDataEntry | number): ThisType<SheetData> {
         this.rsd.crud_deleteRow(dataEntry)
         return this
