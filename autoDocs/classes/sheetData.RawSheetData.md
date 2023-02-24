@@ -1,6 +1,8 @@
-[sheetcore](../docs.md) / RawSheetData
+[sheetcore](../docs.md) / [sheetData](../modules/sheetData.md) / RawSheetData
 
 # Class: RawSheetData
+
+[sheetData](../modules/sheetData.md).RawSheetData
 
 A RawSheetData instance. This should be wrapped in a SheetData before use.
 
@@ -16,77 +18,77 @@ data
 
 ### Constructors
 
-- [constructor](RawSheetData.md#constructor)
+- [constructor](sheetData.RawSheetData.md#constructor)
 
 ### Properties
 
-- [add\_iterant](RawSheetData.md#add_iterant)
-- [allowWrite](RawSheetData.md#allowwrite)
-- [crud\_cacheKey](RawSheetData.md#crud_cachekey)
-- [crud\_iterant\_name](RawSheetData.md#crud_iterant_name)
-- [data\_update\_time](RawSheetData.md#data_update_time)
-- [headerRow](RawSheetData.md#headerrow)
-- [includeSoftcodedColumns](RawSheetData.md#includesoftcodedcolumns)
-- [indexToKey](RawSheetData.md#indextokey)
-- [keyNamesToIgnore](RawSheetData.md#keynamestoignore)
-- [keyToIndex](RawSheetData.md#keytoindex)
-- [offset](RawSheetData.md#offset)
-- [onCache](RawSheetData.md#oncache)
-- [requireRemote](RawSheetData.md#requireremote)
-- [sheetId](RawSheetData.md#sheetid)
-- [sheetaa](RawSheetData.md#sheetaa)
-- [tabName](RawSheetData.md#tabname)
+- [add\_iterant](sheetData.RawSheetData.md#add_iterant)
+- [allowWrite](sheetData.RawSheetData.md#allowwrite)
+- [crud\_cacheKey](sheetData.RawSheetData.md#crud_cachekey)
+- [crud\_iterant\_name](sheetData.RawSheetData.md#crud_iterant_name)
+- [data\_update\_time](sheetData.RawSheetData.md#data_update_time)
+- [headerRow](sheetData.RawSheetData.md#headerrow)
+- [includeSoftcodedColumns](sheetData.RawSheetData.md#includesoftcodedcolumns)
+- [indexToKey](sheetData.RawSheetData.md#indextokey)
+- [keyNamesToIgnore](sheetData.RawSheetData.md#keynamestoignore)
+- [keyToIndex](sheetData.RawSheetData.md#keytoindex)
+- [offset](sheetData.RawSheetData.md#offset)
+- [onCache](sheetData.RawSheetData.md#oncache)
+- [requireRemote](sheetData.RawSheetData.md#requireremote)
+- [sheetId](sheetData.RawSheetData.md#sheetid)
+- [sheetaa](sheetData.RawSheetData.md#sheetaa)
+- [tabName](sheetData.RawSheetData.md#tabname)
 
 ### Accessors
 
-- [sheet](RawSheetData.md#sheet)
+- [sheet](sheetData.RawSheetData.md#sheet)
 
 ### Methods
 
-- [addColumnAt\_](RawSheetData.md#addcolumnat_)
-- [addColumnWithHeaderAt\_](RawSheetData.md#addcolumnwithheaderat_)
-- [addColumnWithHeader\_](RawSheetData.md#addcolumnwithheader_)
-- [addColumn\_](RawSheetData.md#addcolumn_)
-- [addColumnsFromArray](RawSheetData.md#addcolumnsfromarray)
-- [addSoftColumns](RawSheetData.md#addsoftcolumns)
-- [appendData](RawSheetData.md#appenddata)
-- [appendDataRow](RawSheetData.md#appenddatarow)
-- [appendRowValues](RawSheetData.md#appendrowvalues)
-- [buildIndexToKey\_](RawSheetData.md#buildindextokey_)
-- [clearContent](RawSheetData.md#clearcontent)
-- [crud\_deleteRow](RawSheetData.md#crud_deleterow)
-- [crud\_deleteRows](RawSheetData.md#crud_deleterows)
-- [crud\_destroyRow](RawSheetData.md#crud_destroyrow)
-- [crud\_destroyRows](RawSheetData.md#crud_destroyrows)
-- [crud\_updateRow](RawSheetData.md#crud_updaterow)
-- [crud\_updateRows](RawSheetData.md#crud_updaterows)
-- [deleteUntilRow](RawSheetData.md#deleteuntilrow)
-- [deletion\_cache\_check](RawSheetData.md#deletion_cache_check)
-- [destroyUntilRow](RawSheetData.md#destroyuntilrow)
-- [directEditRawSheetValues](RawSheetData.md#directeditrawsheetvalues)
-- [getAllOfIndex](RawSheetData.md#getallofindex)
-- [getAllOfKey](RawSheetData.md#getallofkey)
-- [getData](RawSheetData.md#getdata)
-- [getEntryConfig](RawSheetData.md#getentryconfig)
-- [getHeaderRow](RawSheetData.md#getheaderrow)
-- [getHeaders](RawSheetData.md#getheaders)
-- [getIndex](RawSheetData.md#getindex)
-- [getKey](RawSheetData.md#getkey)
-- [getKeys](RawSheetData.md#getkeys)
-- [getNextFreeColumn\_](RawSheetData.md#getnextfreecolumn_)
-- [getSheet](RawSheetData.md#getsheet)
-- [getTabName](RawSheetData.md#gettabname)
-- [getValues](RawSheetData.md#getvalues)
-- [hasIndex](RawSheetData.md#hasindex)
-- [hasKey](RawSheetData.md#haskey)
-- [insertData](RawSheetData.md#insertdata)
-- [insertValues](RawSheetData.md#insertvalues)
-- [renameKey](RawSheetData.md#renamekey)
-- [setData](RawSheetData.md#setdata)
-- [setHeaders](RawSheetData.md#setheaders)
-- [setValues](RawSheetData.md#setvalues)
-- [syncDataColumns](RawSheetData.md#syncdatacolumns)
-- [updateLastPulled](RawSheetData.md#updatelastpulled)
+- [addColumnAt\_](sheetData.RawSheetData.md#addcolumnat_)
+- [addColumnWithHeaderAt\_](sheetData.RawSheetData.md#addcolumnwithheaderat_)
+- [addColumnWithHeader\_](sheetData.RawSheetData.md#addcolumnwithheader_)
+- [addColumn\_](sheetData.RawSheetData.md#addcolumn_)
+- [addColumnsFromArray](sheetData.RawSheetData.md#addcolumnsfromarray)
+- [addSoftColumns](sheetData.RawSheetData.md#addsoftcolumns)
+- [appendData](sheetData.RawSheetData.md#appenddata)
+- [appendDataRow](sheetData.RawSheetData.md#appenddatarow)
+- [appendRowValues](sheetData.RawSheetData.md#appendrowvalues)
+- [buildIndexToKey\_](sheetData.RawSheetData.md#buildindextokey_)
+- [clearContent](sheetData.RawSheetData.md#clearcontent)
+- [crud\_deleteRow](sheetData.RawSheetData.md#crud_deleterow)
+- [crud\_deleteRows](sheetData.RawSheetData.md#crud_deleterows)
+- [crud\_destroyRow](sheetData.RawSheetData.md#crud_destroyrow)
+- [crud\_destroyRows](sheetData.RawSheetData.md#crud_destroyrows)
+- [crud\_updateRow](sheetData.RawSheetData.md#crud_updaterow)
+- [crud\_updateRows](sheetData.RawSheetData.md#crud_updaterows)
+- [deleteUntilRow](sheetData.RawSheetData.md#deleteuntilrow)
+- [deletion\_cache\_check](sheetData.RawSheetData.md#deletion_cache_check)
+- [destroyUntilRow](sheetData.RawSheetData.md#destroyuntilrow)
+- [directEditRawSheetValues](sheetData.RawSheetData.md#directeditrawsheetvalues)
+- [getAllOfIndex](sheetData.RawSheetData.md#getallofindex)
+- [getAllOfKey](sheetData.RawSheetData.md#getallofkey)
+- [getData](sheetData.RawSheetData.md#getdata)
+- [getEntryConfig](sheetData.RawSheetData.md#getentryconfig)
+- [getHeaderRow](sheetData.RawSheetData.md#getheaderrow)
+- [getHeaders](sheetData.RawSheetData.md#getheaders)
+- [getIndex](sheetData.RawSheetData.md#getindex)
+- [getKey](sheetData.RawSheetData.md#getkey)
+- [getKeys](sheetData.RawSheetData.md#getkeys)
+- [getNextFreeColumn\_](sheetData.RawSheetData.md#getnextfreecolumn_)
+- [getSheet](sheetData.RawSheetData.md#getsheet)
+- [getTabName](sheetData.RawSheetData.md#gettabname)
+- [getValues](sheetData.RawSheetData.md#getvalues)
+- [hasIndex](sheetData.RawSheetData.md#hasindex)
+- [hasKey](sheetData.RawSheetData.md#haskey)
+- [insertData](sheetData.RawSheetData.md#insertdata)
+- [insertValues](sheetData.RawSheetData.md#insertvalues)
+- [renameKey](sheetData.RawSheetData.md#renamekey)
+- [setData](sheetData.RawSheetData.md#setdata)
+- [setHeaders](sheetData.RawSheetData.md#setheaders)
+- [setValues](sheetData.RawSheetData.md#setvalues)
+- [syncDataColumns](sheetData.RawSheetData.md#syncdatacolumns)
+- [updateLastPulled](sheetData.RawSheetData.md#updatelastpulled)
 
 ## Constructors
 
@@ -104,11 +106,11 @@ RawSheetData
 
 | Name | Type |
 | :------ | :------ |
-| `sheetConfig` | `sheetDataEntry` |
+| `sheetConfig` | [`sheetDataEntry`](../interfaces/typescript_interfaces.sheetDataEntry.md) |
 
 #### Defined in
 
-[sheetData.ts:435](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L435)
+[sheetData.ts:435](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L435)
 
 ## Properties
 
@@ -118,7 +120,7 @@ RawSheetData
 
 #### Defined in
 
-[sheetData.ts:412](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L412)
+[sheetData.ts:412](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L412)
 
 ___
 
@@ -128,7 +130,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:406](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L406)
+[sheetData.ts:406](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L406)
 
 ___
 
@@ -138,7 +140,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:415](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L415)
+[sheetData.ts:415](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L415)
 
 ___
 
@@ -148,7 +150,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:413](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L413)
+[sheetData.ts:413](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L413)
 
 ___
 
@@ -158,7 +160,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:414](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L414)
+[sheetData.ts:414](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L414)
 
 ___
 
@@ -168,7 +170,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:402](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L402)
+[sheetData.ts:402](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L402)
 
 ___
 
@@ -178,7 +180,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:404](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L404)
+[sheetData.ts:404](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L404)
 
 ___
 
@@ -188,7 +190,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:409](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L409)
+[sheetData.ts:409](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L409)
 
 ___
 
@@ -198,7 +200,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:407](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L407)
+[sheetData.ts:407](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L407)
 
 ___
 
@@ -208,7 +210,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:403](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L403)
+[sheetData.ts:403](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L403)
 
 ___
 
@@ -218,7 +220,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:416](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L416)
+[sheetData.ts:416](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L416)
 
 ___
 
@@ -228,7 +230,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:408](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L408)
+[sheetData.ts:408](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L408)
 
 ___
 
@@ -238,7 +240,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:410](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L410)
+[sheetData.ts:410](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L410)
 
 ___
 
@@ -248,7 +250,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:405](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L405)
+[sheetData.ts:405](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L405)
 
 ___
 
@@ -258,7 +260,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:411](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L411)
+[sheetData.ts:411](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L411)
 
 ___
 
@@ -268,7 +270,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:401](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L401)
+[sheetData.ts:401](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L401)
 
 ## Accessors
 
@@ -282,7 +284,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:418](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L418)
+[sheetData.ts:418](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L418)
 
 • `set` **sheet**(`sheetObj`): `void`
 
@@ -298,7 +300,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:423](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L423)
+[sheetData.ts:423](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L423)
 
 ## Methods
 
@@ -319,7 +321,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:1173](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1173)
+[sheetData.ts:1173](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1173)
 
 ___
 
@@ -341,7 +343,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:1104](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1104)
+[sheetData.ts:1104](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1104)
 
 ___
 
@@ -362,7 +364,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:1164](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1164)
+[sheetData.ts:1164](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1164)
 
 ___
 
@@ -382,7 +384,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:1181](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1181)
+[sheetData.ts:1181](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1181)
 
 ___
 
@@ -395,7 +397,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `keyArray` | `string`[] |
-| `self` | [`SheetData`](SheetData.md) |
+| `self` | [`SheetData`](sheetData.SheetData.md) |
 
 #### Returns
 
@@ -403,7 +405,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:887](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L887)
+[sheetData.ts:887](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L887)
 
 ___
 
@@ -428,7 +430,7 @@ BE VERY CAREFUL about using softcoded columns on remote sheets.
 
 #### Defined in
 
-[sheetData.ts:1708](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1708)
+[sheetData.ts:1708](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1708)
 
 ___
 
@@ -440,7 +442,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `data` | `kiDataEntry`[] |
+| `data` | [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[] |
 
 #### Returns
 
@@ -448,7 +450,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:1451](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1451)
+[sheetData.ts:1451](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1451)
 
 ___
 
@@ -467,7 +469,7 @@ RawSheetData
 
 | Name | Type |
 | :------ | :------ |
-| `data` | `kiDataEntry` |
+| `data` | [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md) |
 
 #### Returns
 
@@ -475,7 +477,7 @@ RawSheetData
 
 #### Defined in
 
-[sheetData.ts:1491](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1491)
+[sheetData.ts:1491](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1491)
 
 ___
 
@@ -492,7 +494,7 @@ Inserts rows of data into the Sheet. Takes an array of objects.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `values` | `sheetDataValueRaw`[] | The values to insert. |
+| `values` | [`sheetDataValueRaw`](../modules/typescript_interfaces.md#sheetdatavalueraw)[] | The values to insert. |
 
 #### Returns
 
@@ -500,7 +502,7 @@ Inserts rows of data into the Sheet. Takes an array of objects.
 
 #### Defined in
 
-[sheetData.ts:1527](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1527)
+[sheetData.ts:1527](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1527)
 
 ___
 
@@ -514,7 +516,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:1082](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1082)
+[sheetData.ts:1082](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1082)
 
 ___
 
@@ -533,7 +535,7 @@ Clears the content of this Sheet below the header row, leaving formatting intact
 
 #### Defined in
 
-[sheetData.ts:1617](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1617)
+[sheetData.ts:1617](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1617)
 
 ___
 
@@ -554,7 +556,7 @@ RawSheetData
 
 | Name | Type |
 | :------ | :------ |
-| `dataEntry` | `number` \| `kiDataEntry` |
+| `dataEntry` | `number` \| [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md) |
 
 #### Returns
 
@@ -562,13 +564,13 @@ RawSheetData
 
 #### Defined in
 
-[sheetData.ts:757](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L757)
+[sheetData.ts:757](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L757)
 
 ___
 
 ### crud\_deleteRows
 
-▸ **crud_deleteRows**(`dataArray`): [`RawSheetData`](RawSheetData.md)
+▸ **crud_deleteRows**(`dataArray`): [`RawSheetData`](sheetData.RawSheetData.md)
 
 **`Description`**
 
@@ -583,23 +585,23 @@ RawSheetData
 
 | Name | Type |
 | :------ | :------ |
-| `dataArray` | `number`[] \| `kiDataEntry`[] |
+| `dataArray` | `number`[] \| [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[] |
 
 #### Returns
 
-[`RawSheetData`](RawSheetData.md)
+[`RawSheetData`](sheetData.RawSheetData.md)
 
 {this}
 
 #### Defined in
 
-[sheetData.ts:721](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L721)
+[sheetData.ts:721](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L721)
 
 ___
 
 ### crud\_destroyRow
 
-▸ **crud_destroyRow**(`data`): [`RawSheetData`](RawSheetData.md)
+▸ **crud_destroyRow**(`data`): [`RawSheetData`](sheetData.RawSheetData.md)
 
 **`Description`**
 
@@ -615,23 +617,23 @@ RawSheetData
 
 | Name | Type |
 | :------ | :------ |
-| `data` | `number` \| `kiDataEntry` |
+| `data` | `number` \| [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md) |
 
 #### Returns
 
-[`RawSheetData`](RawSheetData.md)
+[`RawSheetData`](sheetData.RawSheetData.md)
 
 {this}
 
 #### Defined in
 
-[sheetData.ts:672](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L672)
+[sheetData.ts:672](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L672)
 
 ___
 
 ### crud\_destroyRows
 
-▸ **crud_destroyRows**(`data`): [`RawSheetData`](RawSheetData.md)
+▸ **crud_destroyRows**(`data`): [`RawSheetData`](sheetData.RawSheetData.md)
 
 **`Description`**
 
@@ -645,17 +647,17 @@ RawSheetData
 
 | Name | Type |
 | :------ | :------ |
-| `data` | `number`[] \| `kiDataEntry`[] |
+| `data` | `number`[] \| [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[] |
 
 #### Returns
 
-[`RawSheetData`](RawSheetData.md)
+[`RawSheetData`](sheetData.RawSheetData.md)
 
 {this}
 
 #### Defined in
 
-[sheetData.ts:629](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L629)
+[sheetData.ts:629](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L629)
 
 ___
 
@@ -675,7 +677,7 @@ RawSheetData
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
-| `kiData` | `kiDataEntry` | `undefined` |
+| `kiData` | [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md) | `undefined` |
 | `rowNumber?` | `number` | `null` |
 
 #### Returns
@@ -684,7 +686,7 @@ RawSheetData
 
 #### Defined in
 
-[sheetData.ts:832](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L832)
+[sheetData.ts:832](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L832)
 
 ___
 
@@ -705,7 +707,7 @@ RawSheetData
 
 | Name | Type |
 | :------ | :------ |
-| `kiDataArray` | `kiDataEntry`[] |
+| `kiDataArray` | [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[] |
 
 #### Returns
 
@@ -713,7 +715,7 @@ RawSheetData
 
 #### Defined in
 
-[sheetData.ts:787](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L787)
+[sheetData.ts:787](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L787)
 
 ___
 
@@ -733,7 +735,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:1624](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1624)
+[sheetData.ts:1624](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1624)
 
 ___
 
@@ -757,7 +759,7 @@ RawSheetData
 
 #### Defined in
 
-[sheetData.ts:583](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L583)
+[sheetData.ts:583](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L583)
 
 ___
 
@@ -777,7 +779,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:1636](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1636)
+[sheetData.ts:1636](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1636)
 
 ___
 
@@ -800,7 +802,7 @@ RawSheetData
 | :------ | :------ | :------ | :------ |
 | `xOffset` | `number` | `undefined` | how far away from column A you want your things to be |
 | `yOffset` | `number` | `undefined` | how far away from row 1 you want your data to be. |
-| `valueArray` | `sheetDataValueRaw`[] | `undefined` | - |
+| `valueArray` | [`sheetDataValueRaw`](../modules/typescript_interfaces.md#sheetdatavalueraw)[] | `undefined` | - |
 | `writeInDataArea?` | `boolean` | `false` |  |
 
 #### Returns
@@ -809,13 +811,13 @@ RawSheetData
 
 #### Defined in
 
-[sheetData.ts:1062](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1062)
+[sheetData.ts:1062](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1062)
 
 ___
 
 ### getAllOfIndex
 
-▸ **getAllOfIndex**(`index`): `sheetDataValueRaw`
+▸ **getAllOfIndex**(`index`): [`sheetDataValueRaw`](../modules/typescript_interfaces.md#sheetdatavalueraw)
 
 !!WARNING!!
 This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
@@ -830,19 +832,19 @@ Returns an array of all the values in the sheet for the column with the given in
 
 #### Returns
 
-`sheetDataValueRaw`
+[`sheetDataValueRaw`](../modules/typescript_interfaces.md#sheetdatavalueraw)
 
 An array containing all values from the given column.
 
 #### Defined in
 
-[sheetData.ts:1684](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1684)
+[sheetData.ts:1684](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1684)
 
 ___
 
 ### getAllOfKey
 
-▸ **getAllOfKey**(`key`): `sheetDataValueRaw`
+▸ **getAllOfKey**(`key`): [`sheetDataValueRaw`](../modules/typescript_interfaces.md#sheetdatavalueraw)
 
 !!WARNING!!
 This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
@@ -857,19 +859,19 @@ Returns an array of all the values in the sheet for the given key.
 
 #### Returns
 
-`sheetDataValueRaw`
+[`sheetDataValueRaw`](../modules/typescript_interfaces.md#sheetdatavalueraw)
 
 An array containing all values for the given key.
 
 #### Defined in
 
-[sheetData.ts:1671](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1671)
+[sheetData.ts:1671](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1671)
 
 ___
 
 ### getData
 
-▸ **getData**(): `kiDataEntry`[]
+▸ **getData**(): [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[]
 
 !!WARNING!!
 This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
@@ -878,19 +880,19 @@ Returns the data from this sheet as an array of objects. Each object represents 
 
 #### Returns
 
-`kiDataEntry`[]
+[`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[]
 
 The data from this sheet as an array of objects.
 
 #### Defined in
 
-[sheetData.ts:1348](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1348)
+[sheetData.ts:1348](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1348)
 
 ___
 
 ### getEntryConfig
 
-▸ **getEntryConfig**(`isForCaching?`): `sheetDataEntry`
+▸ **getEntryConfig**(`isForCaching?`): [`sheetDataEntry`](../interfaces/typescript_interfaces.sheetDataEntry.md)
 
 returns a sheetDataConfig object post-initialization that can be used in caching applications
 
@@ -906,13 +908,13 @@ RawSheetData
 
 #### Returns
 
-`sheetDataEntry`
+[`sheetDataEntry`](../interfaces/typescript_interfaces.sheetDataEntry.md)
 
 returns sheetDataEntry config
 
 #### Defined in
 
-[sheetData.ts:1029](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1029)
+[sheetData.ts:1029](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1029)
 
 ___
 
@@ -931,7 +933,7 @@ Returns the index, starting with 0, of the header row of this sheet.
 
 #### Defined in
 
-[sheetData.ts:1214](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1214)
+[sheetData.ts:1214](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1214)
 
 ___
 
@@ -952,7 +954,7 @@ The header row if this sheet.
 
 #### Defined in
 
-[sheetData.ts:1291](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1291)
+[sheetData.ts:1291](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1291)
 
 ___
 
@@ -977,7 +979,7 @@ Returns the index for the column with the given key string.
 
 #### Defined in
 
-[sheetData.ts:1225](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1225)
+[sheetData.ts:1225](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1225)
 
 ___
 
@@ -1002,7 +1004,7 @@ Returns the key string for the column with the given index.
 
 #### Defined in
 
-[sheetData.ts:1245](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1245)
+[sheetData.ts:1245](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1245)
 
 ___
 
@@ -1023,7 +1025,7 @@ An array of defined keys in this sheet.
 
 #### Defined in
 
-[sheetData.ts:1654](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1654)
+[sheetData.ts:1654](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1654)
 
 ___
 
@@ -1037,7 +1039,7 @@ ___
 
 #### Defined in
 
-[sheetData.ts:1095](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1095)
+[sheetData.ts:1095](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1095)
 
 ___
 
@@ -1056,7 +1058,7 @@ Returns the Sheet object for this RawSheetData.
 
 #### Defined in
 
-[sheetData.ts:1194](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1194)
+[sheetData.ts:1194](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1194)
 
 ___
 
@@ -1075,13 +1077,13 @@ Returns the name of the Sheet for this RawSheetData.
 
 #### Defined in
 
-[sheetData.ts:1204](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1204)
+[sheetData.ts:1204](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1204)
 
 ___
 
 ### getValues
 
-▸ **getValues**(`skipEmpty?`): `sheetDataValueRaw`
+▸ **getValues**(`skipEmpty?`): [`sheetDataValueRaw`](../modules/typescript_interfaces.md#sheetdatavalueraw)
 
 !!WARNING!!
 This is a direct call to RawSheetData - wrap it in a SheetData instance before using it!
@@ -1096,13 +1098,13 @@ Returns the data from this sheet as a two dimensional array. Only includes rows 
 
 #### Returns
 
-`sheetDataValueRaw`
+[`sheetDataValueRaw`](../modules/typescript_interfaces.md#sheetdatavalueraw)
 
 The data from this sheet as a two dimentional array.
 
 #### Defined in
 
-[sheetData.ts:1333](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1333)
+[sheetData.ts:1333](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1333)
 
 ___
 
@@ -1127,7 +1129,7 @@ Returns true if this RawSheetData object has a defined key attached to the given
 
 #### Defined in
 
-[sheetData.ts:1265](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1265)
+[sheetData.ts:1265](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1265)
 
 ___
 
@@ -1152,7 +1154,7 @@ Returns true if this RawSheetData object has a defined value for the given key.
 
 #### Defined in
 
-[sheetData.ts:1278](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1278)
+[sheetData.ts:1278](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1278)
 
 ___
 
@@ -1180,7 +1182,7 @@ Sets the data in the Sheet, erasing data already there. Takes an array of row ob
 
 #### Defined in
 
-[sheetData.ts:1571](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1571)
+[sheetData.ts:1571](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1571)
 
 ___
 
@@ -1208,7 +1210,7 @@ Inserts rows of data into the Sheet. Takes a 2D array.
 
 #### Defined in
 
-[sheetData.ts:1552](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1552)
+[sheetData.ts:1552](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1552)
 
 ___
 
@@ -1235,7 +1237,7 @@ RawSheetData
 
 #### Defined in
 
-[sheetData.ts:873](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L873)
+[sheetData.ts:873](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L873)
 
 ___
 
@@ -1260,7 +1262,7 @@ Inserts rows of data into the Sheet, formatted as an array of row objects.
 
 #### Defined in
 
-[sheetData.ts:1410](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1410)
+[sheetData.ts:1410](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1410)
 
 ___
 
@@ -1286,7 +1288,7 @@ RawSheetData
 
 #### Defined in
 
-[sheetData.ts:1310](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1310)
+[sheetData.ts:1310](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1310)
 
 ___
 
@@ -1311,7 +1313,7 @@ Sets the data in the Sheet, erasing data already there. Takes a 2D array.
 
 #### Defined in
 
-[sheetData.ts:1387](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1387)
+[sheetData.ts:1387](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1387)
 
 ___
 
@@ -1347,7 +1349,7 @@ RawSheetData
 
 | Name | Type |
 | :------ | :------ |
-| `inputSheetData` | [`RawSheetData`](RawSheetData.md) |
+| `inputSheetData` | [`RawSheetData`](sheetData.RawSheetData.md) |
 
 #### Returns
 
@@ -1355,7 +1357,7 @@ RawSheetData
 
 #### Defined in
 
-[sheetData.ts:963](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L963)
+[sheetData.ts:963](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L963)
 
 ___
 
@@ -1377,4 +1379,4 @@ RawSheetData
 
 #### Defined in
 
-[sheetData.ts:612](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L612)
+[sheetData.ts:612](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L612)

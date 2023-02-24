@@ -1,26 +1,26 @@
-sheetcore
+[sheetcore](../docs.md) / sheetData
 
-# sheetcore
+# Module: sheetData
 
 ## Table of contents
 
 ### Classes
 
-- [RawSheetData](classes/RawSheetData.md)
-- [SheetData](classes/SheetData.md)
+- [RawSheetData](../classes/sheetData.RawSheetData.md)
+- [SheetData](../classes/sheetData.SheetData.md)
 
 ### Interfaces
 
-- [deleteCheck\_cacheData](interfaces/deleteCheck_cacheData.md)
-- [sheetCoreConfigInfo](interfaces/sheetCoreConfigInfo.md)
+- [deleteCheck\_cacheData](../interfaces/sheetData.deleteCheck_cacheData.md)
+- [sheetCoreConfigInfo](../interfaces/sheetData.sheetCoreConfigInfo.md)
 
 ### Functions
 
-- [buildIndexToKey\_](docs.md#buildindextokey_)
-- [cacheAllSheetData](docs.md#cacheallsheetdata)
-- [getAllSheetDataFromCache](docs.md#getallsheetdatafromcache)
-- [getIterant\_](docs.md#getiterant_)
-- [populateExtraColumnData\_](docs.md#populateextracolumndata_)
+- [buildIndexToKey\_](sheetData.md#buildindextokey_)
+- [cacheAllSheetData](sheetData.md#cacheallsheetdata)
+- [getAllSheetDataFromCache](sheetData.md#getallsheetdatafromcache)
+- [getIterant\_](sheetData.md#getiterant_)
+- [populateExtraColumnData\_](sheetData.md#populateextracolumndata_)
 
 ## Functions
 
@@ -40,7 +40,7 @@ sheetcore
 
 #### Defined in
 
-[sheetData.ts:1881](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1881)
+[sheetData.ts:1881](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1881)
 
 ___
 
@@ -54,7 +54,7 @@ Formats and stores the allSheetData object in the cache. Can be retrieved with g
 
 | Name | Type |
 | :------ | :------ |
-| `allSheetData` | `manySheetDatas` |
+| `allSheetData` | [`manySheetDatas`](../interfaces/typescript_interfaces.manySheetDatas.md) |
 
 #### Returns
 
@@ -62,23 +62,23 @@ Formats and stores the allSheetData object in the cache. Can be retrieved with g
 
 #### Defined in
 
-[sheetData.ts:1788](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1788)
+[sheetData.ts:1788](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1788)
 
 ___
 
 ### getAllSheetDataFromCache
 
-▸ **getAllSheetDataFromCache**(): `manySheetDatas` \| ``null``
+▸ **getAllSheetDataFromCache**(): [`manySheetDatas`](../interfaces/typescript_interfaces.manySheetDatas.md) \| ``null``
 
 Gets the allSheetData object from the cache and returns it. Must have been cached using cacheAllSheetData(). Returns null if nothing is found in the cache.
 
 #### Returns
 
-`manySheetDatas` \| ``null``
+[`manySheetDatas`](../interfaces/typescript_interfaces.manySheetDatas.md) \| ``null``
 
 #### Defined in
 
-[sheetData.ts:1734](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1734)
+[sheetData.ts:1734](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1734)
 
 ___
 
@@ -95,7 +95,7 @@ Returns -1 if unable to get a position.
 
 | Name | Type |
 | :------ | :------ |
-| `data` | `number` \| `kiDataEntry` |
+| `data` | `number` \| [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md) |
 | `iterant_name` | `string` |
 
 #### Returns
@@ -106,7 +106,7 @@ Returns -1 if unable to get a position.
 
 #### Defined in
 
-[sheetData.ts:26](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L26)
+[sheetData.ts:26](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L26)
 
 ___
 
@@ -133,4 +133,4 @@ If you want to have softcoded columns, you need to enable them in the config.
 
 #### Defined in
 
-[sheetData.ts:1869](https://github.com/texas-mcallen-mission/sheetCore/blob/7207fb3/sheetData.ts#L1869)
+[sheetData.ts:1869](https://github.com/texas-mcallen-mission/sheetCore/blob/adbb6f0/sheetData.ts#L1869)

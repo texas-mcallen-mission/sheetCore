@@ -2,12 +2,13 @@
     "plugin": [
         "typedoc-plugin-markdown"
     ],
-    "out": "docs",
+    "out": "autoDocs",
     "readme": "none",
     "githubPages": false,
     "entryDocument": "docs.md",
     "entryPoints": [
         "sheetData.ts",
-        "dataManipulator.ts"
+        "dataManipulator.ts",
+        "typescript-interfaces.ts"
     ]
 }
