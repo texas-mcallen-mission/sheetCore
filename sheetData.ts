@@ -1514,7 +1514,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
         // }
 
 
-        this.appendRowValues(arr);
+        this.appendRowValues([arr]);
     }
 
     /**
