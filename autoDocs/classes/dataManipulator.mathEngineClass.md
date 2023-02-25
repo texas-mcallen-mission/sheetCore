@@ -32,7 +32,7 @@
 | :------ | :------ |
 | `arg1` | `any` |
 | `arg2` | `any` |
-| `operator` | `dMath` |
+| `operator` | [`dMath`](../enums/typescript_interfaces.dMath.md) |
 
 #### Returns
 
@@ -40,4 +40,4 @@
 
 #### Defined in
 
-[dataManipulator.ts:8](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L8)
+[dataManipulator.ts:8](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L8)

@@ -11,6 +11,7 @@
 
 ### Interfaces
 
+- [deleteCheck\_cacheData](../interfaces/sheetData.deleteCheck_cacheData.md)
 - [sheetCoreConfigInfo](../interfaces/sheetData.sheetCoreConfigInfo.md)
 
 ### Functions
@@ -18,6 +19,7 @@
 - [buildIndexToKey\_](sheetData.md#buildindextokey_)
 - [cacheAllSheetData](sheetData.md#cacheallsheetdata)
 - [getAllSheetDataFromCache](sheetData.md#getallsheetdatafromcache)
+- [getIterant\_](sheetData.md#getiterant_)
 - [populateExtraColumnData\_](sheetData.md#populateextracolumndata_)
 
 ## Functions
@@ -38,7 +40,7 @@
 
 #### Defined in
 
-[sheetData.ts:1432](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/sheetData.ts#L1432)
+[sheetData.ts:1898](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/sheetData.ts#L1898)
 
 ___
 
@@ -52,7 +54,7 @@ Formats and stores the allSheetData object in the cache. Can be retrieved with g
 
 | Name | Type |
 | :------ | :------ |
-| `allSheetData` | `manySheetDatas` |
+| `allSheetData` | [`manySheetDatas`](../interfaces/typescript_interfaces.manySheetDatas.md) |
 
 #### Returns
 
@@ -60,23 +62,51 @@ Formats and stores the allSheetData object in the cache. Can be retrieved with g
 
 #### Defined in
 
-[sheetData.ts:1339](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/sheetData.ts#L1339)
+[sheetData.ts:1805](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/sheetData.ts#L1805)
 
 ___
 
 ### getAllSheetDataFromCache
 
-▸ **getAllSheetDataFromCache**(): `manySheetDatas` \| ``null``
+▸ **getAllSheetDataFromCache**(): [`manySheetDatas`](../interfaces/typescript_interfaces.manySheetDatas.md) \| ``null``
 
 Gets the allSheetData object from the cache and returns it. Must have been cached using cacheAllSheetData(). Returns null if nothing is found in the cache.
 
 #### Returns
 
-`manySheetDatas` \| ``null``
+[`manySheetDatas`](../interfaces/typescript_interfaces.manySheetDatas.md) \| ``null``
 
 #### Defined in
 
-[sheetData.ts:1285](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/sheetData.ts#L1285)
+[sheetData.ts:1751](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/sheetData.ts#L1751)
+
+___
+
+### getIterant\_
+
+▸ **getIterant_**(`data`, `iterant_name`): `number` \| ``-1``
+
+**`Description`**
+
+this gets used by rsd deletion methods, helps keep code overhead down.
+Returns -1 if unable to get a position.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `data` | `number` \| [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md) |
+| `iterant_name` | `string` |
+
+#### Returns
+
+`number` \| ``-1``
+
+(number|-1) number: -1 if none found.
+
+#### Defined in
+
+[sheetData.ts:23](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/sheetData.ts#L23)
 
 ___
 
@@ -103,4 +133,4 @@ If you want to have softcoded columns, you need to enable them in the config.
 
 #### Defined in
 
-[sheetData.ts:1420](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/sheetData.ts#L1420)
+[sheetData.ts:1886](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/sheetData.ts#L1886)

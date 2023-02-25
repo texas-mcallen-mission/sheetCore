@@ -32,6 +32,8 @@
 - [bulkAppendObject](dataManipulator.kiDataClass.md#bulkappendobject)
 - [calculateCombinedName](dataManipulator.kiDataClass.md#calculatecombinedname)
 - [calculatePercentage](dataManipulator.kiDataClass.md#calculatepercentage)
+- [convertToSheetDate](dataManipulator.kiDataClass.md#converttosheetdate)
+- [copyKey](dataManipulator.kiDataClass.md#copykey)
 - [createSumOfKeys](dataManipulator.kiDataClass.md#createsumofkeys)
 - [getDataFromKey](dataManipulator.kiDataClass.md#getdatafromkey)
 - [getStats](dataManipulator.kiDataClass.md#getstats)
@@ -45,11 +47,14 @@
 - [leftJoin](dataManipulator.kiDataClass.md#leftjoin)
 - [mathByConstant](dataManipulator.kiDataClass.md#mathbyconstant)
 - [mathByKey](dataManipulator.kiDataClass.md#mathbykey)
+- [popMissing](dataManipulator.kiDataClass.md#popmissing)
 - [removeBeforeDate](dataManipulator.kiDataClass.md#removebeforedate)
 - [removeDuplicates](dataManipulator.kiDataClass.md#removeduplicates)
+- [removeKey](dataManipulator.kiDataClass.md#removekey)
 - [removeMatchingByKey](dataManipulator.kiDataClass.md#removematchingbykey)
 - [removeSmaller](dataManipulator.kiDataClass.md#removesmaller)
 - [rightJoin](dataManipulator.kiDataClass.md#rightjoin)
+- [sort](dataManipulator.kiDataClass.md#sort)
 
 ## Constructors
 
@@ -61,11 +66,11 @@
 
 | Name | Type |
 | :------ | :------ |
-| `kiData` | `kiDataEntry`[] \| `object`[] |
+| `kiData` | [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[] \| `object`[] |
 
 #### Defined in
 
-[dataManipulator.ts:132](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L132)
+[dataManipulator.ts:166](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L166)
 
 ## Properties
 
@@ -75,17 +80,17 @@
 
 #### Defined in
 
-[dataManipulator.ts:129](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L129)
+[dataManipulator.ts:163](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L163)
 
 ___
 
 ### data
 
-• **data**: `kiDataEntry`[] = `[]`
+• **data**: [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[] = `[]`
 
 #### Defined in
 
-[dataManipulator.ts:128](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L128)
+[dataManipulator.ts:162](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L162)
 
 ___
 
@@ -119,7 +124,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:102](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L102)
+[dataManipulator.ts:136](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L136)
 
 ___
 
@@ -129,21 +134,21 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:130](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L130)
+[dataManipulator.ts:164](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L164)
 
 ## Accessors
 
 ### end
 
-• `get` **end**(): `kiDataEntry`[]
+• `get` **end**(): [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[]
 
 #### Returns
 
-`kiDataEntry`[]
+[`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[]
 
 #### Defined in
 
-[dataManipulator.ts:310](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L310)
+[dataManipulator.ts:537](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L537)
 
 ___
 
@@ -157,7 +162,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:305](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L305)
+[dataManipulator.ts:532](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L532)
 
 ## Methods
 
@@ -177,17 +182,17 @@ kiDataClass
 | :------ | :------ |
 | `timeSeriesKey` | `string` |
 | `newKey` | `string` |
-| `granularity` | `timeGranularities` |
+| `granularity` | [`timeGranularities`](../enums/typescript_interfaces.timeGranularities.md) |
 
 #### Returns
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns this for chaining
 
 #### Defined in
 
-[dataManipulator.ts:533](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L533)
+[dataManipulator.ts:760](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L760)
 
 ___
 
@@ -212,7 +217,7 @@ kiDataClass
 
 #### Defined in
 
-[dataManipulator.ts:272](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L272)
+[dataManipulator.ts:499](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L499)
 
 ___
 
@@ -236,11 +241,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:819](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L819)
+[dataManipulator.ts:1046](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1046)
 
 ___
 
@@ -270,7 +275,7 @@ kiDataClass
 
 #### Defined in
 
-[dataManipulator.ts:424](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L424)
+[dataManipulator.ts:651](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L651)
 
 ___
 
@@ -301,11 +306,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:646](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L646)
+[dataManipulator.ts:873](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L873)
 
 ___
 
@@ -317,7 +322,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `pairsToAdd` | `kiDataEntry` |
+| `pairsToAdd` | [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md) |
 
 #### Returns
 
@@ -325,7 +330,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:314](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L314)
+[dataManipulator.ts:541](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L541)
 
 ___
 
@@ -348,11 +353,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:897](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L897)
+[dataManipulator.ts:1128](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1128)
 
 ___
 
@@ -372,17 +377,70 @@ kiDataClass
 | :------ | :------ |
 | `numeratorKey` | `string` |
 | `denominatorKey` | `string` |
-| `newKeyName` | `any` |
+| `newKeyName` | `string` |
 
 #### Returns
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:856](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L856)
+[dataManipulator.ts:1087](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1087)
+
+___
+
+### convertToSheetDate
+
+▸ **convertToSheetDate**(`inKey`, `outKey`): [`kiDataClass`](dataManipulator.kiDataClass.md)
+
+**`Description`**
+
+This takes Javascript dates and other strings and turns them into a format that Google Sheets likes better.
+
+**`Memberof`**
+
+kiDataClass
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `inKey` | `string` | object key that has the date on it |
+| `outKey` | `string` | output key where date is stored. (Can be the same as inKey) |
+
+#### Returns
+
+[`kiDataClass`](dataManipulator.kiDataClass.md)
+
+returns this for chaining.
+
+#### Defined in
+
+[dataManipulator.ts:356](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L356)
+
+___
+
+### copyKey
+
+▸ **copyKey**(`inKey`, `outKey`, `defaultValue?`): [`kiDataClass`](dataManipulator.kiDataClass.md)
+
+#### Parameters
+
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `inKey` | `any` | `undefined` |
+| `outKey` | `any` | `undefined` |
+| `defaultValue` | `string` \| `object` \| [] | `""` |
+
+#### Returns
+
+[`kiDataClass`](dataManipulator.kiDataClass.md)
+
+#### Defined in
+
+[dataManipulator.ts:336](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L336)
 
 ___
 
@@ -407,11 +465,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:685](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L685)
+[dataManipulator.ts:912](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L912)
 
 ___
 
@@ -431,7 +489,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:234](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L234)
+[dataManipulator.ts:461](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L461)
 
 ___
 
@@ -454,7 +512,7 @@ returns a bunch of stats for a given dataset key.  needs to have numbers.
 
 #### Defined in
 
-[dataManipulator.ts:328](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L328)
+[dataManipulator.ts:555](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L555)
 
 ___
 
@@ -473,17 +531,17 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:927](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L927)
+[dataManipulator.ts:1158](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1158)
 
 ___
 
 ### getUniqueEntries
 
-▸ **getUniqueEntries**(`targetKey`): `sheetDataValueRaw`
+▸ **getUniqueEntries**(`targetKey`): [`sheetDataValueRaw`](../modules/typescript_interfaces.md#sheetdatavalueraw)
 
 returns all unique values for a key in the dataset.
 
@@ -499,13 +557,11 @@ kiDataClass
 
 #### Returns
 
-`sheetDataValueRaw`
-
-{any[]}
+[`sheetDataValueRaw`](../modules/typescript_interfaces.md#sheetdatavalueraw)
 
 #### Defined in
 
-[dataManipulator.ts:253](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L253)
+[dataManipulator.ts:480](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L480)
 
 ___
 
@@ -529,11 +585,9 @@ kiDataClass
 
 [`keyedKiDataEntries`](../interfaces/dataManipulator.keyedKiDataEntries.md)
 
-{manyKiDataEntries}
-
 #### Defined in
 
-[dataManipulator.ts:505](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L505)
+[dataManipulator.ts:732](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L732)
 
 ___
 
@@ -556,17 +610,15 @@ SheetData
 | Name | Type |
 | :------ | :------ |
 | `timeSeriesKey` | `string` |
-| `granularity` | `timeGranularities` |
+| `granularity` | [`timeGranularities`](../enums/typescript_interfaces.timeGranularities.md) |
 
 #### Returns
 
 [`manyKiDataEntries`](../interfaces/dataManipulator.manyKiDataEntries.md)
 
-{manySheetDatas}
-
 #### Defined in
 
-[dataManipulator.ts:588](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L588)
+[dataManipulator.ts:815](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L815)
 
 ___
 
@@ -586,7 +638,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:402](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L402)
+[dataManipulator.ts:629](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L629)
 
 ___
 
@@ -604,18 +656,18 @@ kiDataClass
 
 | Name | Type |
 | :------ | :------ |
-| `secondDataset` | `kiDataEntry`[] |
+| `secondDataset` | [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[] |
 | `joinKey` | `string` |
 
 #### Returns
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:180](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L180)
+[dataManipulator.ts:407](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L407)
 
 ___
 
@@ -643,7 +695,7 @@ kiDataClass
 
 #### Defined in
 
-[dataManipulator.ts:767](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L767)
+[dataManipulator.ts:994](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L994)
 
 ___
 
@@ -661,18 +713,18 @@ kiDataClass
 
 | Name | Type |
 | :------ | :------ |
-| `secondDataset` | `kiDataEntry`[] |
+| `secondDataset` | [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[] |
 | `joinKey` | `string` |
 
 #### Returns
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:210](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L210)
+[dataManipulator.ts:437](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L437)
 
 ___
 
@@ -684,7 +736,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `operator` | `dMath` |
+| `operator` | [`dMath`](../enums/typescript_interfaces.dMath.md) |
 | `newKey` | `string` |
 | `key1` | `string` |
 | `constant` | `number` |
@@ -695,7 +747,7 @@ ___
 
 #### Defined in
 
-[dataManipulator.ts:392](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L392)
+[dataManipulator.ts:619](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L619)
 
 ___
 
@@ -713,7 +765,7 @@ kiDataClass
 
 | Name | Type |
 | :------ | :------ |
-| `operator` | `dMath` |
+| `operator` | [`dMath`](../enums/typescript_interfaces.dMath.md) |
 | `newKey` | `string` |
 | `key1` | `string` |
 | `key2` | `string` |
@@ -722,11 +774,39 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns this for chaining
 
 #### Defined in
 
-[dataManipulator.ts:383](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L383)
+[dataManipulator.ts:610](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L610)
+
+___
+
+### popMissing
+
+▸ **popMissing**(`targetKey`): [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[]
+
+**`Description`**
+
+returns all data that doesn't have something stored at `targetKey`, and removes it from the internal dataset.
+
+**`Memberof`**
+
+kiDataClass
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `targetKey` | `string` |
+
+#### Returns
+
+[`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[]
+
+#### Defined in
+
+[dataManipulator.ts:320](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L320)
 
 ___
 
@@ -750,11 +830,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:793](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L793)
+[dataManipulator.ts:1020](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1020)
 
 ___
 
@@ -763,6 +843,9 @@ ___
 ▸ **removeDuplicates**(): [`kiDataClass`](dataManipulator.kiDataClass.md)
 
 Removes all entries where isDuplicate == true
+ Should probably replace calls to this with calls to ``removeMatchingByKey("isDuplicate",[true])``
+
+**`Deprecated`**
 
 **`Memberof`**
 
@@ -772,11 +855,31 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:837](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L837)
+[dataManipulator.ts:1065](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1065)
+
+___
+
+### removeKey
+
+▸ **removeKey**(`targetKey`): [`kiDataClass`](dataManipulator.kiDataClass.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `targetKey` | `any` |
+
+#### Returns
+
+[`kiDataClass`](dataManipulator.kiDataClass.md)
+
+#### Defined in
+
+[dataManipulator.ts:303](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L303)
 
 ___
 
@@ -795,7 +898,7 @@ kiDataClass
 | Name | Type |
 | :------ | :------ |
 | `key` | `string` |
-| `matchArray` | `kiDataEntry`[] |
+| `matchArray` | (`string` \| `number` \| `boolean`)[] |
 
 #### Returns
 
@@ -803,7 +906,7 @@ kiDataClass
 
 #### Defined in
 
-[dataManipulator.ts:740](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L740)
+[dataManipulator.ts:967](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L967)
 
 ___
 
@@ -828,11 +931,11 @@ kiDataClass
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:290](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L290)
+[dataManipulator.ts:517](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L517)
 
 ___
 
@@ -850,15 +953,46 @@ kiDataCLass
 
 | Name | Type |
 | :------ | :------ |
-| `secondDataset` | `kiDataEntry`[] |
+| `secondDataset` | [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md)[] |
 | `joinKey` | `string` |
 
 #### Returns
 
 [`kiDataClass`](dataManipulator.kiDataClass.md)
 
-{this}
+returns ``this`` for chaining
 
 #### Defined in
 
-[dataManipulator.ts:149](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L149)
+[dataManipulator.ts:376](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L376)
+
+___
+
+### sort
+
+▸ **sort**(`sortKey`, `sortArgs`): [`kiDataClass`](dataManipulator.kiDataClass.md)
+
+**`Description`**
+
+Sorter!  Can sort by numbers, integers, dates, and gives its best shot at everything else.  Can do ascending & descending as well.  Puts values with missing keys at the very end.
+
+**`Memberof`**
+
+kiDataClass
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `sortKey` | `string` |
+| `sortArgs` | [`sortArgs`](../interfaces/dataManipulator.sortArgs.md) |
+
+#### Returns
+
+[`kiDataClass`](dataManipulator.kiDataClass.md)
+
+returns ``this`` for chaining
+
+#### Defined in
+
+[dataManipulator.ts:181](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L181)

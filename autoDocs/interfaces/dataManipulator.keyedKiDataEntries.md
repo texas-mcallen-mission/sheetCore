@@ -6,4 +6,4 @@
 
 ## Indexable
 
-▪ [index: `string`]: `kiDataEntry`
+▪ [index: `string`]: [`kiDataEntry`](typescript_interfaces.kiDataEntry.md)

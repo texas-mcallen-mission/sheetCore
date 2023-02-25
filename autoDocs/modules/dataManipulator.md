@@ -4,6 +4,10 @@
 
 ## Table of contents
 
+### Enumerations
+
+- [sortTypes](../enums/dataManipulator.sortTypes.md)
+
 ### Classes
 
 - [kiDataClass](../classes/dataManipulator.kiDataClass.md)
@@ -15,12 +19,15 @@
 - [keyedKiDataEntries](../interfaces/dataManipulator.keyedKiDataEntries.md)
 - [manyKiDataClasses](../interfaces/dataManipulator.manyKiDataClasses.md)
 - [manyKiDataEntries](../interfaces/dataManipulator.manyKiDataEntries.md)
+- [sortArgs](../interfaces/dataManipulator.sortArgs.md)
 - [statEntry](../interfaces/dataManipulator.statEntry.md)
 
 ### Functions
 
 - [appendArrayToObject\_](dataManipulator.md#appendarraytoobject_)
+- [convertToSheetDate\_](dataManipulator.md#converttosheetdate_)
 - [getSundayOfCurrentWeek](dataManipulator.md#getsundayofcurrentweek)
+- [getSundayOfCurrentWeek\_](dataManipulator.md#getsundayofcurrentweek_)
 - [splitKiData](dataManipulator.md#splitkidata)
 
 ## Functions
@@ -35,7 +42,7 @@
 | :------ | :------ |
 | `keySet` | `string`[] |
 | `targetObj` | `any` |
-| `kiDataEntry` | `kiDataEntry` |
+| `kiDataEntry` | [`kiDataEntry`](../interfaces/typescript_interfaces.kiDataEntry.md) |
 
 #### Returns
 
@@ -43,7 +50,31 @@
 
 #### Defined in
 
-[dataManipulator.ts:77](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L77)
+[dataManipulator.ts:77](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L77)
+
+___
+
+### convertToSheetDate\_
+
+▸ **convertToSheetDate_**(`input`): `string`
+
+**`Description`**
+
+Given a Date or string, convert to a mm/dd/yyyy hh:mm:ss string that Google Sheets appreciates.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `input` | `string` \| `Date` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[dataManipulator.ts:105](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L105)
 
 ___
 
@@ -51,17 +82,29 @@ ___
 
 ▸ **getSundayOfCurrentWeek**(): `Date`
 
+#### Returns
+
+`Date`
+
+#### Defined in
+
+[dataManipulator.ts:1184](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1184)
+
+___
+
+### getSundayOfCurrentWeek\_
+
+▸ **getSundayOfCurrentWeek_**(): `Date`
+
 Used by getThisWeeksData.
 
 #### Returns
 
 `Date`
 
-{Date}
-
 #### Defined in
 
-[dataManipulator.ts:940](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L940)
+[dataManipulator.ts:1171](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L1171)
 
 ___
 
@@ -82,8 +125,6 @@ splits a kiDataCLass's data into little pieces by grouping by unique values on a
 
 [`manyKiDataClasses`](../interfaces/dataManipulator.manyKiDataClasses.md)
 
-{manyKiDataClasses}
-
 #### Defined in
 
-[dataManipulator.ts:40](https://github.com/texas-mcallen-mission/sheetCore/blob/d3b7c37/dataManipulator.ts#L40)
+[dataManipulator.ts:40](https://github.com/texas-mcallen-mission/sheetCore/blob/3951f92/dataManipulator.ts#L40)

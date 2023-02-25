@@ -6,4 +6,4 @@
 
 ## Indexable
 
-▪ [index: `string`]: [`groupedData`](dataManipulator.groupedData.md) \| `kiDataEntry`[]
+▪ [index: `string`]: [`groupedData`](dataManipulator.groupedData.md) \| [`kiDataEntry`](typescript_interfaces.kiDataEntry.md)[]
