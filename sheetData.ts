@@ -460,6 +460,17 @@ class RawSheetData {
         this.headerRow = sheetConfig.headerRow;
         this.keyToIndex = sheetConfig.initialColumnOrder;
         this.includeSoftcodedColumns = sheetConfig.includeSoftcodedColumns;
+
+        // step 1: Check to see if we're running from cache or not
+        let onCache = false;
+        //@ts-expect-error
+        if (typeof sheetConfig.fromCache == undefined || sheetConfig.fromCache == "" || sheetConfig.fromCache == null) { // I *think* I covered my bases here
+            onCache = false;
+        } else if(sheetConfig.fromCache == true){
+            onCache = true;
+        }
+        this.onCache = onCache;
+        
         
         //@ts-expect-error - the check on == "" is a just-in-case for restoring from cache
         if (typeof sheetConfig.requireRemote == undefined || sheetConfig.requireRemote == "" || sheetConfig.requireRemote == null) { // I *think* I covered my bases here
@@ -560,19 +571,13 @@ class RawSheetData {
             this.sheet = sheet;
         }
         
-        // step 3: avoid building soft columns if on cache
-        let onCache = false;
-        //@ts-expect-error
-        if (typeof sheetConfig.fromCache == undefined || sheetConfig.fromCache == "" || sheetConfig.fromCache == null) { // I *think* I covered my bases here
-            onCache = false;
-        } else {
-            onCache = sheetConfig.fromCache;
-        }
+
         if (sheetConfig.includeSoftcodedColumns == true && onCache == false) {
             this.addSoftColumns();
         }
-        this.onCache = onCache;
-
+        
+        
+        // this is for the newer, better CRUD methods.  Should probably make this default to yes at some point.
         if (Object.prototype.hasOwnProperty.call(sheetConfig, "use_iterant") == true && sheetConfig.use_iterant == true) {
             this.add_iterant = true;
             this.crud_iterant_name = "iterant_CRUD";
@@ -1051,7 +1056,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
             includeSoftcodedColumns: this.includeSoftcodedColumns,
             sheetId: this.sheetId,
             allowWrite: this.allowWrite,
-
+            use_iterant:this.add_iterant,
             keyNamesToIgnore: this.keyNamesToIgnore,
 
             fromCache: this.onCache
