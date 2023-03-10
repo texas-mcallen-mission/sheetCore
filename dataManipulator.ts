@@ -960,7 +960,7 @@ class kiDataClass {
     /**
      * inverse complement of keepMatchingByKey
      * @param {string} key
-     * @param {string[])} match - array of strings to match against 
+     * @param {string[]} match - array of strings to match against 
      * @return {*} 
      * @memberof kiDataClass
      */
