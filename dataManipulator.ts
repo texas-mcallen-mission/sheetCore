@@ -61,7 +61,7 @@ interface manyKiDataEntries { // array of kiDataEntries
 }
 
 interface keyedKiDataEntries {
-    [index: string]: kiDataEntry;
+    [index: string]: kiDataEntry[];
 }
 
 
