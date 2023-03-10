@@ -460,6 +460,17 @@ class RawSheetData {
         this.headerRow = sheetConfig.headerRow;
         this.keyToIndex = sheetConfig.initialColumnOrder;
         this.includeSoftcodedColumns = sheetConfig.includeSoftcodedColumns;
+
+        // step 1: Check to see if we're running from cache or not
+        let onCache = false;
+        //@ts-expect-error
+        if (typeof sheetConfig.fromCache == undefined || sheetConfig.fromCache == "" || sheetConfig.fromCache == null) { // I *think* I covered my bases here
+            onCache = false;
+        } else if(sheetConfig.fromCache == true){
+            onCache = true;
+        }
+        this.onCache = onCache;
+        
         
         //@ts-expect-error - the check on == "" is a just-in-case for restoring from cache
         if (typeof sheetConfig.requireRemote == undefined || sheetConfig.requireRemote == "" || sheetConfig.requireRemote == null) { // I *think* I covered my bases here
@@ -560,19 +571,13 @@ class RawSheetData {
             this.sheet = sheet;
         }
         
-        // step 3: avoid building soft columns if on cache
-        let onCache = false;
-        //@ts-expect-error
-        if (typeof sheetConfig.fromCache == undefined || sheetConfig.fromCache == "" || sheetConfig.fromCache == null) { // I *think* I covered my bases here
-            onCache = false;
-        } else {
-            onCache = sheetConfig.fromCache;
-        }
+
         if (sheetConfig.includeSoftcodedColumns == true && onCache == false) {
             this.addSoftColumns();
         }
-        this.onCache = onCache;
-
+        
+        
+        // this is for the newer, better CRUD methods.  Should probably make this default to yes at some point.
         if (Object.prototype.hasOwnProperty.call(sheetConfig, "use_iterant") == true && sheetConfig.use_iterant == true) {
             this.add_iterant = true;
             this.crud_iterant_name = "iterant_CRUD";
@@ -1051,7 +1056,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
             includeSoftcodedColumns: this.includeSoftcodedColumns,
             sheetId: this.sheetId,
             allowWrite: this.allowWrite,
-
+            use_iterant:this.add_iterant,
             keyNamesToIgnore: this.keyNamesToIgnore,
 
             fromCache: this.onCache
@@ -1720,7 +1725,7 @@ crud_destroyRow(data: kiDataEntry | number):this {
  * 2. A valid key gets set in the header, 
  * 3. You don't explicitly remove particular keys, you could potentially leak PII.
  * 
- * BE VERY CAREFUL about using softcoded columns on remote sheets. 
+ * BE VERY CAREFUL about using softcoded columns on remote sheets you don't control! 
  */
     addSoftColumns() {
         let currentHeader = this.getHeaders();
@@ -1745,102 +1750,102 @@ crud_destroyRow(data: kiDataEntry | number):this {
     // end of RawSheetData class
 }
 
-/**
- * Gets the allSheetData object from the cache and returns it. Must have been cached using cacheAllSheetData(). Returns null if nothing is found in the cache.
- */
-function getAllSheetDataFromCache(): manySheetDatas | null {
-    let cache = CacheService.getDocumentCache();
-    // typescript was complaining about this being either a string or null.  We handle that immediately afterwards, this is acceptable.
-    //@ts-ignore
-    let allSheetData_JSONString = cache.get(
-        //@ts-ignore (Configuration file defined externally by the main script.)
-        sheetCoreConfig.cacheKey
-    );
-    if (allSheetData_JSONString == null) {
-        console.warn(
-            "Tried to pull allSheetData from the cache but nothing was saved there."
-        );
-        return null;
-    }
+// /**
+//  * Gets the allSheetData object from the cache and returns it. Must have been cached using cacheAllSheetData(). Returns null if nothing is found in the cache.
+//  */
+// function getAllSheetDataFromCache(): manySheetDatas | null {
+//     let cache = CacheService.getDocumentCache();
+//     // typescript was complaining about this being either a string or null.  We handle that immediately afterwards, this is acceptable.
+//     //@ts-ignore
+//     let allSheetData_JSONString = cache.get(
+//         //@ts-ignore (Configuration file defined externally by the main script.)
+//         sheetCoreConfig.cacheKey
+//     );
+//     if (allSheetData_JSONString == null) {
+//         console.warn(
+//             "Tried to pull allSheetData from the cache but nothing was saved there."
+//         );
+//         return null;
+//     }
 
-    console.log("Pulled allSheetData from cache, parsing now");
-    let allSheetData_fromCache = JSON.parse(allSheetData_JSONString); //*Contains object literals representing SheetData objects. NOT members of the SheetData class yet!
+//     console.log("Pulled allSheetData from cache, parsing now");
+//     let allSheetData_fromCache = JSON.parse(allSheetData_JSONString); //*Contains object literals representing SheetData objects. NOT members of the SheetData class yet!
 
-    let allSheetData = {};
-    let parsedObjects:string[] = [];
-    //Dig down to find the rawSheetData, fix it, and build it back up properly.
-    for (let sdKey in allSheetData_fromCache) {
-        //Extract literal (aka fake) SheetData from cache's version of allSheetData
-        let sheetDataLiteral = allSheetData_fromCache[sdKey];
-        //Extract literal RawSheetData from literal SheetData
-        let rawSheetDataLiteral = sheetDataLiteral.rsd;
-        // EASILYIDENTIFIABLESTRINGTOHUNTDOWN
-        console.log(rawSheetDataLiteral);
-        //Turn literal RawSheetData into a real RawSheetData
-        let rawSheetData = new RawSheetData(rawSheetDataLiteral);
-        //Re-wrap real RawSheetData in a real SheetData
-        let sheetData = new SheetData(rawSheetData);
-        //Re-add real SheetData to the proper version of allSheetData
-        allSheetData[sdKey] = sheetData;
-        parsedObjects.push(sheetData.getTabName()); //For logging purposes
-    }
+//     let allSheetData = {};
+//     let parsedObjects:string[] = [];
+//     //Dig down to find the rawSheetData, fix it, and build it back up properly.
+//     for (let sdKey in allSheetData_fromCache) {
+//         //Extract literal (aka fake) SheetData from cache's version of allSheetData
+//         let sheetDataLiteral = allSheetData_fromCache[sdKey];
+//         //Extract literal RawSheetData from literal SheetData
+//         let rawSheetDataLiteral = sheetDataLiteral.rsd;
+//         // EASILYIDENTIFIABLESTRINGTOHUNTDOWN
+//         console.log(rawSheetDataLiteral);
+//         //Turn literal RawSheetData into a real RawSheetData
+//         let rawSheetData = new RawSheetData(rawSheetDataLiteral);
+//         //Re-wrap real RawSheetData in a real SheetData
+//         let sheetData = new SheetData(rawSheetData);
+//         //Re-add real SheetData to the proper version of allSheetData
+//         allSheetData[sdKey] = sheetData;
+//         parsedObjects.push(sheetData.getTabName()); //For logging purposes
+//     }
 
-    if (parsedObjects.length == 0) {
-        console.warn(
-            "Unable to parse, no SheetData objects found. Cache had value: " +
-            allSheetData_fromCache
-        );
-        return null;
-    }
-    console.info(
-        "Parsed " + parsedObjects.length + " SheetData objects: " + parsedObjects
-    );
-    return allSheetData;
-}
+//     if (parsedObjects.length == 0) {
+//         console.warn(
+//             "Unable to parse, no SheetData objects found. Cache had value: " +
+//             allSheetData_fromCache
+//         );
+//         return null;
+//     }
+//     console.info(
+//         "Parsed " + parsedObjects.length + " SheetData objects: " + parsedObjects
+//     );
+//     return allSheetData;
+// }
 
-/**
- * Formats and stores the allSheetData object in the cache. Can be retrieved with getAllSheetDataFromCache().
- * @param {*} allSheetData
- */
-function cacheAllSheetData(allSheetData:manySheetDatas) {
-    // TODO: figure out how to cache remote sheets.
-    Logger.log("Caching allSheetData");
-    let cache = CacheService.getDocumentCache();
-    // former ignore
-    if (cache == null) {
-        console.error("Cache was not returned in cacheAllSheetData!")
-        return
-    }
-    let preCacheValues: manySheetDataEntries = {}
-    for (let sheetDataKey in allSheetData) {
-        let sheetData = allSheetData[sheetDataKey]
-        preCacheValues[sheetData.rsd.tabName] = sheetData.getConfigForCache()
-    }
-    console.log(preCacheValues)
-    cache.put(
-        //@ts-expect-error this gets defined in the actual key-indicator-system.  Needs rework
-        sheetCoreConfig.cacheKey,
-        JSON.stringify(preCacheValues),
-        //@ts-expect-error same as above
-        sheetCoreConfig.cacheExpiration,
-    );
-}
+// /**
+//  * Formats and stores the allSheetData object in the cache. Can be retrieved with getAllSheetDataFromCache().
+//  * @param {*} allSheetData
+//  */
+// function cacheAllSheetData(allSheetData:manySheetDatas) {
+//     // TODO: figure out how to cache remote sheets.
+//     Logger.log("Caching allSheetData");
+//     let cache = CacheService.getDocumentCache();
+//     // former ignore
+//     if (cache == null) {
+//         console.error("Cache was not returned in cacheAllSheetData!")
+//         return
+//     }
+//     let preCacheValues: manySheetDataEntries = {}
+//     for (let sheetDataKey in allSheetData) {
+//         let sheetData = allSheetData[sheetDataKey]
+//         preCacheValues[sheetData.rsd.tabName] = sheetData.getConfigForCache()
+//     }
+//     console.log(preCacheValues)
+//     cache.put(
+//         //@ts-expect-error this gets defined in the actual key-indicator-system.  Needs rework
+//         sheetCoreConfig.cacheKey,
+//         JSON.stringify(preCacheValues),
+//         //@ts-expect-error same as above
+//         sheetCoreConfig.cacheExpiration,
+//     );
+// }
 
 
-//                The following are basically RawSheetData methods - they form an external constructor, treating RawSheetData like an Enum. They're only separate from the class because static variables don't work properly in Apps Script.
-//                populateExtraColumnData()
-//                sheetDataConstructor()
+// //                The following are basically RawSheetData methods - they form an external constructor, treating RawSheetData like an Enum. They're only separate from the class because static variables don't work properly in Apps Script.
+// //                populateExtraColumnData()
+// //                sheetDataConstructor()
 
-/**
- * Adds any missing keys that exist on form responses to data.
- * uses hardcoded things for the ones to sync.
- * For this to be enabled, I *think* the sheets might have to be on the same document (but I'm not sure.)
- * May need to be replaced or reworked to get this functional on an allsheetData'd
- * uses allSheetData.form, allSheetData.data
- * If you want to have softcoded columns, you need to enable them in the config.
- * @param form form : sheetData class: the one you want to sync columns from
- * @param data : sheetData class: the one you want to sync columns to.
- */
+// /**
+//  * Adds any missing keys that exist on form responses to data.
+//  * uses hardcoded things for the ones to sync.
+//  * For this to be enabled, I *think* the sheets might have to be on the same document (but I'm not sure.)
+//  * May need to be replaced or reworked to get this functional on an allsheetData'd
+//  * uses allSheetData.form, allSheetData.data
+//  * If you want to have softcoded columns, you need to enable them in the config.
+//  * @param form form : sheetData class: the one you want to sync columns from
+//  * @param data : sheetData class: the one you want to sync columns to.
+//  */
 
 // // TODO: Convert this into an internal rawSheetData / sheetData method that copies keys from a given sheetData to a new one.
 // function syncDataFlowCols_(form: SheetData, data: SheetData) {
@@ -1879,46 +1884,46 @@ function cacheAllSheetData(allSheetData:manySheetDatas) {
 //     // // console.log(data.getKeys().toString());
 // }
 
-/*
- * Populate this SheetData with column data from the Sheet.
- * @param {any} sheetData
- */
-function populateExtraColumnData_(sheetData) {
-    let headers = sheetData.getHeaders();
-    for (let i = 0; i < headers.length; i++) {
-        let key = headers[i];
-        if (sheetData.hasIndex(i) || key == "") continue; //Skip already defined or blank columns
-        sheetData.rsd.addColumnAt_(key, i); //Access RawSheetData to add column
-    }
-}
+// /*
+//  * Populate this SheetData with column data from the Sheet.
+//  * @param {any} sheetData
+//  */
+// function populateExtraColumnData_(sheetData) {
+//     let headers = sheetData.getHeaders();
+//     for (let i = 0; i < headers.length; i++) {
+//         let key = headers[i];
+//         if (sheetData.hasIndex(i) || key == "") continue; //Skip already defined or blank columns
+//         sheetData.rsd.addColumnAt_(key, i); //Access RawSheetData to add column
+//     }
+// }
 
-/*
- * @param {{ [x: string]: any; }} allSheetData
- */
-function buildIndexToKey_(allSheetData) {
-    for (let sdKey in allSheetData) {
-        let sd = allSheetData[sdKey];
+// /*
+//  * @param {{ [x: string]: any; }} allSheetData
+//  */
+// function buildIndexToKey_(allSheetData) {
+//     for (let sdKey in allSheetData) {
+//         let sd = allSheetData[sdKey];
 
-        sd.indexToKey = [];
-        for (let key in sd.keyToIndex) {
-            let i = sd.keyToIndex[key];
+//         sd.indexToKey = [];
+//         for (let key in sd.keyToIndex) {
+//             let i = sd.keyToIndex[key];
 
-            if (typeof sd.indexToKey[i] != "undefined")
-                throw (
-                    "Data collision on index " +
-                    i +
-                    " while building indexToKey in SheetData '" +
-                    sdKey +
-                    "' - tried to add key '" +
-                    key +
-                    "' but found value '" +
-                    sd.indexToKey[i] +
-                    "'"
-                );
+//             if (typeof sd.indexToKey[i] != "undefined")
+//                 throw (
+//                     "Data collision on index " +
+//                     i +
+//                     " while building indexToKey in SheetData '" +
+//                     sdKey +
+//                     "' - tried to add key '" +
+//                     key +
+//                     "' but found value '" +
+//                     sd.indexToKey[i] +
+//                     "'"
+//                 );
 
-            sd.indexToKey[i] = key;
-        }
-    }
-}
+//             sd.indexToKey[i] = key;
+//         }
+//     }
+// }
 
 
