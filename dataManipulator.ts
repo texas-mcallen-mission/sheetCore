@@ -310,6 +310,27 @@ class kiDataClass {
 
         return this
     }
+    /**
+     * @description removes kiDataEntries that has a string includes match and returns that array.
+     *  Originally written for a MarkDuplicatesV2 update. 
+     * @param {string} targetKey
+     * @param {string} partialMatchString
+     * @return {*}  {kiDataEntry[]}
+     * @memberof kiDataClass
+     */
+    popStringIncludes(targetKey: string, partialMatchString: string): kiDataEntry[]{
+        let output: kiDataEntry[] = []
+        let outData:kiDataEntry[] = []
+        for (const entry of this.data) {
+            if (Object.hasOwn(entry, targetKey) && String(entry[targetKey]).includes(partialMatchString)) {
+                output.push(entry)
+            } else {
+                outData.push(entry)
+            }
+        }
+        this.data = outData
+        return output
+    }
 
     /**
      * @description returns all data that doesn't have something stored at `targetKey`, and removes it from the internal dataset.
