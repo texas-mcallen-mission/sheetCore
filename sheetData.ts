@@ -1355,8 +1355,16 @@ crud_destroyRow(data: kiDataEntry | number):this {
     getValues(skipEmpty=true) {
         let values:sheetDataValueRaw = [];
         let rawValues = this.getSheet().getDataRange().getValues();
-        for (let i = this.headerRow + 1; i > 0; i--) rawValues.shift(); //Skip header rows
-        for (let row of rawValues) if (skipEmpty || row[0] != "") values.push(row); //Skip blank rows
+        for (let i = this.headerRow + 1; i > 0; i--) {
+            rawValues.shift(); //Skip header rows
+        }
+        for (let row of rawValues) {
+            if (skipEmpty == false || row[0] != "") {
+                values.push(row); //Skip blank rows
+                
+            }
+
+        }
         return values;
     }
 
