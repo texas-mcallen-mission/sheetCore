@@ -311,6 +311,33 @@ class kiDataClass {
         return this
     }
     /**
+     * @description Removes 
+     * @param {string} dateKey
+     * @return {*}  {kiDataEntry}
+     * @memberof kiDataClass
+     */
+    popNewestByDateString_(dateKey: string): kiDataEntry{
+        let output: kiDataEntry = this.data[0]
+        let position = -1
+        // find 
+        for (let i = 0;i<this.data.length; i++) {
+            let comparisonTime = new Date(output[dateKey]).getTime()
+            let testTime = new Date(this.data[i][dateKey]).getTime()
+            if (testTime > comparisonTime) {
+                output = this.data[i]
+                position = i
+            }
+        }
+        if(position = -1){
+            console.warn("popNewestByDateString had an internal failure, please check your input key")
+            throw "popNewestByDateString (sheetCore/dataManipulator/kiDataClass) had an error"
+        }
+        this.data.splice(position)
+        return output
+
+    }
+
+    /**
      * @description removes kiDataEntries that has a string includes match and returns that array.
      *  Originally written for a MarkDuplicatesV2 update. 
      * @param {string} targetKey
