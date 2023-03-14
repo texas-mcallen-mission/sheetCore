@@ -316,9 +316,9 @@ class kiDataClass {
      * @return {*}  {kiDataEntry}
      * @memberof kiDataClass
      */
-    popNewestByDateString_(dateKey: string): kiDataEntry{
+    popNewestByDateString(dateKey: string): kiDataEntry{
         let output: kiDataEntry = this.data[0]
-        let position = -1
+        let position = 0
         // find 
         for (let i = 0;i<this.data.length; i++) {
             let comparisonTime = new Date(output[dateKey]).getTime()
@@ -328,7 +328,7 @@ class kiDataClass {
                 position = i
             }
         }
-        if(position = -1){
+        if(position === -1){
             console.warn("popNewestByDateString had an internal failure, please check your input key")
             throw "popNewestByDateString (sheetCore/dataManipulator/kiDataClass) had an error"
         }
