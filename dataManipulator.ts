@@ -93,6 +93,8 @@ function appendArrayToObject_(keySet: string[], targetObj, kiDataEntry: kiDataEn
     }
 }
 
+
+
 interface groupedData {
     [index: string]: groupedData | kiDataEntry[];
 }
@@ -131,7 +133,10 @@ enum sortTypes {
     unknown = "unknown"
 }
 
+
 class kiDataClass {
+
+    
     // TODO Get rid of this stuff, move it to external arguments.  (Will be pretty ezpz with the joining stuff in the pipeline.)
     internal_config = {
         shortLanguageLookup: {
@@ -163,6 +168,16 @@ class kiDataClass {
     additionalKeys: string[];
     mathEngine: mathEngineClass;
 
+    
+
+    // constructor(kiData: kiDataEntry[] | object[]) {
+    //     this.data = [];
+    //     this.data = this.cleanDate(kiData); // changed thissssss
+    //     this.additionalKeys = [];
+    //     this.mathEngine = new mathEngineClass();
+
+    // }
+    
     constructor(kiData: kiDataEntry[] | object[]) {
         this.data = [];
         this.data = kiData;
@@ -170,6 +185,9 @@ class kiDataClass {
         this.mathEngine = new mathEngineClass();
 
     }
+
+    
+
     /**
      * @description Sorter!  Can sort by numbers, integers, dates, and gives its best shot at everything else.  Can do ascending & descending as well.  Puts values with missing keys at the very end.
      * 
